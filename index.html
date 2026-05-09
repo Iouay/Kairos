@@ -968,7 +968,10 @@ async function submitEmail(inputId, successId, noteId) {
   }
 
   /* === REMPLACE ICI PAR TON APPEL BACKEND === */
-  console.log('Email capturé :', email);
+await fetch('https://script.google.com/macros/s/AKfycbxijcC0UmJs9_5sLwHkQ6bmpwCCzLFfzHF6KCZQBrjghp32lCS4V1S99qlWj0hcmbXt/exec', {
+  method: 'POST',
+  body: JSON.stringify({ email })
+});
   /*
   await fetch('/api/waitlist', {
     method: 'POST',
