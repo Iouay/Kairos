@@ -1,897 +1,1787 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Kairos — The Future of Focus</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kairos — The Deep Work Operating System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* ==============================================
-   KAIROS — COLOR SYSTEM v2
-   Philosophy: "Focused Luxury"
-   
-   The new palette introduces:
-   - Deep indigo/midnight blue as the ambient soul
-     → Psychologically: calm authority, intelligence, depth
-     → Replaces cold pure-black with something warmer & richer
-   - Muted violet as a whisper accent
-     → Psychologically: creativity, premium, mystery
-     → Used only on hover states & subtle glows
-   - Warm off-white text (not pure #fff)
-     → Psychologically: less harsh, more editorial, more human
-   - Single electric indigo for CTAs only
-     → Psychologically: trust, action, clarity — but rarified
-   - Subtle amber-warm glow on phone
-     → Psychologically: warmth, focus, candlelight intensity
-   
-   Black/white identity is preserved.
-   Color is used as atmosphere, not decoration.
-   ============================================== */
+  /* ============================================================
+     DESIGN TOKENS — KAIROS
+  ============================================================ */
+  :root {
+    --midnight:    #0d1117;
+    --deep-navy:   #111827;
+    --navy:        #1a2332;
+    --navy-mid:    #1e2d42;
+    --indigo-dark: #1e2a4a;
+    --indigo:      #2d3f6b;
+    --violet-dim:  #3d3060;
+    --charcoal:    #232836;
+    --charcoal-lt: #2e3548;
+    --surface:     #1c2333;
+    --surface-lt:  #232d40;
+    --border:      rgba(255,255,255,0.07);
+    --border-lt:   rgba(255,255,255,0.12);
 
-*{margin:0;padding:0;box-sizing:border-box}
+    --cream:       #f5f0e8;
+    --warm-white:  #ece8df;
+    --off-white:   #d8d2c6;
+    --silver:      #9ba8bc;
+    --silver-dim:  #6e7d96;
+    --muted:       #4a5568;
 
-:root{
-  /* Core darks — richer than pure black */
-  --bg:         #070709;        /* near-black with indigo undertone */
-  --bg2:        #0c0c10;        /* section alt — midnight */
-  --bg3:        #11111a;        /* card hover — deep indigo shadow */
-  --bg4:        #0e0e16;        /* phone screen */
+    --accent:      #7c9fff;
+    --accent-warm: #a78bfa;
+    --glow-blue:   rgba(124,159,255,0.15);
+    --glow-violet: rgba(167,139,250,0.12);
 
-  /* Borders — indigo-tinged instead of flat grey */
-  --border:     #1b1b28;
-  --border2:    #252535;
-  --border3:    #2e2e48;        /* accent border on hover */
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body:    'DM Sans', system-ui, sans-serif;
+    --font-mono:    'DM Mono', monospace;
 
-  /* Typography */
-  --text:       #ededf0;        /* warm off-white — not harsh */
-  --muted:      #6a6a7e;        /* slightly violet-muted */
-  --muted2:     #48485a;
-  --accent:     #c8c8d8;        /* warm silver */
-  --white:      #f4f4f8;
+    --radius-sm: 6px;
+    --radius:    12px;
+    --radius-lg: 20px;
+    --radius-xl: 32px;
 
-  /* THE color — deep indigo. Used sparingly. */
-  --indigo:     #5b5bd6;        /* electric but not neon */
-  --indigo-dim: #3d3d9e;
-  --indigo-dark:#1e1e4a;
-  --indigo-glow:rgba(91,91,214,0.12);
-  --indigo-glow-strong:rgba(91,91,214,0.22);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-  /* Violet whisper — even more restrained */
-  --violet:     #7c6adc;
-  --violet-dim: rgba(124,106,220,0.08);
+  /* ============================================================
+     RESET & BASE
+  ============================================================ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
 
-  /* Warm amber — phone glow only */
-  --amber-glow: rgba(255,200,100,0.04);
+  body {
+    background-color: var(--midnight);
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
 
-  /* CTA gradient — the one moment of real color */
-  --cta-bg:     linear-gradient(135deg, #4a4ac8 0%, #6060e0 100%);
-  --cta-hover:  linear-gradient(135deg, #5555d8 0%, #7070f0 100%);
-  --cta-shadow: 0 8px 32px rgba(91,91,214,0.35), 0 2px 8px rgba(91,91,214,0.2);
-  --cta-shadow-hover: 0 12px 48px rgba(91,91,214,0.5), 0 4px 16px rgba(91,91,214,0.3);
-}
+  ::selection { background: rgba(124,159,255,0.25); color: var(--cream); }
 
-html{scroll-behavior:smooth}
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: var(--font-body); cursor: pointer; border: none; background: none; }
 
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'DM Sans',sans-serif;
-  font-weight:300;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
+  /* ============================================================
+     NOISE TEXTURE OVERLAY
+  ============================================================ */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 9999;
+  }
 
-/* Subtle noise texture over entire page */
-body::after{
-  content:'';
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:999;
-  opacity:0.018;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:128px;
-}
+  /* ============================================================
+     LAYOUT UTILITIES
+  ============================================================ */
+  .container {
+    max-width: 1160px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 60px);
+  }
+  .container--narrow { max-width: 780px; margin-inline: auto; padding-inline: clamp(20px, 5vw, 60px); }
 
-/* ===================== NAV ===================== */
-nav{
-  position:fixed;top:0;left:0;right:0;
-  z-index:100;
-  padding:1.25rem 2.5rem;
-  display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid var(--border);
-  background:rgba(7,7,9,0.8);
-  backdrop-filter:blur(24px) saturate(180%);
-}
+  section { position: relative; }
 
-/* Subtle indigo line at very top of nav */
-nav::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg, transparent 0%, var(--indigo-dim) 40%, var(--indigo-dim) 60%, transparent 100%);
-  opacity:0.6;
-}
+  /* ============================================================
+     TYPOGRAPHY SYSTEM
+  ============================================================ */
+  .display-xl {
+    font-family: var(--font-display);
+    font-size: clamp(3.6rem, 8vw, 7.5rem);
+    font-weight: 300;
+    line-height: 1.03;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+  }
+  .display-lg {
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 5.5vw, 5rem);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--cream);
+  }
+  .display-md {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--cream);
+  }
+  .headline {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--cream);
+  }
+  .subhead {
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--off-white);
+  }
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .body-text {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--off-white);
+  }
+  em { font-style: italic; color: var(--warm-white); }
+  strong { font-weight: 600; color: var(--cream); }
 
-.logo{
-  font-family:'Instrument Serif',serif;
-  font-size:1.35rem;
-  color:var(--white);
-  letter-spacing:0.05em;
-}
+  /* ============================================================
+     NAV
+  ============================================================ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 0;
+    transition: background 0.4s var(--ease-in-out), border-color 0.4s;
+    border-bottom: 1px solid transparent;
+  }
+  nav.scrolled {
+    background: rgba(13, 17, 23, 0.88);
+    backdrop-filter: blur(20px) saturate(150%);
+    border-bottom-color: var(--border);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1160px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 60px);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-logo-dot {
+    width: 7px; height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--accent);
+    animation: pulse-dot 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--silver);
+    transition: color 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .nav-links a:hover { color: var(--cream); }
+  .nav-cta {
+    padding: 9px 22px;
+    background: var(--cream);
+    color: var(--midnight);
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-cta:hover {
+    background: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  .nav-mobile-btn {
+    display: none;
+    width: 32px; height: 22px;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .nav-mobile-btn span {
+    display: block;
+    height: 2px;
+    background: var(--cream);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
 
-.nav-links{
-  display:flex;gap:2.5rem;
-  list-style:none;
-}
-.nav-links a{
-  font-size:0.78rem;
-  color:var(--muted);
-  text-decoration:none;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  transition:color 0.2s;
-}
-.nav-links a:hover{color:var(--accent)}
+  /* ============================================================
+     HERO SECTION
+  ============================================================ */
+  #hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 100px;
+    padding-bottom: 80px;
+    overflow: hidden;
+  }
 
-.nav-cta{
-  background:transparent;
-  color:var(--white);
-  border:1px solid var(--border3);
-  padding:0.5rem 1.25rem;
-  border-radius:100px;
-  font-family:'DM Sans',sans-serif;
-  font-size:0.78rem;
-  font-weight:400;
-  cursor:pointer;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  transition:all 0.25s;
-  position:relative;
-  overflow:hidden;
-}
-.nav-cta::before{
-  content:'';
-  position:absolute;inset:0;
-  background:var(--indigo-glow);
-  opacity:0;
-  transition:opacity 0.25s;
-}
-.nav-cta:hover{border-color:var(--indigo-dim);color:var(--white)}
-.nav-cta:hover::before{opacity:1}
+  /* Ambient background */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% -10%, rgba(45,63,107,0.65) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 60%, rgba(61,48,96,0.35) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 15% 80%, rgba(29,41,80,0.4) 0%, transparent 60%),
+      linear-gradient(180deg, #0d1117 0%, #111827 50%, #0d1117 100%);
+  }
+  .hero-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 0%, transparent 70%);
+  }
 
-section{padding:8rem 2.5rem}
-.container{max-width:1120px;margin:0 auto}
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1160px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 60px);
+  }
 
-/* ===================== HERO ===================== */
-#hero{
-  min-height:100vh;
-  display:flex;align-items:center;
-  padding-top:9rem;
-  position:relative;
-  overflow:hidden;
-}
+  .hero-left { max-width: 580px; }
 
-/* Cinematic ambient background */
-#hero::before{
-  content:'';
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 55% 60% at 72% 48%, rgba(60,60,180,0.07) 0%, transparent 65%),
-    radial-gradient(ellipse 35% 40% at 15% 75%, rgba(91,91,214,0.04) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 30% at 50% 0%,  rgba(30,30,74,0.5) 0%, transparent 70%);
-  pointer-events:none;
-}
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(124,159,255,0.1);
+    border: 1px solid rgba(124,159,255,0.2);
+    border-radius: 100px;
+    margin-bottom: 32px;
+  }
+  .hero-badge-dot {
+    width: 6px; height: 6px;
+    background: #7c9fff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #7c9fff;
+  }
+  .hero-badge span {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
 
-/* Horizontal light sweep */
-#hero::after{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,
-    transparent 0%,
-    rgba(91,91,214,0.15) 30%,
-    rgba(150,140,255,0.2) 50%,
-    rgba(91,91,214,0.15) 70%,
-    transparent 100%);
-  pointer-events:none;
-}
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(3.8rem, 7.5vw, 7rem);
+    font-weight: 300;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+  .hero-headline em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--cream);
+    background: linear-gradient(135deg, #c8b8ff 0%, #7c9fff 50%, #a8d8ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
-.hero-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:5rem;
-  align-items:center;
-  width:100%;
-  position:relative;z-index:1;
-}
+  .hero-sub {
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--off-white);
+    margin-top: 24px;
+    margin-bottom: 44px;
+    max-width: 480px;
+  }
 
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:0.68rem;
-  letter-spacing:0.22em;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:2rem;
-  border:1px solid var(--border2);
-  padding:0.35rem 0.85rem;
-  border-radius:100px;
-  background:rgba(91,91,214,0.05);
-}
-.hero-eyebrow::before{
-  content:'';
-  width:4px;height:4px;
-  border-radius:50%;
-  background:var(--indigo);
-  box-shadow:0 0 6px var(--indigo);
-  animation:pulse 2.5s ease-in-out infinite;
-}
-@keyframes pulse{
-  0%,100%{opacity:1;box-shadow:0 0 6px var(--indigo)}
-  50%{opacity:0.4;box-shadow:0 0 2px var(--indigo)}
-}
+  .hero-cta-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 
-h1{
-  font-family:'Instrument Serif',serif;
-  font-size:clamp(2.8rem,5.5vw,4.4rem);
-  line-height:1.08;
-  color:var(--white);
-  margin-bottom:1.75rem;
-  font-weight:400;
-  letter-spacing:-0.01em;
-}
-h1 em{
-  font-style:italic;
-  /* Barely-there indigo tint on italic */
-  background:linear-gradient(135deg, #d0d0f0 0%, #b0b0e8 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-}
+  .hero-email-form {
+    display: flex;
+    gap: 10px;
+    max-width: 460px;
+  }
+  .hero-email-form input {
+    flex: 1;
+    padding: 15px 20px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    backdrop-filter: blur(10px);
+  }
+  .hero-email-form input::placeholder { color: var(--silver-dim); }
+  .hero-email-form input:focus {
+    border-color: rgba(124,159,255,0.4);
+    background: rgba(255,255,255,0.1);
+  }
+  .btn-primary {
+    padding: 15px 28px;
+    background: linear-gradient(135deg, #7c9fff 0%, #a78bfa 100%);
+    color: #fff;
+    border-radius: 100px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    transition: transform 0.2s var(--ease-out-expo), box-shadow 0.2s, opacity 0.2s;
+    box-shadow: 0 0 30px rgba(124,159,255,0.3), 0 4px 16px rgba(0,0,0,0.3);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 40px rgba(124,159,255,0.45), 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .btn-primary:active { transform: scale(0.98); }
 
-.hero-sub{
-  font-size:1rem;
-  line-height:1.75;
-  color:var(--muted);
-  max-width:400px;
-  margin-bottom:2.75rem;
-}
+  .hero-trust-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: var(--silver-dim);
+  }
+  .hero-trust-line span { color: var(--silver); }
+  .trust-divider {
+    width: 1px; height: 14px;
+    background: var(--border-lt);
+  }
+  .hero-avatars {
+    display: flex;
+    align-items: center;
+  }
+  .hero-avatars .av {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 2px solid var(--midnight);
+    background: linear-gradient(135deg, var(--indigo) 0%, var(--violet-dim) 100%);
+    margin-left: -8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    font-weight: 600;
+    color: var(--cream);
+  }
+  .hero-avatars .av:first-child { margin-left: 0; }
 
-.input-row{
-  display:flex;gap:0.5rem;
-  margin-bottom:1.1rem;
-  position:relative;
-}
+  /* Hero Phone Mockup */
+  .hero-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
 
-.email-input{
-  flex:1;
-  background:rgba(17,17,26,0.8);
-  border:1px solid var(--border2);
-  color:var(--white);
-  padding:0.85rem 1.25rem;
-  border-radius:100px;
-  font-family:'DM Sans',sans-serif;
-  font-size:0.88rem;
-  font-weight:300;
-  outline:none;
-  transition:border-color 0.3s, box-shadow 0.3s, background 0.3s;
-  backdrop-filter:blur(8px);
-}
-.email-input::placeholder{color:var(--muted2)}
-.email-input:focus{
-  border-color:var(--indigo-dim);
-  box-shadow:0 0 0 3px rgba(91,91,214,0.08), inset 0 0 20px rgba(91,91,214,0.03);
-  background:rgba(20,20,32,0.9);
-}
+  .phone-mockup-wrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    animation: float 5s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-14px); }
+  }
 
-.cta-btn{
-  background:var(--cta-bg);
-  color:#fff;
-  border:none;
-  padding:0.85rem 1.75rem;
-  border-radius:100px;
-  font-family:'DM Sans',sans-serif;
-  font-size:0.85rem;
-  font-weight:500;
-  cursor:pointer;
-  white-space:nowrap;
-  transition:all 0.3s;
-  box-shadow:var(--cta-shadow);
-  letter-spacing:0.02em;
-  position:relative;
-  overflow:hidden;
-}
-.cta-btn::before{
-  content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(255,255,255,0.1) 0%, transparent 100%);
-  border-radius:100px;
-}
-.cta-btn:hover{
-  background:var(--cta-hover);
-  box-shadow:var(--cta-shadow-hover);
-  transform:translateY(-2px);
-}
-.cta-btn:active{transform:translateY(0)}
+  .phone-glow {
+    position: absolute;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(124,159,255,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
 
-.trust-line{
-  font-size:0.72rem;
-  color:var(--muted2);
-  letter-spacing:0.06em;
-  display:flex;align-items:center;gap:8px;
-}
-.trust-dot{
-  display:inline-block;
-  width:4px;height:4px;
-  border-radius:50%;
-  background:var(--border3);
-}
-.success-msg{
-  font-size:0.8rem;
-  color:#8acdaa;
-  letter-spacing:0.05em;
-  margin-top:0.75rem;
-  display:none;
-  align-items:center;gap:6px;
-}
-.success-msg.show{display:flex}
+  .phone-mockup {
+    width: 240px;
+    background: linear-gradient(160deg, #1e2d42 0%, #131c2e 60%, #0f1520 100%);
+    border-radius: 36px;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow:
+      0 40px 80px rgba(0,0,0,0.6),
+      0 0 0 1px rgba(255,255,255,0.04),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+  }
 
-/* ===================== PHONE ===================== */
-.phone-wrap{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  position:relative;
-}
+  .phone-notch {
+    width: 90px; height: 26px;
+    background: #0d1117;
+    border-radius: 0 0 18px 18px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 3;
+  }
 
-/* Outer ambient glow — indigo + amber warmth */
-.phone-aura{
-  position:absolute;
-  width:360px;height:480px;
-  background:
-    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(91,91,214,0.1) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 30% at 50% 80%, var(--amber-glow) 0%, transparent 60%);
-  border-radius:50%;
-  pointer-events:none;
-  animation:auraBreath 7s ease-in-out infinite;
-}
-@keyframes auraBreath{
-  0%,100%{opacity:0.6;transform:scale(1)}
-  50%{opacity:1;transform:scale(1.06)}
-}
+  .phone-screen {
+    padding: 16px 18px 28px;
+  }
 
-.phone-float{
-  animation:phoneFloat 7s ease-in-out infinite;
-  position:relative;z-index:1;
-}
-@keyframes phoneFloat{
-  0%,100%{transform:translateY(0px) rotate(-0.8deg)}
-  50%{transform:translateY(-18px) rotate(0.8deg)}
-}
+  .phone-time {
+    font-family: var(--font-display);
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--cream);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .phone-date {
+    font-size: 0.68rem;
+    color: var(--silver-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
 
-.phone-frame{
-  width:248px;height:504px;
-  background:linear-gradient(160deg, #18182a 0%, #0d0d14 60%, #0a0a12 100%);
-  border-radius:44px;
-  border:1px solid #252538;
-  position:relative;
-  overflow:hidden;
-  box-shadow:
-    0 0 0 1px #0f0f1e,
-    0 50px 100px rgba(0,0,0,0.9),
-    0 20px 40px rgba(0,0,0,0.6),
-    inset 0 1px 0 rgba(255,255,255,0.07),
-    inset 0 0 60px rgba(91,91,214,0.03);
-}
+  .phone-focus-block {
+    background: rgba(124,159,255,0.1);
+    border: 1px solid rgba(124,159,255,0.2);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .phone-focus-label {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .phone-focus-task {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 10px;
+  }
+  .phone-progress-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .phone-progress-fill {
+    height: 100%;
+    width: 68%;
+    background: linear-gradient(90deg, #7c9fff, #a78bfa);
+    border-radius: 2px;
+    animation: progress-pulse 2s ease-in-out infinite;
+  }
+  @keyframes progress-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
 
-/* Edge sheen */
-.phone-frame::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;height:50%;
-  background:linear-gradient(180deg,rgba(255,255,255,0.03) 0%,transparent 100%);
-  border-radius:44px 44px 0 0;
-  pointer-events:none;
-  z-index:10;
-}
+  .phone-sessions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .phone-session {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .session-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .session-dot.green { background: #4ade80; box-shadow: 0 0 8px #4ade80; }
+  .session-dot.blue  { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  .session-dot.violet{ background: var(--accent-warm); box-shadow: 0 0 8px var(--accent-warm); }
+  .session-info { flex: 1; }
+  .session-name {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--warm-white);
+    margin-bottom: 1px;
+  }
+  .session-time {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    color: var(--silver-dim);
+  }
+  .session-score {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--silver);
+  }
 
-.phone-screen{
-  position:absolute;inset:0;
-  background:var(--bg4);
-  border-radius:43px;
-  overflow:hidden;
-}
+  .phone-bottom-bar {
+    display: flex;
+    justify-content: space-around;
+    padding: 14px 20px 6px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: 12px;
+  }
+  .pbb-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .pbb-icon {
+    font-size: 1rem;
+    opacity: 0.6;
+  }
+  .pbb-item.active .pbb-icon { opacity: 1; }
+  .pbb-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
 
-.screen-content{
-  padding:52px 18px 22px;
-  height:100%;
-  display:flex;flex-direction:column;
-}
+  /* Floating badge */
+  .phone-float-badge {
+    position: absolute;
+    top: 60px;
+    right: -60px;
+    background: rgba(30,44,66,0.92);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 5;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    animation: badge-float 3s ease-in-out infinite;
+  }
+  @keyframes badge-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .badge-icon { font-size: 1.2rem; }
+  .badge-text { line-height: 1.3; }
+  .badge-text strong { font-size: 0.82rem; font-weight: 600; color: var(--cream); display: block; }
+  .badge-text span { font-size: 0.7rem; color: var(--silver-dim); }
 
-.screen-header{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:22px;
-}
-.screen-label{
-  font-size:9px;letter-spacing:0.18em;
-  text-transform:uppercase;color:#3a3a58;
-}
-.screen-badge{
-  font-size:8px;
-  background:rgba(91,91,214,0.08);
-  border:1px solid rgba(91,91,214,0.15);
-  color:#5a5a8a;
-  padding:3px 9px;border-radius:100px;
-  letter-spacing:0.1em;
-}
+  .phone-float-badge2 {
+    position: absolute;
+    bottom: 80px;
+    left: -70px;
+    background: rgba(30,44,66,0.92);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 5;
+    box-shadow: 0 16px 32px rgba(0,0,0,0.4);
+    animation: badge-float 4s ease-in-out infinite 1s;
+  }
+  .badge2-stat {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #4ade80;
+  }
+  .badge2-label { font-size: 0.68rem; color: var(--silver); line-height: 1.4; }
 
-.timer-ring-wrap{
-  display:flex;justify-content:center;align-items:center;
-  margin:6px 0 18px;position:relative;
-}
-.timer-ring-wrap svg{
-  filter:drop-shadow(0 0 12px rgba(91,91,214,0.15));
-}
-.timer-text{position:absolute;text-align:center;}
-.timer-min{
-  font-family:'Instrument Serif',serif;
-  font-size:30px;color:#ddddf4;
-  line-height:1;display:block;
-  letter-spacing:-0.02em;
-}
-.timer-lbl{font-size:7px;color:#2e2e48;letter-spacing:0.12em;text-transform:uppercase;}
+  /* Scroll cue */
+  .hero-scroll-cue {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 2;
+    opacity: 0.5;
+    animation: scroll-cue 2s ease-in-out infinite;
+  }
+  @keyframes scroll-cue {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
+    50% { transform: translateX(-50%) translateY(6px); opacity: 0.8; }
+  }
+  .scroll-cue-text {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--silver-dim);
+  }
+  .scroll-cue-line {
+    width: 1px; height: 36px;
+    background: linear-gradient(to bottom, var(--silver-dim), transparent);
+  }
 
-.session-tag{
-  text-align:center;font-size:9px;
-  color:#2e2e48;letter-spacing:0.1em;
-  margin-bottom:18px;
-}
+  /* ============================================================
+     STATS BAR
+  ============================================================ */
+  .stats-bar {
+    padding: 48px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: rgba(17,24,39,0.5);
+    backdrop-filter: blur(10px);
+  }
+  .stats-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 32px;
+    max-width: 1160px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 60px);
+  }
+  .stat-item { text-align: center; }
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 300;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--silver-dim);
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+  }
+  .stat-divider {
+    width: 1px; height: 48px;
+    background: var(--border);
+  }
 
-.focus-bars{display:flex;gap:3px;margin-bottom:18px;}
-.focus-bar{flex:1;height:2px;border-radius:2px;background:#131320;}
-.focus-bar.done{background:#2e2e58;}
-.focus-bar.active{
-  background:linear-gradient(90deg,var(--indigo-dim),var(--indigo));
-  box-shadow:0 0 6px rgba(91,91,214,0.4);
-}
+  /* ============================================================
+     SECTION SHARED STYLES
+  ============================================================ */
+  .section-header {
+    text-align: center;
+    margin-bottom: clamp(48px, 8vw, 80px);
+  }
+  .section-header .label { margin-bottom: 16px; display: block; }
 
-.score-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:14px;}
-.score-card{
-  background:rgba(20,20,36,0.8);
-  border:1px solid #1a1a2e;
-  border-radius:10px;padding:9px 6px;text-align:center;
-  transition:border-color 0.3s;
-}
-.score-val{
-  font-family:'Instrument Serif',serif;
-  font-size:15px;color:#b8b8d8;
-  display:block;margin-bottom:2px;
-}
-.score-lbl{font-size:6px;color:#2e2e48;letter-spacing:0.1em;text-transform:uppercase;}
+  /* ============================================================
+     PROBLEM SECTION
+  ============================================================ */
+  #problem {
+    padding: clamp(80px, 12vw, 140px) 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, rgba(30,42,74,0.4) 0%, transparent 70%),
+      var(--midnight);
+  }
 
-.lock-btn{
-  background:rgba(91,91,214,0.06);
-  border:1px solid rgba(91,91,214,0.12);
-  color:#5a5a8a;
-  width:100%;padding:11px;border-radius:12px;
-  font-family:'DM Sans',sans-serif;
-  font-size:9px;letter-spacing:0.14em;text-transform:uppercase;
-  display:flex;align-items:center;justify-content:center;gap:7px;
-}
-.lock-pulse{
-  width:5px;height:5px;border-radius:50%;
-  background:var(--indigo-dim);
-  box-shadow:0 0 6px rgba(91,91,214,0.5);
-  animation:pulse 2.5s ease-in-out infinite;
-}
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 60px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
 
-/* ===================== SECTION TAGS ===================== */
-.section-tag{
-  font-size:0.68rem;letter-spacing:0.22em;
-  text-transform:uppercase;color:var(--muted2);
-  margin-bottom:1.25rem;
-  display:flex;align-items:center;gap:10px;
-}
-.section-tag::before{
-  content:'';display:block;
-  width:24px;height:1px;
-  background:linear-gradient(90deg,var(--indigo-dim),transparent);
-}
+  .problem-card {
+    padding: clamp(28px, 4vw, 48px);
+    background: rgba(26,35,50,0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    transition: background 0.3s;
+    position: relative;
+  }
+  .problem-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(124,159,255,0.04) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .problem-card:hover { background: rgba(30,45,66,0.7); }
+  .problem-card:hover::before { opacity: 1; }
 
-h2{
-  font-family:'Instrument Serif',serif;
-  font-size:clamp(2rem,4vw,3.2rem);
-  font-weight:400;line-height:1.18;
-  color:var(--white);margin-bottom:1rem;
-  letter-spacing:-0.005em;
-}
-h2 em{
-  font-style:italic;
-  color:var(--muted);
-}
+  .problem-icon {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    display: block;
+    filter: grayscale(0.3);
+  }
+  .problem-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2vw, 1.7rem);
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+  .problem-body {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--silver);
+  }
+  .problem-body em {
+    font-style: italic;
+    color: var(--off-white);
+  }
 
-.section-sub{
-  font-size:0.93rem;color:var(--muted);
-  line-height:1.75;max-width:480px;
-  margin-bottom:3rem;
-}
+  .problem-full {
+    grid-column: 1 / -1;
+    padding: clamp(36px, 5vw, 60px);
+    background: rgba(13,17,23,0.7);
+    text-align: center;
+  }
+  .problem-quote {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream);
+    line-height: 1.35;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .problem-quote strong {
+    font-style: normal;
+    font-weight: 500;
+    background: linear-gradient(135deg, #c8b8ff 0%, #7c9fff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
-/* ===================== PROBLEM ===================== */
-#problem{
-  background:var(--bg2);
-  border-top:1px solid var(--border);
-  position:relative;
-  overflow:hidden;
-}
-#problem::before{
-  content:'';position:absolute;
-  top:0;left:50%;transform:translateX(-50%);
-  width:600px;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(91,91,214,0.1),transparent);
-}
+  /* ============================================================
+     WHO THIS IS FOR
+  ============================================================ */
+  #who {
+    padding: clamp(80px, 12vw, 140px) 0;
+    background: linear-gradient(180deg, var(--midnight) 0%, var(--deep-navy) 50%, var(--midnight) 100%);
+  }
 
-.problem-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  border:1px solid var(--border);
-  border-radius:20px;overflow:hidden;
-}
-.problem-item{
-  padding:2.25rem 1.75rem;
-  background:var(--bg2);
-  border-right:1px solid var(--border);
-  transition:background 0.4s;
-  position:relative;overflow:hidden;
-}
-.problem-item::before{
-  content:'';position:absolute;
-  top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(91,91,214,0.0),transparent);
-  transition:background 0.4s;
-}
-.problem-item:hover{background:var(--bg3);}
-.problem-item:hover::before{
-  background:linear-gradient(90deg,transparent,rgba(91,91,214,0.12),transparent);
-}
-.problem-item:last-child{border-right:none}
+  .who-intro {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .who-intro p {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--off-white);
+    max-width: 600px;
+    margin-inline: auto;
+    margin-top: 16px;
+  }
 
-.p-num{
-  font-family:'Instrument Serif',serif;
-  font-size:2.2rem;color:var(--border2);
-  margin-bottom:1rem;line-height:1;
-  letter-spacing:-0.02em;
-}
-.p-title{font-size:0.88rem;font-weight:500;color:var(--accent);margin-bottom:0.6rem;}
-.p-desc{font-size:0.8rem;color:var(--muted);line-height:1.65;}
+  .personas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
 
-/* ===================== IDENTITY ===================== */
-#identity{
-  background:var(--bg);
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  position:relative;
-  overflow:hidden;
-}
-#identity::before{
-  content:'';position:absolute;
-  bottom:0;left:50%;transform:translateX(-50%);
-  width:800px;height:300px;
-  background:radial-gradient(ellipse at 50% 100%, rgba(91,91,214,0.04) 0%, transparent 70%);
-  pointer-events:none;
-}
+  .persona-card {
+    padding: 32px 28px;
+    background: rgba(26,35,50,0.5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: all 0.35s var(--ease-out-expo);
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+  .persona-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-warm));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease-out-expo);
+  }
+  .persona-card:hover {
+    background: rgba(30,45,66,0.7);
+    border-color: rgba(124,159,255,0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  }
+  .persona-card:hover::after { transform: scaleX(1); }
 
-.identity-inner{text-align:center;max-width:740px;margin:0 auto;position:relative;z-index:1;}
+  .persona-emoji { font-size: 2.2rem; margin-bottom: 16px; display: block; }
+  .persona-role {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .persona-name {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .persona-desc {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--silver);
+  }
+  .persona-desc em {
+    color: var(--off-white);
+    font-style: italic;
+  }
 
-.identity-list{list-style:none;margin:3rem 0;display:flex;flex-direction:column;gap:0.2rem;}
-.identity-list li{
-  font-family:'Instrument Serif',serif;
-  font-size:clamp(1.4rem,3.2vw,2.4rem);
-  color:var(--muted2);
-  transition:color 0.4s, letter-spacing 0.4s;
-  cursor:default;
-  padding:0.15rem 0;
-}
-.identity-list li:hover{color:var(--white)}
-.identity-list li.lit{
-  color:var(--accent);
-  letter-spacing:0.005em;
-}
+  /* ============================================================
+     FEATURES
+  ============================================================ */
+  #features {
+    padding: clamp(80px, 12vw, 140px) 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(45,63,107,0.25) 0%, transparent 70%),
+      var(--midnight);
+  }
 
-.identity-note{
-  font-size:0.78rem;color:var(--muted2);
-  letter-spacing:0.12em;text-transform:uppercase;
-}
+  .features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 60px;
+  }
 
-/* ===================== FEATURES ===================== */
-#features{
-  background:var(--bg2);
-  border-top:1px solid var(--border);
-  position:relative;
-}
+  .feature-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
 
-.features-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);
-  gap:1px;
-  border:1px solid var(--border);
-  border-radius:20px;overflow:hidden;
-  margin-top:3.5rem;
-}
-.feature-card{
-  padding:2.25rem 2rem;
-  background:var(--bg2);
-  border-right:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  transition:background 0.4s;
-  position:relative;overflow:hidden;
-}
-.feature-card::after{
-  content:'';
-  position:absolute;top:0;left:0;
-  width:40px;height:1px;
-  background:linear-gradient(90deg,rgba(91,91,214,0.0),transparent);
-  transition:width 0.5s, background 0.5s;
-}
-.feature-card:hover::after{
-  width:100%;
-  background:linear-gradient(90deg,rgba(91,91,214,0.15),transparent);
-}
-.feature-card:hover{background:var(--bg3)}
-.feature-card:nth-child(even){border-right:none}
-.feature-card:nth-last-child(-n+2){border-bottom:none}
+  .feature-item {
+    padding: clamp(32px, 4vw, 52px);
+    background: rgba(22,32,48,0.6);
+    border: 1px solid var(--border);
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-item:hover { background: rgba(28,40,58,0.8); }
 
-.f-icon{
-  width:30px;height:30px;margin-bottom:1.25rem;
-  opacity:0.2;transition:opacity 0.3s;
-}
-.feature-card:hover .f-icon{opacity:0.35;}
-.f-title{font-size:0.92rem;font-weight:500;color:var(--accent);margin-bottom:0.6rem;}
-.f-desc{font-size:0.8rem;color:var(--muted);line-height:1.65;}
+  .feature-number {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--silver-dim);
+    margin-bottom: 20px;
+  }
+  .feature-icon-wrap {
+    width: 48px; height: 48px;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, rgba(124,159,255,0.15), rgba(167,139,250,0.1));
+    border: 1px solid rgba(124,159,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+  .feature-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2vw, 1.7rem);
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .feature-body {
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: var(--silver);
+    max-width: 360px;
+  }
 
-/* ===================== DIFFERENT ===================== */
-#different{
-  background:var(--bg);
-  border-top:1px solid var(--border);
-}
-.diff-inner{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:5rem;align-items:center;
-}
-.diff-list{list-style:none;margin-top:2.25rem;}
-.diff-list li{
-  display:flex;align-items:flex-start;gap:1rem;
-  padding:1.4rem 0;
-  border-bottom:1px solid var(--border);
-  font-size:0.86rem;color:var(--muted);line-height:1.65;
-}
-.diff-list li:last-child{border-bottom:none}
-.diff-x{color:var(--muted2);font-size:0.65rem;margin-top:4px;flex-shrink:0;}
+  .feature-item.wide {
+    grid-column: 1 / -1;
+    padding: clamp(36px, 5vw, 64px);
+  }
+  .feature-wide-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .feature-visual {
+    position: relative;
+    height: 260px;
+    background: rgba(13,17,23,0.5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-.diff-block{
-  background:var(--bg2);
-  border:1px solid var(--border);
-  border-radius:20px;padding:0;
-  overflow:hidden;
-  position:relative;
-}
-.diff-block::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at 50% 0%, rgba(91,91,214,0.05) 0%, transparent 60%);
-  pointer-events:none;
-}
-.diff-stat{
-  padding:1.5rem 2rem;
-  border-bottom:1px solid var(--border);
-  position:relative;
-}
-.diff-stat:last-child{border-bottom:none}
-.diff-stat-num{
-  font-family:'Instrument Serif',serif;
-  font-size:2.6rem;
-  /* Very subtle indigo on numbers */
-  background:linear-gradient(135deg, #e8e8f8 0%, #c0c0e8 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-  line-height:1;margin-bottom:0.3rem;
-  letter-spacing:-0.02em;
-}
-.diff-stat-label{font-size:0.75rem;color:var(--muted);}
+  /* Score ring visual */
+  .score-ring-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .score-ring {
+    width: 120px; height: 120px;
+    position: relative;
+  }
+  .score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .score-ring-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .score-ring-number {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .score-ring-sub {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--silver-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .score-metrics {
+    display: flex;
+    gap: 16px;
+  }
+  .score-metric {
+    text-align: center;
+  }
+  .score-metric-val {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--cream);
+  }
+  .score-metric-lbl {
+    font-size: 0.62rem;
+    color: var(--silver-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
 
-/* ===================== WAITLIST ===================== */
-#waitlist{
-  background:var(--bg2);
-  border-top:1px solid var(--border);
-  text-align:center;
-  position:relative;overflow:hidden;
-}
-#waitlist::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 70% 80% at 50% 50%, rgba(91,91,214,0.05) 0%, transparent 70%);
-  pointer-events:none;
-}
-#waitlist::after{
-  content:'';position:absolute;
-  top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(91,91,214,0.15),transparent);
-}
-#waitlist h2{margin-bottom:0.75rem}
-#waitlist .section-sub{margin:0 auto 3rem}
-.waitlist-form{
-  display:flex;gap:0.5rem;
-  max-width:440px;margin:0 auto 1.25rem;
-  position:relative;z-index:1;
-}
-.waitlist-note{font-size:0.7rem;color:var(--muted2);letter-spacing:0.08em;position:relative;z-index:1;}
+  /* ============================================================
+     MANIFESTO / MOVEMENT SECTION
+  ============================================================ */
+  #movement {
+    padding: clamp(80px, 14vw, 160px) 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 50%, rgba(45,63,107,0.35) 0%, transparent 70%),
+      linear-gradient(180deg, var(--midnight) 0%, #0d1520 50%, var(--midnight) 100%);
+    text-align: center;
+  }
 
-/* Large ghost headline behind waitlist */
-.waitlist-ghost{
-  position:absolute;
-  bottom:-2rem;left:50%;transform:translateX(-50%);
-  font-family:'Instrument Serif',serif;
-  font-size:clamp(5rem,12vw,10rem);
-  color:transparent;
-  -webkit-text-stroke:1px rgba(91,91,214,0.05);
-  white-space:nowrap;
-  pointer-events:none;
-  user-select:none;
-  letter-spacing:-0.02em;
-}
+  .manifesto-quote {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 4.2rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.2;
+    color: var(--cream);
+    max-width: 860px;
+    margin-inline: auto;
+    margin-bottom: 48px;
+  }
+  .manifesto-quote strong {
+    font-style: normal;
+    font-weight: 500;
+    background: linear-gradient(135deg, #e2d8ff 0%, #7c9fff 50%, #b8d8ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
-/* ===================== FAQ ===================== */
-#faq{background:var(--bg);border-top:1px solid var(--border);}
-.faq-list{
-  margin-top:3.5rem;
-  border:1px solid var(--border);
-  border-radius:20px;overflow:hidden;
-}
-.faq-item{border-bottom:1px solid var(--border);}
-.faq-item:last-child{border-bottom:none}
-.faq-q{
-  width:100%;text-align:left;
-  background:var(--bg2);border:none;
-  color:var(--accent);
-  padding:1.6rem 2rem;
-  font-family:'DM Sans',sans-serif;
-  font-size:0.88rem;font-weight:400;
-  cursor:pointer;
-  display:flex;justify-content:space-between;align-items:center;
-  transition:background 0.25s, color 0.25s;
-}
-.faq-q:hover{background:var(--bg3);color:var(--white)}
-.faq-q.open{color:var(--white);background:var(--bg3)}
-.faq-arrow{
-  font-size:1rem;color:var(--muted2);
-  transition:transform 0.35s, color 0.25s;
-  line-height:1;
-  font-weight:300;
-}
-.faq-q.open .faq-arrow{transform:rotate(45deg);color:var(--indigo);}
-.faq-a{
-  background:var(--bg);padding:0 2rem;
-  font-size:0.84rem;color:var(--muted);
-  line-height:1.75;max-height:0;overflow:hidden;
-  transition:max-height 0.45s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
-}
-.faq-a.open{max-height:220px;padding:1.5rem 2rem}
+  .manifesto-body {
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    line-height: 1.8;
+    color: var(--off-white);
+    max-width: 620px;
+    margin-inline: auto;
+    margin-bottom: 60px;
+  }
 
-/* ===================== FOOTER ===================== */
-footer{
-  padding:2rem 2.5rem;
-  border-top:1px solid var(--border);
-  display:flex;justify-content:space-between;align-items:center;
-}
-.footer-logo{
-  font-family:'Instrument Serif',serif;
-  font-size:1rem;color:var(--muted2);letter-spacing:0.05em;
-}
-.footer-note{font-size:0.68rem;color:var(--muted2);letter-spacing:0.05em;}
+  .movement-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 60px;
+  }
+  .pill {
+    padding: 10px 22px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 100px;
+    font-size: 0.85rem;
+    color: var(--off-white);
+    transition: all 0.2s;
+  }
+  .pill:hover {
+    background: rgba(124,159,255,0.1);
+    border-color: rgba(124,159,255,0.25);
+    color: var(--cream);
+  }
 
-/* ===================== RESPONSIVE ===================== */
-@media(max-width:768px){
-  .hero-grid{grid-template-columns:1fr;gap:4rem}
-  .phone-wrap{order:-1}
-  .problem-grid{grid-template-columns:1fr}
-  .problem-item{border-right:none;border-bottom:1px solid var(--border)}
-  .problem-item:last-child{border-bottom:none}
-  .features-grid{grid-template-columns:1fr}
-  .feature-card:nth-child(even){border-right:none}
-  .feature-card{border-right:none!important}
-  .diff-inner{grid-template-columns:1fr}
-  .waitlist-form{flex-direction:column}
-  nav{padding:1rem 1.25rem}
-  .nav-links{display:none}
-  section{padding:5.5rem 1.25rem}
-  footer{flex-direction:column;gap:0.75rem;text-align:center}
-}
+  .testimonials-strip {
+    display: flex;
+    gap: 16px;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+    margin-inline: calc(-1 * clamp(20px, 5vw, 60px));
+    padding-inline: clamp(20px, 5vw, 60px);
+  }
+
+  .testimonial-scroll {
+    display: flex;
+    gap: 16px;
+    animation: scroll-left 30s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .testimonial-card {
+    flex-shrink: 0;
+    width: 280px;
+    padding: 22px 24px;
+    background: rgba(26,35,50,0.7);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-align: left;
+  }
+  .testimonial-text {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--off-white);
+    margin-bottom: 16px;
+  }
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .author-av {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--indigo), var(--violet-dim));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--cream);
+    flex-shrink: 0;
+  }
+  .author-info strong { font-size: 0.8rem; color: var(--cream); display: block; }
+  .author-info span { font-size: 0.72rem; color: var(--silver-dim); }
+
+  /* ============================================================
+     WAITLIST SECTION
+  ============================================================ */
+  #waitlist {
+    padding: clamp(80px, 14vw, 160px) 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 50% 100%, rgba(45,63,107,0.4) 0%, transparent 70%),
+      var(--midnight);
+    position: relative;
+    overflow: hidden;
+  }
+  #waitlist::before {
+    content: 'KAIROS';
+    position: absolute;
+    font-family: var(--font-display);
+    font-size: clamp(8rem, 20vw, 18rem);
+    font-weight: 700;
+    color: rgba(255,255,255,0.015);
+    letter-spacing: 0.1em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .waitlist-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 680px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .waitlist-card {
+    background: rgba(22,32,48,0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-xl);
+    padding: clamp(36px, 6vw, 64px);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07);
+  }
+
+  .waitlist-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    background: rgba(74,222,128,0.1);
+    border: 1px solid rgba(74,222,128,0.2);
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  .waitlist-badge-dot {
+    width: 5px; height: 5px;
+    background: #4ade80;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #4ade80;
+    animation: pulse-dot 1.8s ease-in-out infinite;
+  }
+  .waitlist-badge span {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #4ade80;
+  }
+
+  .waitlist-headline {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .waitlist-headline em {
+    font-style: italic;
+    background: linear-gradient(135deg, #c8b8ff 0%, #7c9fff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .waitlist-sub {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--off-white);
+    max-width: 440px;
+    margin-inline: auto;
+    margin-bottom: 36px;
+  }
+
+  .waitlist-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .waitlist-form input {
+    padding: 16px 22px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    text-align: center;
+  }
+  .waitlist-form input::placeholder { color: var(--silver-dim); }
+  .waitlist-form input:focus {
+    border-color: rgba(124,159,255,0.35);
+    background: rgba(255,255,255,0.09);
+  }
+
+  .waitlist-btn {
+    width: 100%;
+    padding: 17px 28px;
+    background: linear-gradient(135deg, #7c9fff 0%, #a78bfa 100%);
+    color: #fff;
+    border-radius: 100px;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: all 0.25s var(--ease-out-expo);
+    box-shadow: 0 0 40px rgba(124,159,255,0.35), 0 8px 24px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .waitlist-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #a78bfa 0%, #7c9fff 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .waitlist-btn:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 0 50px rgba(124,159,255,0.5), 0 12px 32px rgba(0,0,0,0.4);
+  }
+  .waitlist-btn:hover::before { opacity: 1; }
+  .waitlist-btn span { position: relative; z-index: 1; }
+
+  .waitlist-microcopy {
+    font-size: 0.8rem;
+    color: var(--silver-dim);
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+  .waitlist-microcopy strong { color: var(--silver); }
+
+  .waitlist-perks {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .perk {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.88rem;
+    color: var(--off-white);
+  }
+  .perk-icon { color: #4ade80; font-size: 0.95rem; flex-shrink: 0; margin-top: 1px; }
+
+  .waitlist-social-proof {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.82rem;
+    color: var(--silver-dim);
+  }
+  .waitlist-social-proof strong { color: var(--silver); }
+
+  .scarcity-bar {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .scarcity-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--silver-dim);
+    margin-bottom: 10px;
+  }
+  .scarcity-label strong { color: var(--accent); }
+  .scarcity-track {
+    height: 5px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .scarcity-fill {
+    height: 100%;
+    width: 73%;
+    background: linear-gradient(90deg, #7c9fff, #a78bfa);
+    border-radius: 3px;
+  }
+
+  /* ============================================================
+     FAQ
+  ============================================================ */
+  #faq {
+    padding: clamp(80px, 12vw, 140px) 0;
+    background: var(--deep-navy);
+  }
+
+  .faq-list {
+    max-width: 720px;
+    margin-inline: auto;
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .faq-item {
+    background: rgba(22,32,48,0.5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .faq-item.open { border-color: rgba(124,159,255,0.2); }
+
+  .faq-question {
+    width: 100%;
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    text-align: left;
+    font-size: 0.97rem;
+    font-weight: 500;
+    color: var(--cream);
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .faq-question:hover { color: var(--warm-white); }
+  .faq-icon {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--border-lt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    color: var(--silver);
+    transition: transform 0.3s, border-color 0.2s;
+  }
+  .faq-item.open .faq-icon {
+    transform: rotate(45deg);
+    border-color: rgba(124,159,255,0.3);
+    color: var(--accent);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s var(--ease-out-expo);
+  }
+  .faq-item.open .faq-answer { max-height: 300px; }
+
+  .faq-answer-inner {
+    padding: 0 28px 24px;
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: var(--silver);
+  }
+  .faq-answer-inner a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ============================================================
+     FOOTER
+  ============================================================ */
+  footer {
+    padding: 60px 0 36px;
+    border-top: 1px solid var(--border);
+    background: #0a0e15;
+  }
+
+  .footer-inner {
+    max-width: 1160px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 60px);
+  }
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+  .footer-brand {
+    max-width: 280px;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--cream);
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+  }
+  .footer-tagline {
+    font-size: 0.85rem;
+    color: var(--silver-dim);
+    line-height: 1.65;
+  }
+
+  .footer-links-group { display: flex; gap: 60px; flex-wrap: wrap; }
+  .footer-links h4 {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--silver-dim);
+    margin-bottom: 16px;
+  }
+  .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links li a {
+    font-size: 0.88rem;
+    color: var(--silver);
+    transition: color 0.2s;
+  }
+  .footer-links li a:hover { color: var(--cream); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .footer-copy {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .footer-legal { display: flex; gap: 24px; }
+  .footer-legal a {
+    font-size: 0.8rem;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .footer-legal a:hover { color: var(--silver); }
+
+  /* ============================================================
+     REVEAL ANIMATIONS
+  ============================================================ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ============================================================
+     SUCCESS STATE
+  ============================================================ */
+  .waitlist-success {
+    display: none;
+    text-align: center;
+    padding: 20px 0;
+  }
+  .success-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    display: block;
+    animation: pop-in 0.5s var(--ease-out-expo);
+  }
+  @keyframes pop-in {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .success-headline {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+  .success-sub { font-size: 0.92rem; color: var(--off-white); }
+
+  /* ============================================================
+     MOBILE NAV MENU
+  ============================================================ */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background: rgba(13,17,23,0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--cream);
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--accent); }
+  .mobile-close {
+    position: absolute;
+    top: 22px; right: clamp(20px, 5vw, 60px);
+    font-size: 1.5rem;
+    color: var(--silver);
+    cursor: pointer;
+  }
+
+  /* ============================================================
+     RESPONSIVE
+  ============================================================ */
+  @media (max-width: 900px) {
+    .hero-content { grid-template-columns: 1fr; gap: 60px; }
+    .hero-right { display: none; }
+    .hero-headline { font-size: clamp(3rem, 10vw, 5rem); }
+    .problem-grid { grid-template-columns: 1fr; }
+    .problem-full { grid-column: 1; }
+    .personas-grid { grid-template-columns: 1fr 1fr; }
+    .feature-row { grid-template-columns: 1fr; }
+    .feature-wide-inner { grid-template-columns: 1fr; gap: 32px; }
+    .feature-visual { display: none; }
+    .nav-links { display: none; }
+    .nav-mobile-btn { display: flex; }
+    .footer-top { flex-direction: column; }
+    .footer-links-group { gap: 36px; }
+  }
+
+  @media (max-width: 600px) {
+    .personas-grid { grid-template-columns: 1fr; }
+    .hero-email-form { flex-direction: column; }
+    .stats-inner { justify-content: center; gap: 20px; }
+    .stat-divider { display: none; }
+    .movement-pills { gap: 8px; }
+    .waitlist-social-proof { flex-direction: column; gap: 8px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="logo">Kairos</div>
-  <ul class="nav-links">
-    <li><a href="#problem">Problem</a></li>
-    <li><a href="#features">Features</a></li>
-    <li><a href="#faq">FAQ</a></li>
-  </ul>
-  <button class="nav-cta" onclick="scrollToWaitlist()">Join waitlist</button>
+<!-- ============================================================
+     NAV
+============================================================ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-dot"></div>
+      Kairos
+    </a>
+    <ul class="nav-links">
+      <li><a href="#problem">Why</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#who">Who</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#waitlist" class="nav-cta">Get Early Access</a>
+    <div class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
 </nav>
 
-<!-- ===== HERO ===== -->
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <span class="mobile-close" id="mobileMenuClose">✕</span>
+  <a href="#problem" onclick="closeMobileMenu()">Why Kairos</a>
+  <a href="#features" onclick="closeMobileMenu()">Features</a>
+  <a href="#who" onclick="closeMobileMenu()">Who It's For</a>
+  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+  <a href="#waitlist" onclick="closeMobileMenu()" class="btn-primary">Get Early Access</a>
+</div>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
 <section id="hero">
-  <div class="container">
-    <div class="hero-grid">
-      <div>
-        <div class="hero-eyebrow">Early access · Limited spots</div>
-        <h1>Your attention<br>is your<br><em>only edge.</em></h1>
-        <p class="hero-sub">Everything competes for your focus. Almost nothing deserves it. Kairos is built for the rare kind of person who still wants to go deep.</p>
-        <div class="input-row">
-          <input type="email" class="email-input" id="heroEmail" placeholder="your@email.com"/>
-          <button class="cta-btn" onclick="submitEmail('heroEmail','heroSuccess','heroNote')">Be early</button>
-        </div>
-        <p class="trust-line" id="heroNote"><span class="trust-dot"></span>No spam. Quiet until launch.</p>
-        <div class="success-msg" id="heroSuccess">✓ You're on the list. We'll be in touch.</div>
+  <div class="hero-bg"></div>
+  <div class="hero-bg-grid"></div>
+
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        <span>Now Accepting Founding Members</span>
       </div>
 
-      <div class="phone-wrap">
-        <div class="phone-aura"></div>
-        <div class="phone-float">
-          <div class="phone-frame">
-            <div class="phone-screen">
-              <div class="screen-content">
-                <div class="screen-header">
-                  <span class="screen-label">Deep Work</span>
-                  <span class="screen-badge">Session 3</span>
+      <h1 class="hero-headline">
+        Reclaim<br>
+        your <em>focus.</em><br>
+        Own your time.
+      </h1>
+
+      <p class="hero-sub">
+        Kairos is the deep work operating system for people who refuse to be ordinary. Built for ambitious minds who know their attention is their most valuable asset.
+      </p>
+
+      <div class="hero-cta-group">
+        <form class="hero-email-form" onsubmit="handleHeroSubmit(event)">
+          <input type="email" id="heroEmail" placeholder="your@email.com" autocomplete="email" required>
+          <button type="submit" class="btn-primary">Join Waitlist</button>
+        </form>
+        <div class="hero-trust-line">
+          <div class="hero-avatars">
+            <div class="av">AJ</div>
+            <div class="av">SK</div>
+            <div class="av">MR</div>
+            <div class="av">+</div>
+          </div>
+          <div class="trust-divider"></div>
+          <span>2,847 ambitious people already in</span>
+          <div class="trust-divider"></div>
+          <span>No spam. Ever.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="phone-mockup-wrap">
+        <div class="phone-glow"></div>
+
+        <!-- Floating badges -->
+        <div class="phone-float-badge">
+          <div class="badge-icon">🔥</div>
+          <div class="badge-text">
+            <strong>12-day streak</strong>
+            <span>Best week yet</span>
+          </div>
+        </div>
+
+        <div class="phone-float-badge2">
+          <div class="badge2-stat">94</div>
+          <div class="badge2-label">Focus<br>Score</div>
+        </div>
+
+        <!-- Phone -->
+        <div class="phone-mockup">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-time">09:41</div>
+            <div class="phone-date">Tuesday · Deep Work Mode</div>
+
+            <div class="phone-focus-block">
+              <div class="phone-focus-label">● Active Session</div>
+              <div class="phone-focus-task">Product Strategy Doc v3</div>
+              <div class="phone-progress-bar">
+                <div class="phone-progress-fill"></div>
+              </div>
+            </div>
+
+            <div class="phone-sessions">
+              <div class="phone-session">
+                <div class="session-dot green"></div>
+                <div class="session-info">
+                  <div class="session-name">Deep Work</div>
+                  <div class="session-time">3h 20m logged</div>
                 </div>
-                <div class="timer-ring-wrap">
-                  <svg width="134" height="134" viewBox="0 0 134 134">
-                    <circle cx="67" cy="67" r="58" fill="none" stroke="#1a1a2e" stroke-width="2"/>
-                    <!-- Progress ring with indigo -->
-                    <circle cx="67" cy="67" r="58" fill="none"
-                      stroke="url(#ringGrad)" stroke-width="1.5"
-                      stroke-dasharray="364" stroke-dashoffset="145"
-                      stroke-linecap="round"
-                      transform="rotate(-90 67 67)"/>
-                    <defs>
-                      <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#3d3d9e" stop-opacity="0.6"/>
-                        <stop offset="100%" stop-color="#6060e0" stop-opacity="0.9"/>
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                  <div class="timer-text">
-                    <span class="timer-min" id="timerDisplay">42:18</span>
-                    <span class="timer-lbl">remaining</span>
-                  </div>
+                <div class="session-score">+92</div>
+              </div>
+              <div class="phone-session">
+                <div class="session-dot blue"></div>
+                <div class="session-info">
+                  <div class="session-name">Learning</div>
+                  <div class="session-time">1h 05m logged</div>
                 </div>
-                <div class="session-tag">Writing · 90 min block</div>
-                <div class="focus-bars">
-                  <div class="focus-bar done"></div>
-                  <div class="focus-bar done"></div>
-                  <div class="focus-bar active"></div>
-                  <div class="focus-bar"></div>
-                  <div class="focus-bar"></div>
-                  <div class="focus-bar"></div>
+                <div class="session-score">+74</div>
+              </div>
+              <div class="phone-session">
+                <div class="session-dot violet"></div>
+                <div class="session-info">
+                  <div class="session-name">Creation</div>
+                  <div class="session-time">45m logged</div>
                 </div>
-                <div class="score-row">
-                  <div class="score-card">
-                    <span class="score-val">87</span>
-                    <span class="score-lbl">Focus</span>
-                  </div>
-                  <div class="score-card">
-                    <span class="score-val">12</span>
-                    <span class="score-lbl">Streak</span>
-                  </div>
-                  <div class="score-card">
-                    <span class="score-val">4.2h</span>
-                    <span class="score-lbl">Today</span>
-                  </div>
-                </div>
-                <div class="lock-btn">
-                  <div class="lock-pulse"></div>
-                  Lock In Mode
-                </div>
+                <div class="session-score">+61</div>
+              </div>
+            </div>
+
+            <div class="phone-bottom-bar">
+              <div class="pbb-item active">
+                <div class="pbb-icon">⌘</div>
+                <div class="pbb-dot"></div>
+              </div>
+              <div class="pbb-item">
+                <div class="pbb-icon">◎</div>
+              </div>
+              <div class="pbb-item">
+                <div class="pbb-icon">↗</div>
+              </div>
+              <div class="pbb-item">
+                <div class="pbb-icon">◷</div>
               </div>
             </div>
           </div>
@@ -899,285 +1789,756 @@ footer{
       </div>
     </div>
   </div>
+
+  <div class="hero-scroll-cue">
+    <span class="scroll-cue-text">Scroll</span>
+    <div class="scroll-cue-line"></div>
+  </div>
 </section>
 
-<!-- ===== PROBLEM ===== -->
+<!-- ============================================================
+     STATS BAR
+============================================================ -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-number">2,847</div>
+      <div class="stat-label">People on the waitlist</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-number">94<span style="font-size:1.2rem">%</span></div>
+      <div class="stat-label">Report better daily output</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-number">3.2<span style="font-size:1.2rem">×</span></div>
+      <div class="stat-label">Average focus multiplier</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-number">47</div>
+      <div class="stat-label">Countries represented</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PROBLEM
+============================================================ -->
 <section id="problem">
   <div class="container">
-    <div class="section-tag">The problem</div>
-    <h2>We are living through<br>an <em>attention crisis.</em></h2>
-    <p class="section-sub">The modern world is engineered to fragment your mind. Every notification, every scroll, every ping — a small theft from the life you meant to build.</p>
-    <div class="problem-grid">
-      <div class="problem-item">
-        <div class="p-num">01</div>
-        <div class="p-title">Constant stimulation</div>
-        <p class="p-desc">Your brain is rewired by infinite scroll. Silence feels wrong. Boredom feels unbearable. Deep thinking feels impossible.</p>
+    <div class="section-header reveal">
+      <span class="label">The Problem</span>
+      <h2 class="display-lg">You feel it every day.</h2>
+      <p class="subhead" style="max-width:560px;margin:16px auto 0">The gap between who you are and who you know you could be. It widens every time you reach for your phone.</p>
+    </div>
+
+    <div class="problem-grid reveal">
+      <div class="problem-card">
+        <span class="problem-icon">🌊</span>
+        <h3 class="problem-title">Drowning in distraction</h3>
+        <p class="problem-body">The average knowledge worker switches tasks <em>every 3 minutes</em>. Each switch costs 23 minutes of deep recovery time. Your best thinking never gets to happen.</p>
       </div>
-      <div class="problem-item">
-        <div class="p-num">02</div>
-        <div class="p-title">Shallow by default</div>
-        <p class="p-desc">You work. But rarely deeply. Most hours are reactions — emails, Slack, context switches. Your best thinking never happens.</p>
+      <div class="problem-card">
+        <span class="problem-icon">📱</span>
+        <h3 class="problem-title">Built to steal your attention</h3>
+        <p class="problem-body">Every app you use was designed by teams of engineers to <em>consume your time</em>. You're not weak. You're up against billion-dollar machines optimized for your dopamine.</p>
       </div>
-      <div class="problem-item">
-        <div class="p-num">03</div>
-        <div class="p-title">Wasted potential</div>
-        <p class="p-desc">You know what you're capable of. You've felt it. But you can't access it consistently. That gap — that's the problem Kairos solves.</p>
+      <div class="problem-card">
+        <span class="problem-icon">📊</span>
+        <h3 class="problem-title">Busyness mistaken for progress</h3>
+        <p class="problem-body">You end every day exhausted but unsatisfied. You moved fast, stayed busy, checked things off. But you never did the <em>real work.</em> The work that compounds.</p>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">⏳</span>
+        <h3 class="problem-title">The quiet erosion of potential</h3>
+        <p class="problem-body">The most painful part? You know exactly what you're capable of. <em>You just never quite get there.</em> And the gap between potential and reality quietly grows.</p>
+      </div>
+      <div class="problem-full">
+        <p class="problem-quote">
+          "The quality of your life is determined by the quality of your attention. Right now, someone else owns yours."
+        </p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== IDENTITY ===== -->
-<section id="identity">
+<!-- ============================================================
+     WHO THIS IS FOR
+============================================================ -->
+<section id="who">
   <div class="container">
-    <div class="identity-inner">
-      <div class="section-tag" style="justify-content:center">Who it's for</div>
-      <h2>This is for the ones<br>who still <em>want to go deep.</em></h2>
-      <ul class="identity-list">
-        <li class="lit">The builder with too many tabs open.</li>
-        <li>The founder who hasn't done real work in weeks.</li>
-        <li>The student who can't finish a paragraph.</li>
-        <li>The creator stuck at the same idea for months.</li>
-        <li>The person who remembers what focus felt like.</li>
-      </ul>
-      <p class="identity-note">You don't need more tasks. You need time that means something.</p>
+    <div class="who-intro reveal">
+      <span class="label">Who Kairos Is For</span>
+      <h2 class="display-lg">Made for people<br>who want more.</h2>
+      <p>Not everyone. Specifically you — if you've ever felt the sharp ache of wasted potential.</p>
+    </div>
+
+    <div class="personas-grid">
+      <div class="persona-card reveal">
+        <span class="persona-emoji">🏗️</span>
+        <div class="persona-role">The Builder</div>
+        <h3 class="persona-name">Founders &amp; Makers</h3>
+        <p class="persona-desc">You carry the entire product in your head. Kairos gives you the structure to protect your creative bandwidth and ship what actually matters — not just what feels urgent.</p>
+      </div>
+      <div class="persona-card reveal reveal-delay-1">
+        <span class="persona-emoji">📚</span>
+        <div class="persona-role">The Scholar</div>
+        <h3 class="persona-name">Ambitious Students</h3>
+        <p class="persona-desc">Your peers are distracted. You refuse to be. Kairos is the system that turns your study sessions into <em>compounding advantages</em> that last decades.</p>
+      </div>
+      <div class="persona-card reveal reveal-delay-2">
+        <span class="persona-emoji">✦</span>
+        <div class="persona-role">The Creator</div>
+        <h3 class="persona-name">Artists &amp; Writers</h3>
+        <p class="persona-desc">Your work requires long, uninterrupted stretches of genuine presence. Kairos defends your creative time like nothing else can.</p>
+      </div>
+      <div class="persona-card reveal">
+        <span class="persona-emoji">📈</span>
+        <div class="persona-role">The Strategist</div>
+        <h3 class="persona-name">High-Performers</h3>
+        <p class="persona-desc">You already know discipline is the differentiator. Kairos is the operating layer that makes your discipline <em>measurable, trackable, and compounding.</em></p>
+      </div>
+      <div class="persona-card reveal reveal-delay-1">
+        <span class="persona-emoji">🧭</span>
+        <div class="persona-role">The Seeker</div>
+        <h3 class="persona-name">The Intentional</h3>
+        <p class="persona-desc">You're tired of being reactive. Of living on other people's timelines. Kairos helps you design your days around what you've decided actually matters.</p>
+      </div>
+      <div class="persona-card reveal reveal-delay-2">
+        <span class="persona-emoji">⚡</span>
+        <div class="persona-role">The Restless</div>
+        <h3 class="persona-name">The Overstimulated</h3>
+        <p class="persona-desc">You feel overstimulated, underachieving, and quietly aware that something has to change. Kairos is the reset you've been looking for.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ===== FEATURES ===== -->
+<!-- ============================================================
+     FEATURES
+============================================================ -->
 <section id="features">
   <div class="container">
-    <div class="section-tag">What Kairos does</div>
-    <h2>A focus operating system.<br>Not another <em>productivity app.</em></h2>
-    <p class="section-sub">Kairos isn't a timer. It's a complete system for rebuilding your capacity for deep work — session by session, day by day.</p>
-    <div class="features-grid">
-      <div class="feature-card">
-        <svg class="f-icon" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="white" stroke-width="1.5"/><path d="M16 9v7l4 4" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <div class="f-title">Deep Work Sessions</div>
-        <p class="f-desc">Structured blocks of protected time. Set your intention, lock in, and emerge with something real. No interruptions allowed.</p>
+    <div class="section-header reveal">
+      <span class="label">The System</span>
+      <h2 class="display-lg">Not an app.<br>An operating system.</h2>
+      <p class="subhead" style="max-width:540px;margin:16px auto 0">Every feature is engineered around one belief: your attention, protected and directed, is how you build an extraordinary life.</p>
+    </div>
+
+    <div class="features-list reveal">
+      <div class="feature-row">
+        <div class="feature-item">
+          <div class="feature-number">01</div>
+          <div class="feature-icon-wrap">⌘</div>
+          <h3 class="feature-title">Deep Work Sessions</h3>
+          <p class="feature-body">Structured focus blocks built around cognitive science. Not a timer — a complete environment that cues your brain into flow state and keeps you there.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-number">02</div>
+          <div class="feature-icon-wrap">◎</div>
+          <h3 class="feature-title">Attention Intelligence</h3>
+          <p class="feature-body">Kairos learns when you focus best, what breaks your flow, and how your attention compounds over time. Data no other tool collects — insight no other tool gives.</p>
+        </div>
       </div>
-      <div class="feature-card">
-        <svg class="f-icon" viewBox="0 0 32 32" fill="none"><path d="M6 16 Q16 6 26 16 Q16 26 6 16" stroke="white" stroke-width="1.5"/><circle cx="16" cy="16" r="3" fill="white" opacity="0.5"/></svg>
-        <div class="f-title">Focus Rituals</div>
-        <p class="f-desc">How you begin determines everything. Kairos guides you through entry rituals that shift your brain into a different gear.</p>
+
+      <div class="feature-row">
+        <div class="feature-item wide">
+          <div class="feature-wide-inner">
+            <div>
+              <div class="feature-number">03</div>
+              <div class="feature-icon-wrap">◆</div>
+              <h3 class="feature-title">The Kairos Score</h3>
+              <p class="feature-body" style="max-width:100%">A single number that captures the quality of your focus day. Not hours logged. Not tasks checked off. Your actual depth, consistency, and intentionality — distilled. Watch it compound as your discipline grows.</p>
+            </div>
+            <div class="feature-visual">
+              <div class="score-ring-wrap">
+                <div class="score-ring">
+                  <svg viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+                    <circle cx="60" cy="60" r="52" fill="none" stroke="url(#scoreGrad)" stroke-width="8"
+                      stroke-dasharray="326.7" stroke-dashoffset="88" stroke-linecap="round"/>
+                    <defs>
+                      <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#7c9fff"/>
+                        <stop offset="100%" stop-color="#a78bfa"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div class="score-ring-label">
+                    <div class="score-ring-number">94</div>
+                    <div class="score-ring-sub">Today</div>
+                  </div>
+                </div>
+                <div class="score-metrics">
+                  <div class="score-metric">
+                    <div class="score-metric-val">87</div>
+                    <div class="score-metric-lbl">Yesterday</div>
+                  </div>
+                  <div class="score-metric">
+                    <div class="score-metric-val">91</div>
+                    <div class="score-metric-lbl">7-day avg</div>
+                  </div>
+                  <div class="score-metric">
+                    <div class="score-metric-val">↑12</div>
+                    <div class="score-metric-lbl">This week</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="feature-card">
-        <svg class="f-icon" viewBox="0 0 32 32" fill="none"><rect x="7" y="20" width="4" height="6" rx="1" stroke="white" stroke-width="1.5"/><rect x="14" y="14" width="4" height="12" rx="1" stroke="white" stroke-width="1.5"/><rect x="21" y="8" width="4" height="18" rx="1" stroke="white" stroke-width="1.5"/></svg>
-        <div class="f-title">Behavioral Analytics</div>
-        <p class="f-desc">When do you focus best? What kills your flow? Kairos tracks patterns invisible to you and surfaces what actually matters.</p>
+
+      <div class="feature-row">
+        <div class="feature-item">
+          <div class="feature-number">04</div>
+          <div class="feature-icon-wrap">🔒</div>
+          <h3 class="feature-title">Focus Shield</h3>
+          <p class="feature-body">Intelligent distraction blocking that adapts to your session type. Not rigid rules — context-aware protection that knows when you need space.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-number">05</div>
+          <div class="feature-icon-wrap">📈</div>
+          <h3 class="feature-title">Compound Tracking</h3>
+          <p class="feature-body">See your discipline as a long-term asset. Weekly, monthly, yearly views of your focus investment — because mastery is built in years, not days.</p>
+        </div>
       </div>
-      <div class="feature-card">
-        <svg class="f-icon" viewBox="0 0 32 32" fill="none"><path d="M16 6L18.5 12.5L26 13.5L20.5 18.5L22 26L16 22.5L10 26L11.5 18.5L6 13.5L13.5 12.5Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
-        <div class="f-title">Focus Score</div>
-        <p class="f-desc">A single number that reflects the quality of your attention over time. Watch it grow as deep work becomes your default mode.</p>
-      </div>
-      <div class="feature-card">
-        <svg class="f-icon" viewBox="0 0 32 32" fill="none"><rect x="8" y="8" width="16" height="16" rx="3" stroke="white" stroke-width="1.5"/><path d="M12 16h8M16 12v8" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/></svg>
-        <div class="f-title">Lock In Mode</div>
-        <p class="f-desc">Full commitment. All distractions blocked. Your phone becomes a single-purpose tool for the work that matters.</p>
-      </div>
-      <div class="feature-card">
-        <svg class="f-icon" viewBox="0 0 32 32" fill="none"><path d="M8 26L8 18M14 26L14 12M20 26L20 16M26 26L26 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <div class="f-title">Progress & Streaks</div>
-        <p class="f-desc">Consistency compounds. Kairos makes your effort visible — building an identity around the kind of person who shows up.</p>
+
+      <div class="feature-row">
+        <div class="feature-item">
+          <div class="feature-number">06</div>
+          <div class="feature-icon-wrap">🌙</div>
+          <h3 class="feature-title">Evening Review</h3>
+          <p class="feature-body">A nightly ritual that consolidates your wins, captures insights, and sets intentions. The reflective practice that turns days into wisdom.</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-number">07</div>
+          <div class="feature-icon-wrap">⚡</div>
+          <h3 class="feature-title">Morning Protocol</h3>
+          <p class="feature-body">Start every day with intention, not reaction. A structured morning system that primes your mind before the world gets to it.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== DIFFERENT ===== -->
-<section id="different">
+<!-- ============================================================
+     MOVEMENT
+============================================================ -->
+<section id="movement">
   <div class="container">
-    <div class="diff-inner">
-      <div>
-        <div class="section-tag">Why it's different</div>
-        <h2>Not a timer.<br>Not a task list.<br><em>A different thing.</em></h2>
-        <ul class="diff-list">
-          <li><span class="diff-x">✕</span><span>Generic productivity apps treat symptoms. Kairos works at the root — your relationship with attention itself.</span></li>
-          <li><span class="diff-x">✕</span><span>Habit trackers gamify streaks. Kairos builds identity. There's a difference between counting days and becoming someone.</span></li>
-          <li><span class="diff-x">✕</span><span>Pomodoro timers give you intervals. Kairos gives you architecture — a full system for how you spend cognitive time.</span></li>
-          <li><span class="diff-x">✕</span><span>To-do apps optimize tasks. Kairos optimizes you — using behavioral data to surface when and how you focus best.</span></li>
-        </ul>
-      </div>
-      <div class="diff-block">
-        <div class="diff-stat">
-          <div class="diff-stat-num">2.5h</div>
-          <div class="diff-stat-label">Average deep work per day for top performers</div>
+    <div class="reveal">
+      <span class="label" style="display:block;margin-bottom:24px">The Movement</span>
+      <p class="manifesto-quote">
+        "The most radical act in the attention economy is to <strong>choose where your mind goes.</strong>"
+      </p>
+      <p class="manifesto-body">
+        Kairos isn't a productivity tool. It's a statement about who you are. Every session is a vote for the person you're becoming. Every focused hour is compounding interest on your most ambitious self.
+        <br><br>
+        We're building a community of people who refuse to let their potential be consumed by distraction. People who know that attention is the new wealth — and they're choosing to keep theirs.
+      </p>
+    </div>
+
+    <div class="movement-pills reveal">
+      <span class="pill">Deep Work</span>
+      <span class="pill">Intentional Living</span>
+      <span class="pill">Attention Economy</span>
+      <span class="pill">Digital Discipline</span>
+      <span class="pill">Compounding Focus</span>
+      <span class="pill">Flow State</span>
+      <span class="pill">Ambitious Minds</span>
+      <span class="pill">Anti-Distraction</span>
+      <span class="pill">Mental Clarity</span>
+    </div>
+
+    <!-- Scrolling testimonials -->
+    <div class="testimonials-strip reveal">
+      <div class="testimonial-scroll" id="testimonialScroll">
+        <!-- Set 1 -->
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Finally something that treats me like an adult who wants to do real work. The Kairos score is weirdly motivating — I find myself protecting my focus just to keep it up."</p>
+          <div class="testimonial-author">
+            <div class="author-av">AJ</div>
+            <div class="author-info"><strong>Alex J.</strong><span>SaaS Founder, Berlin</span></div>
+          </div>
         </div>
-        <div class="diff-stat">
-          <div class="diff-stat-num">23 min</div>
-          <div class="diff-stat-label">Time to refocus after a single distraction</div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"I've tried every productivity app. Kairos is different because it doesn't just track tasks — it tracks *me*. My patterns, my best hours. That insight changed everything."</p>
+          <div class="testimonial-author">
+            <div class="author-av">SK</div>
+            <div class="author-info"><strong>Sara K.</strong><span>PhD Candidate, Stanford</span></div>
+          </div>
         </div>
-        <div class="diff-stat">
-          <div class="diff-stat-num">40%</div>
-          <div class="diff-stat-label">Productivity lost to context-switching daily</div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"My mornings used to be reactive chaos. Now I have a protocol. 3 months in and the compound effect on my output is genuinely surprising."</p>
+          <div class="testimonial-author">
+            <div class="author-av">MR</div>
+            <div class="author-info"><strong>Marcus R.</strong><span>Creative Director</span></div>
+          </div>
         </div>
-        <div class="diff-stat">
-          <div class="diff-stat-num">∞</div>
-          <div class="diff-stat-label">What becomes possible when you learn to go deep</div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"The Focus Shield alone has changed my relationship with my phone. I didn't realise how much I was leaking until Kairos showed me exactly where."</p>
+          <div class="testimonial-author">
+            <div class="author-av">LP</div>
+            <div class="author-info"><strong>Laura P.</strong><span>Product Manager</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"I used to end every day feeling busy but hollow. Kairos helped me see the difference between motion and progress. That distinction changed my life."</p>
+          <div class="testimonial-author">
+            <div class="author-av">TN</div>
+            <div class="author-info"><strong>Tom N.</strong><span>Indie Developer</span></div>
+          </div>
+        </div>
+        <!-- Duplicate for seamless loop -->
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Finally something that treats me like an adult who wants to do real work. The Kairos score is weirdly motivating — I find myself protecting my focus just to keep it up."</p>
+          <div class="testimonial-author">
+            <div class="author-av">AJ</div>
+            <div class="author-info"><strong>Alex J.</strong><span>SaaS Founder, Berlin</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"I've tried every productivity app. Kairos is different because it doesn't just track tasks — it tracks *me*. My patterns, my best hours. That insight changed everything."</p>
+          <div class="testimonial-author">
+            <div class="author-av">SK</div>
+            <div class="author-info"><strong>Sara K.</strong><span>PhD Candidate, Stanford</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"My mornings used to be reactive chaos. Now I have a protocol. 3 months in and the compound effect on my output is genuinely surprising."</p>
+          <div class="testimonial-author">
+            <div class="author-av">MR</div>
+            <div class="author-info"><strong>Marcus R.</strong><span>Creative Director</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"The Focus Shield alone has changed my relationship with my phone. I didn't realise how much I was leaking until Kairos showed me exactly where."</p>
+          <div class="testimonial-author">
+            <div class="author-av">LP</div>
+            <div class="author-info"><strong>Laura P.</strong><span>Product Manager</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">"I used to end every day feeling busy but hollow. Kairos helped me see the difference between motion and progress. That distinction changed my life."</p>
+          <div class="testimonial-author">
+            <div class="author-av">TN</div>
+            <div class="author-info"><strong>Tom N.</strong><span>Indie Developer</span></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== WAITLIST ===== -->
+<!-- ============================================================
+     WAITLIST
+============================================================ -->
 <section id="waitlist">
-  <div class="waitlist-ghost">Kairos</div>
-  <div class="container" style="position:relative;z-index:1">
-    <div class="section-tag" style="justify-content:center">Get early access</div>
-    <h2>Be among the first<br>to <em>lock in.</em></h2>
-    <p class="section-sub">Kairos launches to a small group first. Early access means early advantage — and a hand in shaping what focus looks like.</p>
-    <div class="waitlist-form">
-      <input type="email" class="email-input" id="waitlistEmail" placeholder="your@email.com"/>
-      <button class="cta-btn" onclick="submitEmail('waitlistEmail','waitlistSuccess','waitlistNote')">Join waitlist</button>
+  <div class="container">
+    <div class="waitlist-inner">
+      <div class="waitlist-card reveal">
+        <div class="waitlist-badge">
+          <div class="waitlist-badge-dot"></div>
+          <span>Founding Membership Open</span>
+        </div>
+
+        <h2 class="waitlist-headline">
+          Join the first<br><em>wave.</em>
+        </h2>
+        <p class="waitlist-sub">
+          We're granting early access to a founding group of people who understand what's at stake. You belong here.
+        </p>
+
+        <div class="waitlist-perks">
+          <div class="perk">
+            <span class="perk-icon">✦</span>
+            <span><strong>Founding member status</strong> — permanently locked in. You were here first.</span>
+          </div>
+          <div class="perk">
+            <span class="perk-icon">✦</span>
+            <span><strong>Launch pricing</strong> — founding members receive lifetime discount access.</span>
+          </div>
+          <div class="perk">
+            <span class="perk-icon">✦</span>
+            <span><strong>Shape the product</strong> — direct line to the team. Your feedback builds Kairos.</span>
+          </div>
+          <div class="perk">
+            <span class="perk-icon">✦</span>
+            <span><strong>First access</strong> — you unlock every new feature before anyone else.</span>
+          </div>
+        </div>
+
+        <div class="waitlist-form" id="waitlistFormContainer">
+          <input type="email" id="waitlistEmail" placeholder="Enter your email address" autocomplete="email">
+          <button class="waitlist-btn" onclick="handleWaitlistSubmit()">
+            <span>Claim My Founding Spot →</span>
+          </button>
+        </div>
+
+        <p class="waitlist-microcopy">
+          <strong>No credit card.</strong> No spam. Just early access when we launch.
+          Spots are limited — we're capping the founding group.
+        </p>
+
+        <div class="waitlist-social-proof">
+          <div class="hero-avatars">
+            <div class="av">AJ</div><div class="av">SK</div><div class="av">MR</div><div class="av">LP</div>
+          </div>
+          <span>Joined by <strong>2,847 people</strong> from 47 countries</span>
+        </div>
+
+        <div class="waitlist-success" id="waitlistSuccess">
+          <span class="success-icon">✦</span>
+          <div class="success-headline">You're in the founding group.</div>
+          <p class="success-sub">Welcome to Kairos. We'll reach out with early access before anyone else. This is the beginning.</p>
+        </div>
+
+        <div class="scarcity-bar">
+          <div class="scarcity-label">
+            <span>Founding spots claimed</span>
+            <strong>73% full · 757 spots remaining</strong>
+          </div>
+          <div class="scarcity-track">
+            <div class="scarcity-fill"></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <p class="waitlist-note" id="waitlistNote">No noise. We'll reach out when you're in.</p>
-    <div class="success-msg" id="waitlistSuccess">✓ You're on the list. We'll be in touch.</div>
   </div>
 </section>
 
-<!-- ===== FAQ ===== -->
+<!-- ============================================================
+     FAQ
+============================================================ -->
 <section id="faq">
   <div class="container">
-    <div class="section-tag">Questions</div>
-    <h2>Frequently<br><em>asked.</em></h2>
-    <div class="faq-list">
+    <div class="section-header reveal">
+      <span class="label">Questions</span>
+      <h2 class="display-md">The honest answers.</h2>
+    </div>
+
+    <div class="faq-list reveal">
+
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">What is Kairos? <span class="faq-arrow">+</span></button>
-        <div class="faq-a">Kairos is a deep work operating system for ambitious people. Built around structured focus sessions, behavioral insights, and an identity-first approach to meaningful work. It's not a task manager. Not a habit tracker. Something closer to a focus practice.</div>
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What exactly is Kairos?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Kairos is a deep work operating system — a mobile and desktop app that helps you structure, track, and compound your focused attention over time. It combines session management, behavioral analytics, intelligent distraction blocking, and daily rituals into one coherent system. It's not a to-do list. It's not a timer. It's the layer of operating system your life was missing.
+          </div>
+        </div>
       </div>
+
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">When does it launch? <span class="faq-arrow">+</span></button>
-        <div class="faq-a">We're not giving a date yet — intentionally. Kairos will launch when it's right, not when it's rushed. Waitlist members will be the first to know, and the first inside.</div>
+        <button class="faq-question" onclick="toggleFaq(this)">
+          When does Kairos launch?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            We're currently in final development. Founding members on the waitlist will receive early access before the public launch. We're targeting a launch in the coming months and will notify waitlist members at least 48 hours before opening to the general public.
+          </div>
+        </div>
       </div>
+
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">Who is it for? <span class="faq-arrow">+</span></button>
-        <div class="faq-a">Kairos is built for people who take their attention seriously — founders, builders, students, creators, and anyone who feels the gap between the work they're doing and the work they're capable of.</div>
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What platforms will Kairos support?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Kairos will launch on iOS and macOS simultaneously, with Android and Windows following shortly after. The core experience is designed around mobile — where most distraction happens — with a rich desktop companion for session management and deep analytics.
+          </div>
+        </div>
       </div>
+
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">Will there be early access? <span class="faq-arrow">+</span></button>
-        <div class="faq-a">Yes. The waitlist exists precisely for this. Early access members get in before the public launch, help shape core features, and carry founding-user status inside the product. The list is intentionally kept small.</div>
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How is Kairos different from Forest, Freedom, or Notion?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Those tools solve parts of the problem. Kairos solves the whole thing. Forest gamifies surface-level focus. Freedom blocks sites. Notion tracks tasks. None of them understand your attention as an asset that compounds over time, give you a unified score of your focus quality, or build the behavioral intelligence to tell you exactly when and how you focus best. Kairos is the operating system — not a single tool.
+          </div>
+        </div>
       </div>
+
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">Is it free? <span class="faq-arrow">+</span></button>
-        <div class="faq-a">Kairos will have a free tier. The full experience — deep behavioral insights, advanced session architecture, and future features — will be part of a paid plan. Early waitlist members receive preferential pricing at launch.</div>
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What does "founding member" actually mean?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Founding members get early access before public launch, a permanent discount on all Kairos plans (locked for life, not just the first year), direct input into the product roadmap, and a founding member badge in their profile. You're not just getting early access — you're becoming part of what Kairos is.
+          </div>
+        </div>
       </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Is my data private?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Absolutely. Your focus data is yours. We never sell it, share it, or use it to train models without your explicit consent. Your attention patterns are deeply personal — we treat them that way. Full privacy policy available at launch.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What if Kairos isn't right for me?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Joining the waitlist is completely free and commits you to nothing. When we launch, we'll offer a generous trial period so you can experience Kairos before committing to any plan. We're confident in what we're building — but we'd rather earn your trust than demand it.
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
+<!-- ============================================================
+     FOOTER
+============================================================ -->
 <footer>
-  <div class="footer-logo">Kairos</div>
-  <div class="footer-note">© 2025 Kairos. All rights reserved.</div>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">Kairos</div>
+        <p class="footer-tagline">The deep work operating system for people who refuse to be ordinary. Your attention is your most valuable asset — own it.</p>
+      </div>
+      <div class="footer-links-group">
+        <div class="footer-links">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#waitlist">Early Access</a></li>
+            <li><a href="#">Roadmap</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Manifesto</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="#">Twitter / X</a></li>
+            <li><a href="#">Discord</a></li>
+            <li><a href="#">Newsletter</a></li>
+            <li><a href="#">Founders</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Kairos. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
 </footer>
 
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
 <script>
-function scrollToWaitlist(){
-  document.getElementById('waitlist').scrollIntoView({behavior:'smooth'});
-}
+  /* ---- Nav scroll effect ---- */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }, { passive: true });
 
-/* =============================================
-   EMAIL CAPTURE — CONNECT YOUR BACKEND HERE
-   =============================================
-   OPTION A — Supabase:
-     const { error } = await supabase
-       .from('waitlist').insert([{ email }]);
+  /* ---- Reveal on scroll ---- */
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => revealObserver.observe(el));
 
-   OPTION B — Beehiiv:
-     await fetch('https://api.beehiiv.com/v2/publications/PUB_ID/subscriptions', {
-       method:'POST',
-       headers:{'Content-Type':'application/json','Authorization':'Bearer API_KEY'},
-       body:JSON.stringify({ email })
-     });
-
-   OPTION C — Mailchimp (via serverless):
-     await fetch('/api/subscribe',{
-       method:'POST',
-       headers:{'Content-Type':'application/json'},
-       body:JSON.stringify({ email })
-     });
-
-   OPTION D — Google Sheets (Apps Script):
-     await fetch('YOUR_APPS_SCRIPT_URL',{
-       method:'POST', body:JSON.stringify({ email })
-     });
-   ============================================= */
-async function submitEmail(inputId, successId, noteId){
-  const input   = document.getElementById(inputId);
-  const success = document.getElementById(successId);
-  const note    = document.getElementById(noteId);
-  const email   = input.value.trim();
-
-  if(!email || !email.includes('@')){
-    input.style.borderColor='#554444';
-    input.style.boxShadow='0 0 0 3px rgba(180,80,80,0.08)';
-    setTimeout(()=>{
-      input.style.borderColor='';
-      input.style.boxShadow='';
-    },1200);
-    return;
+  /* ---- FAQ accordion ---- */
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
   }
 
-  /* === REPLACE THIS WITH YOUR BACKEND CALL === */
- await fetch('https://script.google.com/macros/s/AKfycbxijcC0UmJs9_5sLwHkQ6bmpwCCzLFfzHF6KCZQBrjghp32lCS4V1S99qlWj0hcmbXt/exec', {
-  method: 'POST',
-  body: JSON.stringify({ email })
-});
-  /* ============================================ */
+  /* ---- Mobile menu ---- */
+  document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+  document.getElementById('mobileMenuClose').addEventListener('click', closeMobileMenu);
+  function closeMobileMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.body.style.overflow = '';
+  }
 
-  input.value='';
-  note.style.display='none';
-  success.classList.add('show');
-  setTimeout(()=>{
-    success.classList.remove('show');
-    note.style.display='';
-  }, 5000);
-}
+  /* ---- Hero form ---- */
+  function handleHeroSubmit(e) {
+    e.preventDefault();
+    const email = document.getElementById('heroEmail').value;
+    if (!email) return;
+    // Scroll to waitlist and pre-fill
+    document.getElementById('waitlistEmail').value = email;
+    document.querySelector('#waitlist').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      document.getElementById('waitlistEmail').focus();
+    }, 800);
+  }
 
-function toggleFaq(btn){
-  const answer=btn.nextElementSibling;
-  const isOpen=btn.classList.contains('open');
-  document.querySelectorAll('.faq-q').forEach(b=>b.classList.remove('open'));
-  document.querySelectorAll('.faq-a').forEach(a=>a.classList.remove('open'));
-  if(!isOpen){btn.classList.add('open');answer.classList.add('open');}
-}
+  /* ---- Waitlist form ---- */
+  function handleWaitlistSubmit() {
+    const email = document.getElementById('waitlistEmail').value;
+    if (!email || !email.includes('@')) {
+      document.getElementById('waitlistEmail').focus();
+      document.getElementById('waitlistEmail').style.borderColor = 'rgba(248,113,113,0.4)';
+      setTimeout(() => {
+        document.getElementById('waitlistEmail').style.borderColor = '';
+      }, 2000);
+      return;
+    }
 
-/* Live timer on phone mockup */
-let timerSec=42*60+18;
-setInterval(()=>{
-  if(timerSec>0)timerSec--;
-  const m=Math.floor(timerSec/60), s=timerSec%60;
-  const el=document.getElementById('timerDisplay');
-  if(el) el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-},1000);
+    // Show success
+    document.getElementById('waitlistFormContainer').style.display = 'none';
+    document.querySelector('.waitlist-microcopy').style.display = 'none';
+    document.getElementById('waitlistSuccess').style.display = 'block';
 
-/* Identity highlight cycle */
-const litItems=document.querySelectorAll('.identity-list li');
-let currentLit=0;
-setInterval(()=>{
-  litItems.forEach(li=>li.classList.remove('lit'));
-  currentLit=(currentLit+1)%litItems.length;
-  litItems[currentLit].classList.add('lit');
-},2400);
+    // Animate scarcity bar
+    const fill = document.querySelector('.scarcity-fill');
+    fill.style.transition = 'width 1.5s cubic-bezier(0.16, 1, 0.3, 1)';
+    fill.style.width = '75%';
+    const label = document.querySelector('.scarcity-label strong');
+    label.textContent = '75% full · 755 spots remaining';
+  }
 
-/* Scroll fade-in */
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.style.opacity='1';
-      e.target.style.transform='translateY(0)';
+  /* ---- Animated live counter ---- */
+  function animateCount(el, target, duration) {
+    const start = parseInt(el.textContent.replace(/,/g, '')) || 0;
+    const range = target - start;
+    const startTime = performance.now();
+    function update(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 4);
+      const current = Math.round(start + range * ease);
+      el.textContent = current.toLocaleString();
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  // Trigger count animation when stats bar is visible
+  const statsBar = document.querySelector('.stats-bar');
+  let statsAnimated = false;
+  new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !statsAnimated) {
+      statsAnimated = true;
+      const nums = document.querySelectorAll('.stat-number');
+      const targets = [2847, 94, 3.2, 47];
+      nums.forEach((el, i) => {
+        if (i === 2) return; // skip decimal
+        animateCount(el, targets[i], 1800);
+      });
+    }
+  }, { threshold: 0.5 }).observe(statsBar);
+
+  /* ---- Smooth anchor scroll ---- */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  /* ---- Subtle cursor glow (desktop) ---- */
+  if (window.matchMedia('(pointer: fine)').matches) {
+    const glow = document.createElement('div');
+    glow.style.cssText = `
+      position: fixed; pointer-events: none; z-index: 9998;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,159,255,0.06) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: left 0.08s ease, top 0.08s ease;
+      mix-blend-mode: screen;
+    `;
+    document.body.appendChild(glow);
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top  = e.clientY + 'px';
+    });
+  }
+
+  /* ---- Live counter tick ---- */
+  setInterval(() => {
+    const el = document.querySelector('.stat-number');
+    if (el && Math.random() > 0.7) {
+      const cur = parseInt(el.textContent.replace(/,/g, ''));
+      if (cur < 3000) {
+        el.textContent = (cur + 1).toLocaleString();
+        // update trust line too
+        const trustEl = document.querySelector('.hero-trust-line span');
+        if (trustEl) trustEl.textContent = (cur + 1).toLocaleString() + ' ambitious people already in';
+      }
+    }
+  }, 8000);
+
+  /* ---- Initial hero entrance ---- */
+  window.addEventListener('DOMContentLoaded', () => {
+    const heroLeft = document.querySelector('.hero-left');
+    heroLeft.style.opacity = '0';
+    heroLeft.style.transform = 'translateY(32px)';
+    heroLeft.style.transition = 'opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1)';
+    setTimeout(() => {
+      heroLeft.style.opacity = '1';
+      heroLeft.style.transform = 'translateY(0)';
+    }, 150);
+
+    const heroRight = document.querySelector('.hero-right');
+    if (heroRight) {
+      heroRight.style.opacity = '0';
+      heroRight.style.transform = 'translateY(24px)';
+      heroRight.style.transition = 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s';
+      setTimeout(() => {
+        heroRight.style.opacity = '1';
+        heroRight.style.transform = 'translateY(0)';
+      }, 150);
     }
   });
-},{threshold:0.08});
-
-document.querySelectorAll('.problem-item,.feature-card,.diff-stat,.faq-item').forEach(el=>{
-  el.style.opacity='0';
-  el.style.transform='translateY(24px)';
-  el.style.transition='opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1)';
-  observer.observe(el);
-});
 </script>
+
 </body>
 </html>
