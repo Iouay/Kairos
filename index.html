@@ -1,1165 +1,2427 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Kairos — The Future of Focus</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kairos — Focus is Becoming a Luxury</title>
+<meta name="description" content="Kairos turns deep work into a measurable performance system — with rituals, app blocking, AI coaching, and focus analytics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ==============================================
-   KAIROS — COLOR SYSTEM v2
-   Philosophy: "Focused Luxury"
-   
-   The new palette introduces:
-   - Deep indigo/midnight blue as the ambient soul
-     → Psychologically: calm authority, intelligence, depth
-     → Replaces cold pure-black with something warmer & richer
-   - Muted violet as a whisper accent
-     → Psychologically: creativity, premium, mystery
-     → Used only on hover states & subtle glows
-   - Warm off-white text (not pure #fff)
-     → Psychologically: less harsh, more editorial, more human
-   - Single electric indigo for CTAs only
-     → Psychologically: trust, action, clarity — but rarified
-   - Subtle amber-warm glow on phone
-     → Psychologically: warmth, focus, candlelight intensity
-   
-   Black/white identity is preserved.
-   Color is used as atmosphere, not decoration.
-   ============================================== */
-
-*{margin:0;padding:0;box-sizing:border-box}
-
-:root{
-  /* Core darks — richer than pure black */
-  --bg:         #070709;        /* near-black with indigo undertone */
-  --bg2:        #0c0c10;        /* section alt — midnight */
-  --bg3:        #11111a;        /* card hover — deep indigo shadow */
-  --bg4:        #0e0e16;        /* phone screen */
-
-  /* Borders — indigo-tinged instead of flat grey */
-  --border:     #1b1b28;
-  --border2:    #252535;
-  --border3:    #2e2e48;        /* accent border on hover */
-
-  /* Typography */
-  --text:       #ededf0;        /* warm off-white — not harsh */
-  --muted:      #6a6a7e;        /* slightly violet-muted */
-  --muted2:     #48485a;
-  --accent:     #c8c8d8;        /* warm silver */
-  --white:      #f4f4f8;
-
-  /* THE color — deep indigo. Used sparingly. */
-  --indigo:     #5b5bd6;        /* electric but not neon */
-  --indigo-dim: #3d3d9e;
-  --indigo-dark:#1e1e4a;
-  --indigo-glow:rgba(91,91,214,0.12);
-  --indigo-glow-strong:rgba(91,91,214,0.22);
-
-  /* Violet whisper — even more restrained */
-  --violet:     #7c6adc;
-  --violet-dim: rgba(124,106,220,0.08);
-
-  /* Warm amber — phone glow only */
-  --amber-glow: rgba(255,200,100,0.04);
-
-  /* CTA gradient — the one moment of real color */
-  --cta-bg:     linear-gradient(135deg, #4a4ac8 0%, #6060e0 100%);
-  --cta-hover:  linear-gradient(135deg, #5555d8 0%, #7070f0 100%);
-  --cta-shadow: 0 8px 32px rgba(91,91,214,0.35), 0 2px 8px rgba(91,91,214,0.2);
-  --cta-shadow-hover: 0 12px 48px rgba(91,91,214,0.5), 0 4px 16px rgba(91,91,214,0.3);
-}
-
-html{scroll-behavior:smooth}
-
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'DM Sans',sans-serif;
-  font-weight:300;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-
-/* Subtle noise texture over entire page */
-body::after{
-  content:'';
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:999;
-  opacity:0.018;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:128px;
-}
-
-/* ===================== NAV ===================== */
-nav{
-  position:fixed;top:0;left:0;right:0;
-  z-index:100;
-  padding:1.25rem 2.5rem;
-  display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid var(--border);
-  background:rgba(7,7,9,0.8);
-  backdrop-filter:blur(24px) saturate(180%);
-}
-
-/* Subtle indigo line at very top of nav */
-nav::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg, transparent 0%, var(--indigo-dim) 40%, var(--indigo-dim) 60%, transparent 100%);
-  opacity:0.6;
-}
-
-.logo{
-  font-family:'Instrument Serif',serif;
-  font-size:1.35rem;
-  color:var(--white);
-  letter-spacing:0.05em;
-}
-
-.nav-links{
-  display:flex;gap:2.5rem;
-  list-style:none;
-}
-.nav-links a{
-  font-size:0.78rem;
-  color:var(--muted);
-  text-decoration:none;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  transition:color 0.2s;
-}
-.nav-links a:hover{color:var(--accent)}
-
-.nav-cta{
-  background:transparent;
-  color:var(--white);
-  border:1px solid var(--border3);
-  padding:0.5rem 1.25rem;
-  border-radius:100px;
-  font-family:'DM Sans',sans-serif;
-  font-size:0.78rem;
-  font-weight:400;
-  cursor:pointer;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  transition:all 0.25s;
-  position:relative;
-  overflow:hidden;
-}
-.nav-cta::before{
-  content:'';
-  position:absolute;inset:0;
-  background:var(--indigo-glow);
-  opacity:0;
-  transition:opacity 0.25s;
-}
-.nav-cta:hover{border-color:var(--indigo-dim);color:var(--white)}
-.nav-cta:hover::before{opacity:1}
-
-section{padding:8rem 2.5rem}
-.container{max-width:1120px;margin:0 auto}
-
-/* ===================== HERO ===================== */
-#hero{
-  min-height:100vh;
-  display:flex;align-items:center;
-  padding-top:9rem;
-  position:relative;
-  overflow:hidden;
-}
-
-/* Cinematic ambient background */
-#hero::before{
-  content:'';
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 55% 60% at 72% 48%, rgba(60,60,180,0.07) 0%, transparent 65%),
-    radial-gradient(ellipse 35% 40% at 15% 75%, rgba(91,91,214,0.04) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 30% at 50% 0%,  rgba(30,30,74,0.5) 0%, transparent 70%);
-  pointer-events:none;
-}
-
-/* Horizontal light sweep */
-#hero::after{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,
-    transparent 0%,
-    rgba(91,91,214,0.15) 30%,
-    rgba(150,140,255,0.2) 50%,
-    rgba(91,91,214,0.15) 70%,
-    transparent 100%);
-  pointer-events:none;
-}
-
-.hero-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:5rem;
-  align-items:center;
-  width:100%;
-  position:relative;z-index:1;
-}
-
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:0.68rem;
-  letter-spacing:0.22em;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:2rem;
-  border:1px solid var(--border2);
-  padding:0.35rem 0.85rem;
-  border-radius:100px;
-  background:rgba(91,91,214,0.05);
-}
-.hero-eyebrow::before{
-  content:'';
-  width:4px;height:4px;
-  border-radius:50%;
-  background:var(--indigo);
-  box-shadow:0 0 6px var(--indigo);
-  animation:pulse 2.5s ease-in-out infinite;
-}
-@keyframes pulse{
-  0%,100%{opacity:1;box-shadow:0 0 6px var(--indigo)}
-  50%{opacity:0.4;box-shadow:0 0 2px var(--indigo)}
-}
-
-h1{
-  font-family:'Instrument Serif',serif;
-  font-size:clamp(2.8rem,5.5vw,4.4rem);
-  line-height:1.08;
-  color:var(--white);
-  margin-bottom:1.75rem;
-  font-weight:400;
-  letter-spacing:-0.01em;
-}
-h1 em{
-  font-style:italic;
-  /* Barely-there indigo tint on italic */
-  background:linear-gradient(135deg, #d0d0f0 0%, #b0b0e8 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-}
-
-.hero-sub{
-  font-size:1rem;
-  line-height:1.75;
-  color:var(--muted);
-  max-width:400px;
-  margin-bottom:2.75rem;
-}
-
-.input-row{
-  display:flex;gap:0.5rem;
-  margin-bottom:1.1rem;
-  position:relative;
-}
-
-.email-input{
-  flex:1;
-  background:rgba(17,17,26,0.8);
-  border:1px solid var(--border2);
-  color:var(--white);
-  padding:0.85rem 1.25rem;
-  border-radius:100px;
-  font-family:'DM Sans',sans-serif;
-  font-size:0.88rem;
-  font-weight:300;
-  outline:none;
-  transition:border-color 0.3s, box-shadow 0.3s, background 0.3s;
-  backdrop-filter:blur(8px);
-}
-.email-input::placeholder{color:var(--muted2)}
-.email-input:focus{
-  border-color:var(--indigo-dim);
-  box-shadow:0 0 0 3px rgba(91,91,214,0.08), inset 0 0 20px rgba(91,91,214,0.03);
-  background:rgba(20,20,32,0.9);
-}
-
-.cta-btn{
-  background:var(--cta-bg);
-  color:#fff;
-  border:none;
-  padding:0.85rem 1.75rem;
-  border-radius:100px;
-  font-family:'DM Sans',sans-serif;
-  font-size:0.85rem;
-  font-weight:500;
-  cursor:pointer;
-  white-space:nowrap;
-  transition:all 0.3s;
-  box-shadow:var(--cta-shadow);
-  letter-spacing:0.02em;
-  position:relative;
-  overflow:hidden;
-}
-.cta-btn::before{
-  content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(255,255,255,0.1) 0%, transparent 100%);
-  border-radius:100px;
-}
-.cta-btn:hover{
-  background:var(--cta-hover);
-  box-shadow:var(--cta-shadow-hover);
-  transform:translateY(-2px);
-}
-.cta-btn:active{transform:translateY(0)}
-
-.trust-line{
-  font-size:0.72rem;
-  color:var(--muted2);
-  letter-spacing:0.06em;
-  display:flex;align-items:center;gap:8px;
-}
-.trust-dot{
-  display:inline-block;
-  width:4px;height:4px;
-  border-radius:50%;
-  background:var(--border3);
-}
-.success-msg{
-  font-size:0.8rem;
-  color:#8acdaa;
-  letter-spacing:0.05em;
-  margin-top:0.75rem;
-  display:none;
-  align-items:center;gap:6px;
-}
-.success-msg.show{display:flex}
-
-/* ===================== PHONE ===================== */
-.phone-wrap{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  position:relative;
-}
-
-/* Outer ambient glow — indigo + amber warmth */
-.phone-aura{
-  position:absolute;
-  width:360px;height:480px;
-  background:
-    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(91,91,214,0.1) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 30% at 50% 80%, var(--amber-glow) 0%, transparent 60%);
-  border-radius:50%;
-  pointer-events:none;
-  animation:auraBreath 7s ease-in-out infinite;
-}
-@keyframes auraBreath{
-  0%,100%{opacity:0.6;transform:scale(1)}
-  50%{opacity:1;transform:scale(1.06)}
-}
-
-.phone-float{
-  animation:phoneFloat 7s ease-in-out infinite;
-  position:relative;z-index:1;
-}
-@keyframes phoneFloat{
-  0%,100%{transform:translateY(0px) rotate(-0.8deg)}
-  50%{transform:translateY(-18px) rotate(0.8deg)}
-}
-
-.phone-frame{
-  width:248px;height:504px;
-  background:linear-gradient(160deg, #18182a 0%, #0d0d14 60%, #0a0a12 100%);
-  border-radius:44px;
-  border:1px solid #252538;
-  position:relative;
-  overflow:hidden;
-  box-shadow:
-    0 0 0 1px #0f0f1e,
-    0 50px 100px rgba(0,0,0,0.9),
-    0 20px 40px rgba(0,0,0,0.6),
-    inset 0 1px 0 rgba(255,255,255,0.07),
-    inset 0 0 60px rgba(91,91,214,0.03);
-}
-
-/* Edge sheen */
-.phone-frame::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;height:50%;
-  background:linear-gradient(180deg,rgba(255,255,255,0.03) 0%,transparent 100%);
-  border-radius:44px 44px 0 0;
-  pointer-events:none;
-  z-index:10;
-}
-
-.phone-screen{
-  position:absolute;inset:0;
-  background:var(--bg4);
-  border-radius:43px;
-  overflow:hidden;
-}
-
-.screen-content{
-  padding:52px 18px 22px;
-  height:100%;
-  display:flex;flex-direction:column;
-}
-
-.screen-header{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:22px;
-}
-.screen-label{
-  font-size:9px;letter-spacing:0.18em;
-  text-transform:uppercase;color:#3a3a58;
-}
-.screen-badge{
-  font-size:8px;
-  background:rgba(91,91,214,0.08);
-  border:1px solid rgba(91,91,214,0.15);
-  color:#5a5a8a;
-  padding:3px 9px;border-radius:100px;
-  letter-spacing:0.1em;
-}
-
-.timer-ring-wrap{
-  display:flex;justify-content:center;align-items:center;
-  margin:6px 0 18px;position:relative;
-}
-.timer-ring-wrap svg{
-  filter:drop-shadow(0 0 12px rgba(91,91,214,0.15));
-}
-.timer-text{position:absolute;text-align:center;}
-.timer-min{
-  font-family:'Instrument Serif',serif;
-  font-size:30px;color:#ddddf4;
-  line-height:1;display:block;
-  letter-spacing:-0.02em;
-}
-.timer-lbl{font-size:7px;color:#2e2e48;letter-spacing:0.12em;text-transform:uppercase;}
-
-.session-tag{
-  text-align:center;font-size:9px;
-  color:#2e2e48;letter-spacing:0.1em;
-  margin-bottom:18px;
-}
-
-.focus-bars{display:flex;gap:3px;margin-bottom:18px;}
-.focus-bar{flex:1;height:2px;border-radius:2px;background:#131320;}
-.focus-bar.done{background:#2e2e58;}
-.focus-bar.active{
-  background:linear-gradient(90deg,var(--indigo-dim),var(--indigo));
-  box-shadow:0 0 6px rgba(91,91,214,0.4);
-}
-
-.score-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:14px;}
-.score-card{
-  background:rgba(20,20,36,0.8);
-  border:1px solid #1a1a2e;
-  border-radius:10px;padding:9px 6px;text-align:center;
-  transition:border-color 0.3s;
-}
-.score-val{
-  font-family:'Instrument Serif',serif;
-  font-size:15px;color:#b8b8d8;
-  display:block;margin-bottom:2px;
-}
-.score-lbl{font-size:6px;color:#2e2e48;letter-spacing:0.1em;text-transform:uppercase;}
-
-.lock-btn{
-  background:rgba(91,91,214,0.06);
-  border:1px solid rgba(91,91,214,0.12);
-  color:#5a5a8a;
-  width:100%;padding:11px;border-radius:12px;
-  font-family:'DM Sans',sans-serif;
-  font-size:9px;letter-spacing:0.14em;text-transform:uppercase;
-  display:flex;align-items:center;justify-content:center;gap:7px;
-}
-.lock-pulse{
-  width:5px;height:5px;border-radius:50%;
-  background:var(--indigo-dim);
-  box-shadow:0 0 6px rgba(91,91,214,0.5);
-  animation:pulse 2.5s ease-in-out infinite;
-}
-
-/* ===================== SECTION TAGS ===================== */
-.section-tag{
-  font-size:0.68rem;letter-spacing:0.22em;
-  text-transform:uppercase;color:var(--muted2);
-  margin-bottom:1.25rem;
-  display:flex;align-items:center;gap:10px;
-}
-.section-tag::before{
-  content:'';display:block;
-  width:24px;height:1px;
-  background:linear-gradient(90deg,var(--indigo-dim),transparent);
-}
-
-h2{
-  font-family:'Instrument Serif',serif;
-  font-size:clamp(2rem,4vw,3.2rem);
-  font-weight:400;line-height:1.18;
-  color:var(--white);margin-bottom:1rem;
-  letter-spacing:-0.005em;
-}
-h2 em{
-  font-style:italic;
-  color:var(--muted);
-}
-
-.section-sub{
-  font-size:0.93rem;color:var(--muted);
-  line-height:1.75;max-width:480px;
-  margin-bottom:3rem;
-}
-
-/* ===================== PROBLEM ===================== */
-#problem{
-  background:var(--bg2);
-  border-top:1px solid var(--border);
-  position:relative;
-  overflow:hidden;
-}
-#problem::before{
-  content:'';position:absolute;
-  top:0;left:50%;transform:translateX(-50%);
-  width:600px;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(91,91,214,0.1),transparent);
-}
-
-.problem-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  border:1px solid var(--border);
-  border-radius:20px;overflow:hidden;
-}
-.problem-item{
-  padding:2.25rem 1.75rem;
-  background:var(--bg2);
-  border-right:1px solid var(--border);
-  transition:background 0.4s;
-  position:relative;overflow:hidden;
-}
-.problem-item::before{
-  content:'';position:absolute;
-  top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(91,91,214,0.0),transparent);
-  transition:background 0.4s;
-}
-.problem-item:hover{background:var(--bg3);}
-.problem-item:hover::before{
-  background:linear-gradient(90deg,transparent,rgba(91,91,214,0.12),transparent);
-}
-.problem-item:last-child{border-right:none}
-
-.p-num{
-  font-family:'Instrument Serif',serif;
-  font-size:2.2rem;color:var(--border2);
-  margin-bottom:1rem;line-height:1;
-  letter-spacing:-0.02em;
-}
-.p-title{font-size:0.88rem;font-weight:500;color:var(--accent);margin-bottom:0.6rem;}
-.p-desc{font-size:0.8rem;color:var(--muted);line-height:1.65;}
-
-/* ===================== IDENTITY ===================== */
-#identity{
-  background:var(--bg);
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  position:relative;
-  overflow:hidden;
-}
-#identity::before{
-  content:'';position:absolute;
-  bottom:0;left:50%;transform:translateX(-50%);
-  width:800px;height:300px;
-  background:radial-gradient(ellipse at 50% 100%, rgba(91,91,214,0.04) 0%, transparent 70%);
-  pointer-events:none;
-}
-
-.identity-inner{text-align:center;max-width:740px;margin:0 auto;position:relative;z-index:1;}
-
-.identity-list{list-style:none;margin:3rem 0;display:flex;flex-direction:column;gap:0.2rem;}
-.identity-list li{
-  font-family:'Instrument Serif',serif;
-  font-size:clamp(1.4rem,3.2vw,2.4rem);
-  color:var(--muted2);
-  transition:color 0.4s, letter-spacing 0.4s;
-  cursor:default;
-  padding:0.15rem 0;
-}
-.identity-list li:hover{color:var(--white)}
-.identity-list li.lit{
-  color:var(--accent);
-  letter-spacing:0.005em;
-}
-
-.identity-note{
-  font-size:0.78rem;color:var(--muted2);
-  letter-spacing:0.12em;text-transform:uppercase;
-}
-
-/* ===================== FEATURES ===================== */
-#features{
-  background:var(--bg2);
-  border-top:1px solid var(--border);
-  position:relative;
-}
-
-.features-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);
-  gap:1px;
-  border:1px solid var(--border);
-  border-radius:20px;overflow:hidden;
-  margin-top:3.5rem;
-}
-.feature-card{
-  padding:2.25rem 2rem;
-  background:var(--bg2);
-  border-right:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  transition:background 0.4s;
-  position:relative;overflow:hidden;
-}
-.feature-card::after{
-  content:'';
-  position:absolute;top:0;left:0;
-  width:40px;height:1px;
-  background:linear-gradient(90deg,rgba(91,91,214,0.0),transparent);
-  transition:width 0.5s, background 0.5s;
-}
-.feature-card:hover::after{
-  width:100%;
-  background:linear-gradient(90deg,rgba(91,91,214,0.15),transparent);
-}
-.feature-card:hover{background:var(--bg3)}
-.feature-card:nth-child(even){border-right:none}
-.feature-card:nth-last-child(-n+2){border-bottom:none}
-
-.f-icon{
-  width:30px;height:30px;margin-bottom:1.25rem;
-  opacity:0.2;transition:opacity 0.3s;
-}
-.feature-card:hover .f-icon{opacity:0.35;}
-.f-title{font-size:0.92rem;font-weight:500;color:var(--accent);margin-bottom:0.6rem;}
-.f-desc{font-size:0.8rem;color:var(--muted);line-height:1.65;}
-
-/* ===================== DIFFERENT ===================== */
-#different{
-  background:var(--bg);
-  border-top:1px solid var(--border);
-}
-.diff-inner{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:5rem;align-items:center;
-}
-.diff-list{list-style:none;margin-top:2.25rem;}
-.diff-list li{
-  display:flex;align-items:flex-start;gap:1rem;
-  padding:1.4rem 0;
-  border-bottom:1px solid var(--border);
-  font-size:0.86rem;color:var(--muted);line-height:1.65;
-}
-.diff-list li:last-child{border-bottom:none}
-.diff-x{color:var(--muted2);font-size:0.65rem;margin-top:4px;flex-shrink:0;}
-
-.diff-block{
-  background:var(--bg2);
-  border:1px solid var(--border);
-  border-radius:20px;padding:0;
-  overflow:hidden;
-  position:relative;
-}
-.diff-block::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at 50% 0%, rgba(91,91,214,0.05) 0%, transparent 60%);
-  pointer-events:none;
-}
-.diff-stat{
-  padding:1.5rem 2rem;
-  border-bottom:1px solid var(--border);
-  position:relative;
-}
-.diff-stat:last-child{border-bottom:none}
-.diff-stat-num{
-  font-family:'Instrument Serif',serif;
-  font-size:2.6rem;
-  /* Very subtle indigo on numbers */
-  background:linear-gradient(135deg, #e8e8f8 0%, #c0c0e8 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-  line-height:1;margin-bottom:0.3rem;
-  letter-spacing:-0.02em;
-}
-.diff-stat-label{font-size:0.75rem;color:var(--muted);}
-
-/* ===================== WAITLIST ===================== */
-#waitlist{
-  background:var(--bg2);
-  border-top:1px solid var(--border);
-  text-align:center;
-  position:relative;overflow:hidden;
-}
-#waitlist::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 70% 80% at 50% 50%, rgba(91,91,214,0.05) 0%, transparent 70%);
-  pointer-events:none;
-}
-#waitlist::after{
-  content:'';position:absolute;
-  top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(91,91,214,0.15),transparent);
-}
-#waitlist h2{margin-bottom:0.75rem}
-#waitlist .section-sub{margin:0 auto 3rem}
-.waitlist-form{
-  display:flex;gap:0.5rem;
-  max-width:440px;margin:0 auto 1.25rem;
-  position:relative;z-index:1;
-}
-.waitlist-note{font-size:0.7rem;color:var(--muted2);letter-spacing:0.08em;position:relative;z-index:1;}
-
-/* Large ghost headline behind waitlist */
-.waitlist-ghost{
-  position:absolute;
-  bottom:-2rem;left:50%;transform:translateX(-50%);
-  font-family:'Instrument Serif',serif;
-  font-size:clamp(5rem,12vw,10rem);
-  color:transparent;
-  -webkit-text-stroke:1px rgba(91,91,214,0.05);
-  white-space:nowrap;
-  pointer-events:none;
-  user-select:none;
-  letter-spacing:-0.02em;
-}
-
-/* ===================== FAQ ===================== */
-#faq{background:var(--bg);border-top:1px solid var(--border);}
-.faq-list{
-  margin-top:3.5rem;
-  border:1px solid var(--border);
-  border-radius:20px;overflow:hidden;
-}
-.faq-item{border-bottom:1px solid var(--border);}
-.faq-item:last-child{border-bottom:none}
-.faq-q{
-  width:100%;text-align:left;
-  background:var(--bg2);border:none;
-  color:var(--accent);
-  padding:1.6rem 2rem;
-  font-family:'DM Sans',sans-serif;
-  font-size:0.88rem;font-weight:400;
-  cursor:pointer;
-  display:flex;justify-content:space-between;align-items:center;
-  transition:background 0.25s, color 0.25s;
-}
-.faq-q:hover{background:var(--bg3);color:var(--white)}
-.faq-q.open{color:var(--white);background:var(--bg3)}
-.faq-arrow{
-  font-size:1rem;color:var(--muted2);
-  transition:transform 0.35s, color 0.25s;
-  line-height:1;
-  font-weight:300;
-}
-.faq-q.open .faq-arrow{transform:rotate(45deg);color:var(--indigo);}
-.faq-a{
-  background:var(--bg);padding:0 2rem;
-  font-size:0.84rem;color:var(--muted);
-  line-height:1.75;max-height:0;overflow:hidden;
-  transition:max-height 0.45s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
-}
-.faq-a.open{max-height:220px;padding:1.5rem 2rem}
-
-/* ===================== FOOTER ===================== */
-footer{
-  padding:2rem 2.5rem;
-  border-top:1px solid var(--border);
-  display:flex;justify-content:space-between;align-items:center;
-}
-.footer-logo{
-  font-family:'Instrument Serif',serif;
-  font-size:1rem;color:var(--muted2);letter-spacing:0.05em;
-}
-.footer-note{font-size:0.68rem;color:var(--muted2);letter-spacing:0.05em;}
-
-/* ===================== RESPONSIVE ===================== */
-@media(max-width:768px){
-  .hero-grid{grid-template-columns:1fr;gap:4rem}
-  .phone-wrap{order:-1}
-  .problem-grid{grid-template-columns:1fr}
-  .problem-item{border-right:none;border-bottom:1px solid var(--border)}
-  .problem-item:last-child{border-bottom:none}
-  .features-grid{grid-template-columns:1fr}
-  .feature-card:nth-child(even){border-right:none}
-  .feature-card{border-right:none!important}
-  .diff-inner{grid-template-columns:1fr}
-  .waitlist-form{flex-direction:column}
-  nav{padding:1rem 1.25rem}
-  .nav-links{display:none}
-  section{padding:5.5rem 1.25rem}
-  footer{flex-direction:column;gap:0.75rem;text-align:center}
-}
-
-/* ===================== RESPONSIVE PATCH — MOBILE/TABLET ONLY ===================== */
-@media(max-width:1024px){
-  .container{max-width:100%;padding:0 1.5rem}
-  .hero-grid{gap:3rem}
-  .diff-inner{gap:3rem}
-  .phone-frame{width:220px;height:448px;border-radius:38px}
-  .phone-screen{border-radius:37px}
-  .screen-content{padding:44px 15px 18px}
-  .timer-ring-wrap svg{width:116px;height:116px}
-  .timer-min{font-size:26px}
-}
-
-@media(max-width:768px){
-  html,body{width:100%;overflow-x:hidden}
-  nav{
-    padding:0.9rem 1.1rem;
-    min-height:64px;
-  }
-  .logo{font-size:1.25rem}
-  .nav-cta{
-    padding:0.52rem 0.9rem;
-    font-size:0.68rem;
-    letter-spacing:0.04em;
-  }
-  .nav-links{display:none}
-
-  section{padding:4.75rem 1.15rem}
-  .container{width:100%;max-width:100%;padding:0}
-
-  #hero{
-    min-height:auto;
-    padding-top:6.9rem;
-    padding-bottom:4rem;
-    align-items:flex-start;
-  }
-  #hero::before{
-    background:
-      radial-gradient(ellipse 90% 45% at 50% 14%, rgba(91,91,214,0.12) 0%, transparent 72%),
-      radial-gradient(ellipse 70% 45% at 70% 55%, rgba(124,106,220,0.06) 0%, transparent 68%);
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #08080C;
+    --bg2: #0D0D14;
+    --surface: #12121A;
+    --elevated: #1A1A26;
+    --rim: #22222E;
+    --blue: #4F8EF7;
+    --blue-dim: rgba(79,142,247,0.12);
+    --gold: #C9A84C;
+    --gold-dim: rgba(201,168,76,0.12);
+    --green: #39E07A;
+    --amber: #F7A54F;
+    --red: #F75454;
+    --text1: #FFFFFF;
+    --text2: #AAAABC;
+    --text3: #55556A;
+    --text4: #2A2A3A;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-pill: 999px;
   }
 
-  .hero-grid{
-    grid-template-columns:1fr;
-    gap:2rem;
-    text-align:left;
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text1);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
   }
 
-  .phone-wrap{
-    order:-1;
-    transform:scale(0.86);
-    margin:-1.25rem 0 -1.75rem;
-    min-height:430px;
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
   }
-  .phone-aura{
-    width:280px;
-    height:360px;
-    opacity:0.8;
+
+  /* ── SPOTLIGHT ── */
+  #spotlight {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79,142,247,0.04) 0%, transparent 70%);
+    pointer-events: none;
+    transform: translate(-50%,-50%);
+    transition: opacity 0.3s;
+    z-index: 1;
   }
-  .phone-frame{
-    width:214px;
-    height:435px;
-    border-radius:36px;
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--rim); border-radius: 2px; }
+
+  /* ── TYPOGRAPHY ── */
+  .font-display { font-family: 'Syne', sans-serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+  h1,h2,h3,h4 { font-family: 'Syne', sans-serif; line-height: 1.1; letter-spacing: -0.02em; }
+
+  .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .container-sm { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+  section { position: relative; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 24px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(8,8,12,0.7);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.3s;
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--text1);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--gold); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text3);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text2); }
+
+  .nav-cta {
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    padding: 9px 20px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: opacity 0.2s, transform 0.15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .nav-mobile-cta { display: none; }
+
+  @media(max-width:700px) {
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .nav-mobile-cta {
+      display: block;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+  }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    padding: 15px 32px;
+    border-radius: var(--radius-pill);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 0 0 0 rgba(79,142,247,0);
+  }
+
+  .btn-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(79,142,247,0.25);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--text2);
+    border: 1px solid var(--rim);
+    padding: 14px 28px;
+    border-radius: var(--radius-pill);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    text-decoration: none;
+  }
+
+  .btn-ghost:hover {
+    border-color: rgba(255,255,255,0.15);
+    color: var(--text1);
+    transform: translateY(-1px);
+  }
+
+  /* ── GLASS CARD ── */
+  .glass {
+    background: rgba(18,18,26,0.7);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .glass-gold {
+    background: rgba(18,18,26,0.8);
+    border: 1px solid rgba(201,168,76,0.18);
+    border-radius: var(--radius-lg);
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.08s; }
+  .reveal-delay-2 { transition-delay: 0.16s; }
+  .reveal-delay-3 { transition-delay: 0.24s; }
+  .reveal-delay-4 { transition-delay: 0.32s; }
+  .reveal-delay-5 { transition-delay: 0.40s; }
+
+  /* ════════════════════════════════════════
+     HERO
+  ════════════════════════════════════════ */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(ellipse, rgba(79,142,247,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-glow-gold {
+    position: absolute;
+    bottom: -100px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    padding: 80px 0 80px;
+    width: 100%;
+  }
+
+  @media(max-width:900px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 56px;
+      padding: 60px 0;
+      text-align: center;
+    }
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: var(--radius-pill);
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .hero-title {
+    font-size: clamp(38px, 5.5vw, 68px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+
+  .hero-title .accent { color: var(--blue); }
+  .hero-title .dim { color: var(--text3); }
+
+  .hero-sub {
+    font-size: clamp(15px, 2vw, 17px);
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    max-width: 480px;
+  }
+
+  @media(max-width:900px) { .hero-sub { margin: 0 auto 40px; } }
+
+  .hero-form-wrap { display: flex; flex-direction: column; gap: 12px; max-width: 440px; }
+  @media(max-width:900px) { .hero-form-wrap { margin: 0 auto; } }
+
+  .hero-form-row { display: flex; gap: 10px; }
+
+  @media(max-width:480px) { .hero-form-row { flex-direction: column; } }
+
+  .hero-input {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-pill);
+    padding: 14px 20px;
+    color: var(--text1);
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .hero-input::placeholder { color: var(--text3); }
+  .hero-input:focus {
+    border-color: rgba(79,142,247,0.4);
+    background: rgba(79,142,247,0.04);
+  }
+
+  .role-select {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-pill);
+    padding: 14px 20px;
+    color: var(--text2);
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2355556A' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 36px;
+  }
+
+  .role-select option { background: #1A1A26; color: var(--text1); }
+
+  .hero-trust {
+    font-size: 12px;
+    color: var(--text3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  @media(max-width:900px) { .hero-trust { justify-content: center; } }
+
+  .hero-trust::before {
+    content: '—';
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text4);
+  }
+
+  .hero-social-proof {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  @media(max-width:900px) { .hero-social-proof { justify-content: center; } }
+
+  .proof-avatars {
+    display: flex;
+  }
+
+  .proof-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--bg);
+    margin-left: -8px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .proof-avatar:first-child { margin-left: 0; }
+
+  .proof-text { font-size: 12px; color: var(--text3); line-height: 1.4; }
+
+  /* ── PHONE MOCKUP ── */
+  .phone-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .phone {
+    width: 260px;
+    height: 530px;
+    background: linear-gradient(160deg, #1A1A28 0%, #0D0D16 100%);
+    border-radius: 40px;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    position: relative;
     box-shadow:
-      0 0 0 1px #0f0f1e,
-      0 28px 60px rgba(0,0,0,0.75),
-      0 0 42px rgba(91,91,214,0.08),
-      inset 0 1px 0 rgba(255,255,255,0.07);
-  }
-  .phone-screen{border-radius:35px}
-  .screen-content{padding:42px 14px 18px}
-  .screen-header{margin-bottom:16px}
-  .timer-ring-wrap{margin:2px 0 14px}
-  .timer-ring-wrap svg{width:108px;height:108px}
-  .timer-min{font-size:24px}
-  .session-tag{margin-bottom:14px}
-  .score-row{gap:5px}
-  .score-card{padding:7px 4px}
-  .score-val{font-size:13px}
-  .lock-btn{padding:9px;font-size:8px}
-
-  .hero-eyebrow{
-    font-size:0.62rem;
-    letter-spacing:0.16em;
-    margin-bottom:1.25rem;
-    padding:0.34rem 0.72rem;
+      0 0 0 1px rgba(0,0,0,0.5),
+      0 40px 80px rgba(0,0,0,0.6),
+      0 0 60px rgba(79,142,247,0.08),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+    overflow: hidden;
   }
 
-  h1{
-    font-size:clamp(3rem,15vw,4.25rem);
-    line-height:0.98;
-    letter-spacing:-0.025em;
-    margin-bottom:1.15rem;
+  .phone-notch {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 26px;
+    background: #080810;
+    border-radius: 14px;
+    z-index: 10;
+    border: 1px solid rgba(255,255,255,0.06);
   }
 
-  .hero-sub{
-    font-size:1rem;
-    line-height:1.62;
-    color:#9c9caf;
-    max-width:100%;
-    margin-bottom:1.65rem;
+  .phone-screen {
+    position: absolute;
+    inset: 0;
+    padding: 54px 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
-  .input-row{
-    flex-direction:column;
-    gap:0.75rem;
-    margin-bottom:0.85rem;
-  }
-  .email-input{
-    width:100%;
-    min-height:52px;
-    padding:0.9rem 1.1rem;
-    font-size:0.95rem;
-  }
-  .cta-btn{
-    width:100%;
-    min-height:52px;
-    padding:0.9rem 1.2rem;
-    font-size:0.92rem;
-  }
-  .trust-line{
-    justify-content:center;
-    text-align:center;
-    font-size:0.7rem;
-  }
-  .success-msg{
-    justify-content:center;
-    text-align:center;
+  .phone-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
   }
 
-  .section-tag{
-    font-size:0.62rem;
-    letter-spacing:0.16em;
-    margin-bottom:1rem;
-  }
-  h2{
-    font-size:clamp(2.15rem,11vw,3.4rem);
-    line-height:1.05;
-    margin-bottom:0.85rem;
-  }
-  .section-sub{
-    font-size:0.95rem;
-    line-height:1.62;
-    color:#8d8da3;
-    max-width:100%;
-    margin-bottom:2rem;
+  .phone-status-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
   }
 
-  .problem-grid{
-    grid-template-columns:1fr;
-    border-radius:18px;
-  }
-  .problem-item{
-    padding:1.55rem 1.25rem;
-    border-right:none;
-    border-bottom:1px solid var(--border);
-  }
-  .problem-item:last-child{border-bottom:none}
-  .p-num{font-size:1.75rem;margin-bottom:0.65rem}
-  .p-title{font-size:0.92rem}
-  .p-desc{font-size:0.85rem;line-height:1.6}
-
-  .identity-inner{text-align:left}
-  #identity .section-tag{justify-content:flex-start!important}
-  .identity-list{
-    margin:2rem 0;
-    gap:0.35rem;
-  }
-  .identity-list li{
-    font-size:clamp(1.45rem,8vw,2.15rem);
-    line-height:1.12;
-    padding:0.2rem 0;
-  }
-  .identity-note{
-    font-size:0.68rem;
-    line-height:1.6;
-    letter-spacing:0.08em;
+  .phone-status-icons {
+    display: flex;
+    gap: 6px;
+    align-items: center;
   }
 
-  .features-grid{
-    grid-template-columns:1fr;
-    margin-top:2rem;
-    border-radius:18px;
-  }
-  .feature-card{
-    padding:1.55rem 1.25rem;
-    border-right:none!important;
-    border-bottom:1px solid var(--border)!important;
-  }
-  .feature-card:last-child{border-bottom:none!important}
-  .f-icon{width:28px;height:28px;margin-bottom:1rem}
-  .f-title{font-size:0.95rem}
-  .f-desc{font-size:0.85rem;line-height:1.6}
-
-  .diff-inner{
-    grid-template-columns:1fr;
-    gap:2rem;
-  }
-  .diff-list{margin-top:1.5rem}
-  .diff-list li{
-    padding:1rem 0;
-    gap:0.8rem;
-    font-size:0.85rem;
-  }
-  .diff-block{border-radius:18px}
-  .diff-stat{padding:1.25rem 1.35rem}
-  .diff-stat-num{font-size:2.15rem}
-  .diff-stat-label{font-size:0.74rem;line-height:1.45}
-
-  #waitlist{text-align:left}
-  #waitlist .section-tag{justify-content:flex-start!important}
-  #waitlist .section-sub{margin:0 0 2rem}
-  .waitlist-form{
-    flex-direction:column;
-    max-width:none;
-    gap:0.75rem;
-  }
-  .waitlist-note{text-align:center}
-  .waitlist-ghost{
-    font-size:22vw;
-    bottom:-0.8rem;
+  .status-bar-icon {
+    width: 14px;
+    height: 7px;
+    border: 1.5px solid rgba(255,255,255,0.4);
+    border-radius: 2px;
+    position: relative;
   }
 
-  .faq-list{
-    margin-top:2rem;
-    border-radius:18px;
-  }
-  .faq-q{
-    padding:1.2rem 1.15rem;
-    font-size:0.9rem;
-    line-height:1.35;
-    gap:1rem;
-  }
-  .faq-a{
-    padding:0 1.15rem;
-    font-size:0.84rem;
-  }
-  .faq-a.open{
-    max-height:320px;
-    padding:1.1rem 1.15rem 1.25rem;
+  .status-bar-icon::after {
+    content: '';
+    position: absolute;
+    top: 1px; left: 1px; right: 3px; bottom: 1px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 1px;
   }
 
-  footer{
-    padding:1.65rem 1.15rem 2rem;
-    flex-direction:column;
-    gap:0.75rem;
-    text-align:center;
+  .phone-greeting {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    font-weight: 500;
+    padding: 4px 0 0;
   }
-}
 
-@media(max-width:380px){
-  nav{padding:0.85rem 0.9rem}
-  .logo{font-size:1.15rem}
-  .nav-cta{font-size:0.62rem;padding:0.48rem 0.72rem}
-  section{padding:4.25rem 1rem}
-  h1{font-size:clamp(2.75rem,14.5vw,3.4rem)}
-  h2{font-size:clamp(2rem,10.5vw,2.75rem)}
-  .hero-sub,.section-sub{font-size:0.92rem}
-  .phone-wrap{transform:scale(0.78);margin:-2rem 0 -2.5rem}
-}
+  .phone-score-ring {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 0;
+  }
 
-@media(min-width:769px) and (max-width:1100px){
-  section{padding:7rem 2rem}
-  .hero-grid{gap:3rem}
-  .features-grid,.problem-grid{border-radius:18px}
-}
+  .ring-container { position: relative; width: 80px; height: 80px; }
 
+  .ring-svg { transform: rotate(-90deg); }
+
+  .ring-bg { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 5; }
+
+  .ring-fill {
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-dasharray: 220;
+    stroke-dashoffset: 55;
+    filter: drop-shadow(0 0 4px rgba(79,142,247,0.5));
+    animation: ring-animate 1.5s ease-out forwards;
+  }
+
+  @keyframes ring-animate {
+    from { stroke-dashoffset: 220; }
+    to { stroke-dashoffset: 55; }
+  }
+
+  .ring-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ring-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text1);
+    line-height: 1;
+  }
+
+  .ring-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    color: var(--text3);
+    letter-spacing: 0.06em;
+  }
+
+  .phone-score-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .phone-cards-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .phone-mini-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .pmc-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .pmc-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .pmc-unit {
+    font-size: 9px;
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .phone-session-card {
+    background: rgba(79,142,247,0.08);
+    border: 1px solid rgba(79,142,247,0.2);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .psc-left { display: flex; flex-direction: column; gap: 2px; }
+
+  .psc-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text1);
+  }
+
+  .psc-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--blue);
+    letter-spacing: 0.06em;
+  }
+
+  .psc-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px rgba(79,142,247,0.4);
+  }
+
+  .psc-btn-arrow {
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 6px solid white;
+    margin-left: 2px;
+  }
+
+  .phone-identity {
+    background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(201,168,76,0.02) 100%);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .phone-identity-left {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .phone-identity-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-top: 2px;
+  }
+
+  .phone-identity-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--bg);
+    background: var(--gold);
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+
+  /* floating cards */
+  .float-card {
+    position: absolute;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(18,18,26,0.9);
+    border-radius: 12px;
+    padding: 10px 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    z-index: 10;
+  }
+
+  .fc-streak {
+    right: -40px;
+    top: 80px;
+    border: 1px solid rgba(201,168,76,0.2);
+    animation: float1 4s ease-in-out infinite;
+  }
+
+  .fc-session {
+    left: -40px;
+    bottom: 120px;
+    border: 1px solid rgba(57,224,122,0.2);
+    animation: float2 4.5s ease-in-out infinite;
+  }
+
+  .fc-score {
+    right: -28px;
+    bottom: 60px;
+    border: 1px solid rgba(79,142,247,0.2);
+    animation: float3 5s ease-in-out infinite;
+  }
+
+  @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+  @keyframes float3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+  .fc-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .fc-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .fc-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--text3);
+    margin-top: 1px;
+  }
+
+  @media(max-width:900px) {
+    .fc-streak { right: -10px; top: 40px; }
+    .fc-session { left: -10px; bottom: 80px; }
+    .fc-score { right: -10px; bottom: 30px; }
+  }
+
+  @media(max-width:480px) {
+    .fc-streak, .fc-session, .fc-score { display: none; }
+  }
+
+  /* ════════════════════════════════════════
+     PROBLEM
+  ════════════════════════════════════════ */
+  #problem {
+    padding: 120px 0;
+    position: relative;
+  }
+
+  .problem-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 700px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(247,84,84,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .section-label { margin-bottom: 16px; }
+
+  .section-title {
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 20px;
+  }
+
+  .section-sub {
+    font-size: 17px;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 56px;
+    max-width: 560px;
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  @media(max-width:640px) {
+    .problem-grid { grid-template-columns: 1fr; }
+  }
+
+  .problem-item {
+    padding: 32px;
+    border: 1px solid rgba(255,255,255,0.04);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .problem-item:hover { border-color: rgba(247,84,84,0.15); }
+
+  .problem-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 0;
+    background: var(--red);
+    transition: height 0.4s ease;
+  }
+
+  .problem-item:hover::before { height: 100%; }
+
+  .problem-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--red);
+    opacity: 0.5;
+    margin-bottom: 12px;
+  }
+
+  .problem-text {
+    font-size: clamp(15px, 2vw, 17px);
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text2);
+  }
+
+  .problem-text strong { color: var(--text1); font-weight: 600; }
+
+  /* ════════════════════════════════════════
+     WHY OTHERS FAIL
+  ════════════════════════════════════════ */
+  #why-others {
+    padding: 100px 0;
+    position: relative;
+  }
+
+  .others-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 56px;
+  }
+
+  @media(max-width:900px) { .others-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:480px) { .others-grid { grid-template-columns: 1fr; } }
+
+  .other-card {
+    padding: 28px 24px;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    border: 1px solid var(--rim);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .other-card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .other-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text1);
+    margin-bottom: 8px;
+  }
+
+  .other-card-cross {
+    font-size: 12px;
+    color: var(--red);
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .other-card-body {
+    font-size: 13px;
+    color: var(--text3);
+    line-height: 1.6;
+  }
+
+  /* ════════════════════════════════════════
+     METHOD
+  ════════════════════════════════════════ */
+  #method {
+    padding: 120px 0;
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .method-glow {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 900px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(79,142,247,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .method-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 56px;
+    position: relative;
+  }
+
+  @media(max-width:900px) { .method-steps { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:500px) { .method-steps { grid-template-columns: 1fr; } }
+
+  .method-step {
+    padding: 36px 28px;
+    position: relative;
+    transition: background 0.3s;
+    border: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+
+  .method-step:hover { border-color: rgba(79,142,247,0.12); background: rgba(79,142,247,0.02); }
+
+  .step-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--blue);
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+    opacity: 0.7;
+  }
+
+  .step-visual {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(79,142,247,0.2);
+    background: rgba(79,142,247,0.06);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .step-visual-inner {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--blue);
+    opacity: 0.6;
+    animation: breathe 3s ease-in-out infinite;
+  }
+
+  @keyframes breathe { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(1.15);opacity:1} }
+
+  .step-visual.lock .step-visual-inner {
+    border-radius: 4px;
+    width: 16px; height: 20px;
+    animation: lock-shake 4s ease-in-out infinite;
+    background: var(--blue);
+  }
+
+  @keyframes lock-shake { 0%,90%,100%{transform:rotate(0)} 92%{transform:rotate(-4deg)} 96%{transform:rotate(4deg)} }
+
+  .step-visual.work .step-visual-inner {
+    border-radius: 2px;
+    width: 24px; height: 3px;
+    background: var(--blue);
+    box-shadow: 0 7px 0 var(--blue), 0 14px 0 rgba(79,142,247,0.4);
+    animation: none;
+  }
+
+  .step-visual.review {
+    background: rgba(57,224,122,0.06);
+    border-color: rgba(57,224,122,0.2);
+  }
+
+  .step-visual.review .step-visual-inner {
+    background: var(--green);
+    border-radius: 50%;
+    width: 20px; height: 20px;
+    animation: breathe-green 3s ease-in-out infinite;
+  }
+
+  @keyframes breathe-green { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(1.2);opacity:1} }
+
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .step-body {
+    font-size: 14px;
+    color: var(--text3);
+    line-height: 1.6;
+  }
+
+  /* ════════════════════════════════════════
+     FEATURES
+  ════════════════════════════════════════ */
+  #features {
+    padding: 120px 0;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    margin-top: 56px;
+    background: var(--rim);
+    border: 1px solid var(--rim);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+
+  @media(max-width:900px) { .features-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:480px) { .features-grid { grid-template-columns: 1fr; } }
+
+  .feature-cell {
+    background: var(--bg);
+    padding: 32px 28px;
+    transition: background 0.25s;
+    cursor: default;
+  }
+
+  .feature-cell:hover { background: rgba(79,142,247,0.03); }
+
+  .feature-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+
+  /* SVG icons inline */
+  .feat-icon-ritual { color: var(--blue); }
+  .feat-icon-session { color: var(--green); }
+  .feat-icon-block { color: var(--red); }
+  .feat-icon-readiness { color: var(--gold); }
+  .feat-icon-coach { color: var(--blue); }
+  .feat-icon-vs { color: var(--amber); }
+  .feat-icon-identity { color: var(--gold); }
+  .feat-icon-report { color: var(--green); }
+
+  .feature-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text1);
+  }
+
+  .feature-body {
+    font-size: 13px;
+    color: var(--text3);
+    line-height: 1.6;
+  }
+
+  /* ════════════════════════════════════════
+     RITUAL
+  ════════════════════════════════════════ */
+  #ritual {
+    padding: 120px 0;
+    background: var(--bg2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ritual-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(79,142,247,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .ritual-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 56px;
+  }
+
+  @media(max-width:800px) {
+    .ritual-layout { grid-template-columns: 1fr; gap: 48px; }
+  }
+
+  .ritual-steps { display: flex; flex-direction: column; gap: 4px; }
+
+  .ritual-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 24px;
+    border-radius: var(--radius-lg);
+    cursor: default;
+    transition: background 0.25s;
+    border: 1px solid transparent;
+  }
+
+  .ritual-step.active, .ritual-step:hover {
+    background: rgba(79,142,247,0.05);
+    border-color: rgba(79,142,247,0.12);
+  }
+
+  .ritual-step-num {
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(79,142,247,0.1);
+    border: 1px solid rgba(79,142,247,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--blue);
+    margin-top: 2px;
+  }
+
+  .ritual-step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .ritual-step-body {
+    font-size: 13px;
+    color: var(--text3);
+    line-height: 1.5;
+  }
+
+  /* ritual mockup */
+  .ritual-mockup {
+    display: flex;
+    justify-content: center;
+  }
+
+  .ritual-card {
+    width: 280px;
+    background: linear-gradient(160deg, #1A1A28 0%, #0F0F1A 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 28px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 40px rgba(79,142,247,0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ritual-circle-wrap {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 24px;
+  }
+
+  .ritual-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid rgba(79,142,247,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ritual-circle-inner {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(79,142,247,0.06);
+    border: 1px solid rgba(79,142,247,0.2);
+    animation: ritual-breathe 4s ease-in-out infinite;
+  }
+
+  @keyframes ritual-breathe {
+    0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79,142,247,0); }
+    50% { transform: scale(1.12); box-shadow: 0 0 30px rgba(79,142,247,0.15); }
+  }
+
+  .ritual-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .ritual-card-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--blue);
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+  }
+
+  .ritual-score-reveal {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: left;
+    margin-bottom: 16px;
+  }
+
+  .rsr-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .rsr-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+  }
+
+  .rsr-desc {
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 4px;
+  }
+
+  .ritual-bars { display: flex; flex-direction: column; gap: 8px; }
+
+  .ritual-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ritual-bar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text3);
+    width: 52px;
+    text-align: left;
+    letter-spacing: 0.05em;
+  }
+
+  .ritual-bar-track {
+    flex: 1;
+    height: 3px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .ritual-bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: var(--blue);
+  }
+
+  .ritual-bar-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text3);
+    width: 24px;
+    text-align: right;
+  }
+
+  /* ════════════════════════════════════════
+     ANALYTICS / IDENTITY
+  ════════════════════════════════════════ */
+  #analytics {
+    padding: 120px 0;
+  }
+
+  .analytics-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    margin-top: 56px;
+  }
+
+  @media(max-width:800px) {
+    .analytics-layout { grid-template-columns: 1fr; gap: 48px; }
+  }
+
+  .analytics-cards { display: flex; flex-direction: column; gap: 12px; }
+
+  .analytics-card {
+    background: var(--surface);
+    border: 1px solid var(--rim);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+
+  .analytics-card:hover {
+    border-color: rgba(79,142,247,0.2);
+    transform: translateX(4px);
+  }
+
+  .ac-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+
+  .ac-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .ac-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+
+  .ac-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .ac-sub { font-size: 13px; color: var(--text3); }
+
+  /* mini bar chart */
+  .ac-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 32px;
+    margin-top: 12px;
+  }
+
+  .ac-bar {
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    background: rgba(79,142,247,0.3);
+    transition: background 0.2s;
+  }
+
+  .ac-bar.active { background: var(--blue); }
+
+  .identity-panel {
+    background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, rgba(201,168,76,0.02) 100%);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: var(--radius-xl);
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(201,168,76,0.05);
+  }
+
+  .identity-panel::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 30%, rgba(201,168,76,0.06), transparent 60%);
+    pointer-events: none;
+  }
+
+  .identity-crown {
+    font-size: 32px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .identity-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+
+  .identity-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--gold);
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .identity-desc {
+    font-size: 14px;
+    color: var(--text3);
+    line-height: 1.6;
+    max-width: 260px;
+    margin: 0 auto 28px;
+  }
+
+  .identity-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .identity-stat {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 10px;
+    padding: 12px;
+  }
+
+  .is-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .is-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  /* ════════════════════════════════════════
+     SHARE CARDS
+  ════════════════════════════════════════ */
+  #share {
+    padding: 100px 0;
+    background: var(--bg2);
+    overflow: hidden;
+  }
+
+  .share-scroll {
+    display: flex;
+    gap: 16px;
+    margin-top: 48px;
+    animation: scroll-cards 20s linear infinite;
+    width: max-content;
+  }
+
+  .share-scroll:hover { animation-play-state: paused; }
+
+  @keyframes scroll-cards {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .share-card {
+    min-width: 200px;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+    flex-shrink: 0;
+  }
+
+  .sc-time {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+
+  .sc-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  .sc-score {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 12px;
+    opacity: 0.7;
+  }
+
+  /* ════════════════════════════════════════
+     PRICING
+  ════════════════════════════════════════ */
+  #pricing {
+    padding: 120px 0;
+  }
+
+  .pricing-note {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 48px;
+    letter-spacing: 0.06em;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  @media(max-width:900px) { .pricing-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:500px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+  .pricing-card {
+    border-radius: var(--radius-xl);
+    padding: 32px 24px;
+    border: 1px solid var(--rim);
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .pricing-card:hover { transform: translateY(-4px); }
+
+  .pricing-card.featured {
+    border-color: rgba(79,142,247,0.4);
+    background: linear-gradient(160deg, rgba(79,142,247,0.06) 0%, var(--surface) 60%);
+    box-shadow: 0 0 40px rgba(79,142,247,0.08), 0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  .pricing-card.elite {
+    border-color: rgba(201,168,76,0.3);
+    background: linear-gradient(160deg, rgba(201,168,76,0.05) 0%, var(--surface) 60%);
+  }
+
+  .pricing-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+    align-self: flex-start;
+  }
+
+  .badge-free { background: rgba(255,255,255,0.05); color: var(--text3); }
+  .badge-student { background: rgba(0,212,170,0.1); color: var(--green); border: 1px solid rgba(0,212,170,0.2); }
+  .badge-popular { background: rgba(79,142,247,0.12); color: var(--blue); border: 1px solid rgba(79,142,247,0.25); }
+  .badge-elite { background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); }
+
+  .pricing-price {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+
+  .pricing-period {
+    font-size: 13px;
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 20px;
+  }
+
+  .pricing-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .pricing-tagline {
+    font-size: 13px;
+    color: var(--text3);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .pricing-divider {
+    height: 1px;
+    background: var(--rim);
+    margin-bottom: 20px;
+  }
+
+  .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+
+  .pricing-feature {
+    font-size: 13px;
+    color: var(--text2);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.4;
+  }
+
+  .pricing-feature::before {
+    content: '✓';
+    color: var(--blue);
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .pricing-feature.dimmed { color: var(--text4); }
+  .pricing-feature.dimmed::before { content: '—'; color: var(--text4); }
+
+  .pricing-cta {
+    margin-top: 28px;
+    width: 100%;
+    padding: 13px;
+    border-radius: var(--radius-pill);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    border: none;
+    transition: opacity 0.2s, transform 0.15s;
+    text-align: center;
+  }
+
+  .pricing-cta-primary {
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .pricing-cta-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .pricing-cta-ghost {
+    background: transparent;
+    color: var(--text2);
+    border: 1px solid var(--rim) !important;
+    border: none;
+  }
+
+  .pricing-cta-ghost:hover { border-color: rgba(255,255,255,0.12) !important; color: var(--text1); }
+
+  .pricing-cta-elite {
+    background: linear-gradient(135deg, rgba(201,168,76,0.8), var(--gold));
+    color: var(--bg);
+  }
+
+  .pricing-cta-elite:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* ════════════════════════════════════════
+     FAQ
+  ════════════════════════════════════════ */
+  #faq {
+    padding: 100px 0;
+    background: var(--bg2);
+  }
+
+  .faq-list { margin-top: 48px; display: flex; flex-direction: column; }
+
+  .faq-item {
+    border-bottom: 1px solid var(--rim);
+    overflow: hidden;
+  }
+
+  .faq-question {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    gap: 20px;
+    color: var(--text1);
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(14px, 2vw, 16px);
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+
+  .faq-question:hover { color: var(--blue); }
+
+  .faq-icon {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--rim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, transform 0.3s, background 0.2s;
+  }
+
+  .faq-item.open .faq-icon {
+    transform: rotate(45deg);
+    background: var(--blue-dim);
+    border-color: rgba(79,142,247,0.3);
+  }
+
+  .faq-icon svg { width: 10px; height: 10px; }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .faq-answer-inner {
+    padding: 0 0 24px;
+    font-size: 15px;
+    color: var(--text3);
+    line-height: 1.7;
+    max-width: 660px;
+  }
+
+  .faq-answer-inner strong { color: var(--text2); }
+
+  /* ════════════════════════════════════════
+     FINAL CTA
+  ════════════════════════════════════════ */
+  #final-cta {
+    padding: 140px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 700px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(79,142,247,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .final-title {
+    font-size: clamp(32px, 5vw, 60px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .final-title .accent-gold { color: var(--gold); }
+
+  .final-sub {
+    font-size: 18px;
+    color: var(--text3);
+    margin-bottom: 48px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .final-form { max-width: 420px; margin: 0 auto; }
+
+  /* ════════════════════════════════════════
+     FOOTER
+  ════════════════════════════════════════ */
+  footer {
+    border-top: 1px solid var(--rim);
+    padding: 40px 0;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--text1);
+    letter-spacing: -0.02em;
+  }
+
+  .footer-logo span { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── ERROR STATE ── */
+  .form-error {
+    font-size: 12px;
+    color: var(--red);
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 6px;
+    display: none;
+    letter-spacing: 0.02em;
+  }
+
+  .form-error.show { display: block; }
+
+  /* ── SUCCESS STATE ── */
+  .success-state {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 32px;
+    text-align: center;
+  }
+
+  .success-state.show { display: flex; }
+
+  .success-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(57,224,122,0.1);
+    border: 1px solid rgba(57,224,122,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: success-pop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  @keyframes success-pop { from{transform:scale(0.5);opacity:0} to{transform:scale(1);opacity:1} }
+
+  .success-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .success-sub {
+    font-size: 14px;
+    color: var(--text3);
+    line-height: 1.6;
+    max-width: 300px;
+  }
+
+  /* ── COUNTER ── */
+  .counter { display: inline; }
+
+  /* ── GRADIENT TEXT ── */
+  .gradient-text {
+    background: linear-gradient(135deg, var(--blue) 0%, #8B6CF7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── HELPERS ── */
+  .text-center { text-align: center; }
+  .mb-4 { margin-bottom: 4px; }
+  .mb-8 { margin-bottom: 8px; }
+  .mt-24 { margin-top: 24px; }
+
+  /* animated gradient bg */
+  .animated-bg {
+    background: linear-gradient(270deg, #08080C, #0D0D18, #08080C);
+    background-size: 400% 400%;
+    animation: gradientShift 12s ease infinite;
+  }
+
+  @keyframes gradientShift {
+    0%,100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* ── ACCESSIBLE FOCUS ── */
+  :focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+  }
 </style>
 </head>
-<body>
+<body class="animated-bg">
 
-<nav>
-  <div class="logo">Kairos</div>
+<div id="spotlight"></div>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Kairos<span>.</span></a>
   <ul class="nav-links">
-    <li><a href="#problem">Problem</a></li>
-    <li><a href="#features">Features</a></li>
+    <li><a href="#method">How it works</a></li>
+    <li><a href="#ritual">Ritual</a></li>
+    <li><a href="#analytics">Analytics</a></li>
+    <li><a href="#pricing">Pricing</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
-  <button class="nav-cta" onclick="scrollToWaitlist()">Join waitlist</button>
+  <a href="#hero" class="nav-cta" onclick="scrollToForm(event)">Join waitlist</a>
+  <button class="nav-mobile-cta" onclick="scrollToFormMobile()">Join waitlist</button>
 </nav>
 
-<!-- ===== HERO ===== -->
+<!-- ══ HERO ══ -->
 <section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-gold"></div>
   <div class="container">
-    <div class="hero-grid">
-      <div>
-        <div class="hero-eyebrow">Early access · Limited spots</div>
-        <h1>Your attention<br>is your<br><em>only edge.</em></h1>
-        <p class="hero-sub">Everything competes for your focus. Almost nothing deserves it. Kairos is built for the rare kind of person who still wants to go deep.</p>
-        <div class="input-row">
-          <input type="email" class="email-input" id="heroEmail" placeholder="your@email.com"/>
-          <button class="cta-btn" onclick="submitEmail('heroEmail','heroSuccess','heroNote')">Be early</button>
+    <div class="hero-inner">
+      <!-- Left -->
+      <div class="hero-content">
+        <div class="hero-eyebrow">Coming soon — Join the waitlist</div>
+        <h1 class="hero-title">
+          Your attention<br>
+          is being <span class="accent">stolen.</span>
+        </h1>
+        <p class="hero-sub">
+          Kairos turns deep work into a measurable performance system — with rituals, intelligent session tracking, and focus analytics built for people who take their mind seriously.
+        </p>
+
+        <div class="hero-form-wrap" id="hero-form-wrap">
+          <div id="hero-form-inner">
+            <div class="hero-form-row">
+              <input
+                type="email"
+                class="hero-input"
+                id="hero-email"
+                placeholder="your@email.com"
+                autocomplete="email"
+                aria-label="Email address"
+              />
+              <button class="btn-primary" id="hero-submit" onclick="handleSubmit('hero')">
+                Join waitlist
+              </button>
+            </div>
+            <select class="role-select" id="hero-role" aria-label="Your role">
+              <option value="">Your role (optional)</option>
+              <option value="student">Student</option>
+              <option value="founder">Founder</option>
+              <option value="creator">Creator</option>
+              <option value="developer">Developer</option>
+              <option value="other">Other</option>
+            </select>
+            <p class="form-error" id="hero-error">Please enter a valid email address.</p>
+            <p class="hero-trust">No spam. Early access only.</p>
+          </div>
+          <div class="success-state" id="hero-success">
+            <div class="success-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <path d="M4 11L9 16L18 7" stroke="#39E07A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <p class="success-title">You're on the waitlist.</p>
+            <p class="success-sub">We'll reach out when early access opens. Focus on what matters until then.</p>
+          </div>
         </div>
-        <p class="trust-line" id="heroNote"><span class="trust-dot"></span>No spam. Quiet until launch.</p>
-        <div class="success-msg" id="heroSuccess">✓ You're on the list. We'll be in touch.</div>
+
+        <div class="hero-social-proof">
+          <div class="proof-avatars">
+            <div class="proof-avatar" style="background:linear-gradient(135deg,#4F8EF7,#7B61FF);">L</div>
+            <div class="proof-avatar" style="background:linear-gradient(135deg,#39E07A,#00D4AA);">M</div>
+            <div class="proof-avatar" style="background:linear-gradient(135deg,#C9A84C,#F7A54F);">S</div>
+            <div class="proof-avatar" style="background:linear-gradient(135deg,#F75454,#7B61FF);">R</div>
+          </div>
+          <p class="proof-text">Built for students, creators, and builders<br>reclaiming their focus.</p>
+        </div>
       </div>
 
-      <div class="phone-wrap">
-        <div class="phone-aura"></div>
-        <div class="phone-float">
-          <div class="phone-frame">
-            <div class="phone-screen">
-              <div class="screen-content">
-                <div class="screen-header">
-                  <span class="screen-label">Deep Work</span>
-                  <span class="screen-badge">Session 3</span>
-                </div>
-                <div class="timer-ring-wrap">
-                  <svg width="134" height="134" viewBox="0 0 134 134">
-                    <circle cx="67" cy="67" r="58" fill="none" stroke="#1a1a2e" stroke-width="2"/>
-                    <!-- Progress ring with indigo -->
-                    <circle cx="67" cy="67" r="58" fill="none"
-                      stroke="url(#ringGrad)" stroke-width="1.5"
-                      stroke-dasharray="364" stroke-dashoffset="145"
-                      stroke-linecap="round"
-                      transform="rotate(-90 67 67)"/>
-                    <defs>
-                      <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#3d3d9e" stop-opacity="0.6"/>
-                        <stop offset="100%" stop-color="#6060e0" stop-opacity="0.9"/>
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                  <div class="timer-text">
-                    <span class="timer-min" id="timerDisplay">42:18</span>
-                    <span class="timer-lbl">remaining</span>
-                  </div>
-                </div>
-                <div class="session-tag">Writing · 90 min block</div>
-                <div class="focus-bars">
-                  <div class="focus-bar done"></div>
-                  <div class="focus-bar done"></div>
-                  <div class="focus-bar active"></div>
-                  <div class="focus-bar"></div>
-                  <div class="focus-bar"></div>
-                  <div class="focus-bar"></div>
-                </div>
-                <div class="score-row">
-                  <div class="score-card">
-                    <span class="score-val">87</span>
-                    <span class="score-lbl">Focus</span>
-                  </div>
-                  <div class="score-card">
-                    <span class="score-val">12</span>
-                    <span class="score-lbl">Streak</span>
-                  </div>
-                  <div class="score-card">
-                    <span class="score-val">4.2h</span>
-                    <span class="score-lbl">Today</span>
-                  </div>
-                </div>
-                <div class="lock-btn">
-                  <div class="lock-pulse"></div>
-                  Lock In Mode
+      <!-- Right: Phone -->
+      <div class="phone-wrap reveal reveal-delay-2">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-status">
+              <span class="phone-status-time font-mono">22:14</span>
+              <div class="phone-status-icons">
+                <div class="status-bar-icon"></div>
+              </div>
+            </div>
+
+            <p class="phone-greeting">Good evening, Louay.</p>
+
+            <div class="phone-score-ring">
+              <div class="ring-container">
+                <svg class="ring-svg" width="80" height="80" viewBox="0 0 80 80">
+                  <circle class="ring-bg" cx="40" cy="40" r="35"/>
+                  <circle class="ring-fill" cx="40" cy="40" r="35"/>
+                </svg>
+                <div class="ring-label">
+                  <span class="ring-number">83</span>
+                  <span class="ring-sub">FOCUS</span>
                 </div>
               </div>
+              <p class="phone-score-title">Today's performance</p>
+            </div>
+
+            <div class="phone-cards-row">
+              <div class="phone-mini-card">
+                <p class="pmc-label">Strain</p>
+                <p class="pmc-value" style="color:#F7A54F">61<span class="pmc-unit">/100</span></p>
+              </div>
+              <div class="phone-mini-card">
+                <p class="pmc-label">Recovery</p>
+                <p class="pmc-value" style="color:#39E07A">78<span class="pmc-unit">/100</span></p>
+              </div>
+            </div>
+
+            <div class="phone-session-card">
+              <div class="psc-left">
+                <p class="psc-title">Deep Work Session</p>
+                <p class="psc-sub">50 MIN · RITUAL READY</p>
+              </div>
+              <div class="psc-btn">
+                <div class="psc-btn-arrow"></div>
+              </div>
+            </div>
+
+            <div class="phone-identity">
+              <div>
+                <p class="phone-identity-left">Identity</p>
+                <p class="phone-identity-value">Night Builder</p>
+              </div>
+              <span class="phone-identity-badge">Top 5%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating cards -->
+        <div class="float-card fc-streak">
+          <p class="fc-label">Streak</p>
+          <p class="fc-value" style="color:var(--gold)">12<span style="font-size:12px;color:var(--text3);font-family:'JetBrains Mono',monospace"> days</span></p>
+          <p class="fc-sub">Personal best ↑</p>
+        </div>
+
+        <div class="float-card fc-session">
+          <p class="fc-label">Last session</p>
+          <p class="fc-value" style="color:var(--green)">Score 91</p>
+          <p class="fc-sub">2h 14m · 0 interruptions</p>
+        </div>
+
+        <div class="float-card fc-score">
+          <p class="fc-label">Focus window</p>
+          <p class="fc-value" style="color:var(--blue);font-size:13px;font-family:'JetBrains Mono',monospace">21:00–23:00</p>
+          <p class="fc-sub">Peak performance</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROBLEM ══ -->
+<section id="problem">
+  <div class="problem-glow"></div>
+  <div class="container-sm text-center">
+    <p class="label section-label reveal">The real problem</p>
+    <h2 class="section-title reveal reveal-delay-1">
+      You don't lack ambition.<br>You lack <span style="color:var(--red)">protection.</span>
+    </h2>
+    <p class="section-sub reveal reveal-delay-2" style="margin:0 auto 56px;">
+      Every distraction app is engineered by a team of hundreds to steal your attention. You're fighting them alone, with willpower.
+    </p>
+  </div>
+  <div class="container">
+    <div class="problem-grid reveal reveal-delay-2">
+      <div class="problem-item">
+        <p class="problem-number">01</p>
+        <p class="problem-text">You open your phone for <strong>10 seconds</strong> and lose <strong>40 minutes.</strong></p>
+      </div>
+      <div class="problem-item">
+        <p class="problem-number">02</p>
+        <p class="problem-text">You plan your day perfectly. Then your <strong>attention collapses</strong> by 11am.</p>
+      </div>
+      <div class="problem-item">
+        <p class="problem-number">03</p>
+        <p class="problem-text">You finish the day <strong>busy but empty.</strong> Nothing that mattered got done.</p>
+      </div>
+      <div class="problem-item">
+        <p class="problem-number">04</p>
+        <p class="problem-text">You know what deep work feels like. You just <strong>can't reliably get there.</strong></p>
+      </div>
+    </div>
+    <div class="text-center" style="margin-top:48px;">
+      <p class="reveal" style="font-size:18px;color:var(--text3);font-family:'Syne',sans-serif;font-weight:600;letter-spacing:-0.01em;">
+        You don't need another to-do list.<br>
+        <span style="color:var(--text1)">You need a system that protects your mind.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHY OTHERS FAIL ══ -->
+<section id="why-others">
+  <div class="container">
+    <div class="text-center container-sm" style="margin:0 auto;">
+      <p class="label section-label reveal">Why existing tools fail you</p>
+      <h2 class="section-title reveal reveal-delay-1">Good tools. Wrong problem.</h2>
+    </div>
+    <div class="others-grid">
+      <div class="other-card reveal reveal-delay-1">
+        <div class="other-card-icon">📋</div>
+        <p class="other-card-title">To-do lists</p>
+        <span class="other-card-cross">✗ Organizes work</span>
+        <p class="other-card-body">Knowing what to do is not your problem. Getting your brain to actually do it is.</p>
+      </div>
+      <div class="other-card reveal reveal-delay-2">
+        <div class="other-card-icon">⏱</div>
+        <p class="other-card-title">Pomodoro timers</p>
+        <span class="other-card-cross">✗ Tracks time</span>
+        <p class="other-card-body">Counting minutes doesn't change your cognitive state. A timer won't get you into flow.</p>
+      </div>
+      <div class="other-card reveal reveal-delay-3">
+        <div class="other-card-icon">🔒</div>
+        <p class="other-card-title">App blockers</p>
+        <span class="other-card-cross">✗ Removes distraction</span>
+        <p class="other-card-body">Blocking Instagram doesn't build focus identity. You'll just find another exit.</p>
+      </div>
+      <div class="other-card reveal reveal-delay-4">
+        <div class="other-card-icon">📊</div>
+        <p class="other-card-title">Usage dashboards</p>
+        <span class="other-card-cross">✗ Shows data</span>
+        <p class="other-card-body">Knowing you used your phone for 6 hours doesn't tell you when, why, or what to do about it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ METHOD ══ -->
+<section id="method">
+  <div class="method-glow"></div>
+  <div class="container">
+    <div class="text-center container-sm" style="margin:0 auto;">
+      <p class="label section-label reveal">The Kairos method</p>
+      <h2 class="section-title reveal reveal-delay-1">Focus is a practice.<br>Not a personality trait.</h2>
+      <p class="section-sub reveal reveal-delay-2" style="margin:0 auto 0;">Four steps that turn scattered attention into a measurable performance system.</p>
+    </div>
+    <div class="method-steps">
+      <div class="method-step reveal reveal-delay-1">
+        <p class="step-number">STEP 01</p>
+        <div class="step-visual">
+          <div class="step-visual-inner"></div>
+        </div>
+        <h3 class="step-title">Ritual</h3>
+        <p class="step-body">Before you work, Kairos reads your cognitive state through breathing, typing, reaction, and self-report. It builds your session protocol in 60 seconds.</p>
+      </div>
+      <div class="method-step reveal reveal-delay-2">
+        <p class="step-number">STEP 02</p>
+        <div class="step-visual lock">
+          <div class="step-visual-inner"></div>
+        </div>
+        <h3 class="step-title">Lock In</h3>
+        <p class="step-body">Distracting apps are blocked for your session window. Your environment is sealed. No negotiations. The work begins on your terms.</p>
+      </div>
+      <div class="method-step reveal reveal-delay-3">
+        <p class="step-number">STEP 03</p>
+        <div class="step-visual work">
+          <div class="step-visual-inner"></div>
+        </div>
+        <h3 class="step-title">Deep Work</h3>
+        <p class="step-body">The session runs with your calibrated duration. Every minute is tracked. Interruptions are logged. Your live focus score updates in real time.</p>
+      </div>
+      <div class="method-step reveal reveal-delay-4">
+        <p class="step-number">STEP 04</p>
+        <div class="step-visual review">
+          <div class="step-visual-inner"></div>
+        </div>
+        <h3 class="step-title">Review</h3>
+        <p class="step-body">Rate your session. See your score. Understand what worked and what didn't. Each session teaches Kairos more about your peak performance patterns.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FEATURES ══ -->
+<section id="features">
+  <div class="container">
+    <div class="text-center container-sm" style="margin:0 auto;">
+      <p class="label section-label reveal">Everything you need</p>
+      <h2 class="section-title reveal reveal-delay-1">Built for people who<br>take their mind seriously.</h2>
+    </div>
+    <div class="features-grid reveal reveal-delay-2">
+      <div class="feature-cell">
+        <svg class="feature-icon" viewBox="0 0 32 32" fill="none" stroke="#4F8EF7" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="16" cy="16" r="10"/>
+          <circle cx="16" cy="16" r="5"/>
+          <circle cx="16" cy="16" r="1" fill="#4F8EF7" stroke="none"/>
+        </svg>
+        <h3 class="feature-title">Ritual Calibration</h3>
+        <p class="feature-body">60-second pre-session calibration reads your cognitive state and builds a custom protocol for your session.</p>
+      </div>
+      <div class="feature-cell">
+        <svg class="feature-icon" viewBox="0 0 32 32" fill="none" stroke="#39E07A" stroke-width="1.5" stroke-linecap="round">
+          <rect x="6" y="10" width="20" height="16" rx="3"/>
+          <path d="M16 10V7"/>
+          <circle cx="16" cy="18" r="3" fill="rgba(57,224,122,0.3)"/>
+        </svg>
+        <h3 class="feature-title">Focus Sessions</h3>
+        <p class="feature-body">Timed deep work sessions with live focus score, interruption tracking, and completion analytics.</p>
+      </div>
+      <div class="feature-cell">
+        <svg class="feature-icon" viewBox="0 0 32 32" fill="none" stroke="#F75454" stroke-width="1.5" stroke-linecap="round">
+          <rect x="7" y="5" width="18" height="22" rx="3"/>
+          <line x1="11" y1="11" x2="21" y2="11"/>
+          <line x1="11" y1="16" x2="17" y2="16"/>
+          <path d="M21 20l-4 4-2-2" stroke="#F75454"/>
+        </svg>
+        <h3 class="feature-title">App Blocking</h3>
+        <p class="feature-body">Distraction apps are blocked automatically during your session. No bypass. No exceptions. Your window is sealed.</p>
+      </div>
+      <div class="feature-cell">
+        <svg class="feature-icon" viewBox="0 0 32 32" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round">
+          <path d="M16 4v4M16 24v4M4 16h4M24 16h4"/>
+          <circle cx="16" cy="16" r="8"/>
+          <circle cx="16" cy="16" r="4" fill="rgba(201,168,76,0.2)"/>
+        </svg>
+        <h3 class="feature-title">Readiness Score</h3>
+        <p class="feature-body">A composite score from your ritual tells you how ready your mind is — and what intensity your session should be.</p>
+      </div>
+      <div class="feature-cell">
+        <svg class="feature-icon" viewBox="0 0 32 32" fill="none" stroke="#4F8EF7" stroke-width="1.5" stroke-linecap="round">
+          <path d="M6 26l5-8 5 4 5-10 5 6"/>
+          <circle cx="6" cy="26" r="2" fill="#4F8EF7" stroke="none"/>
+        </svg>
+        <h3 class="feature-title">AI Coach</h3>
+        <p class="feature-body">Behavioral insights generated from your patterns — not generic advice. The coach gets smarter the more you use Kairos.</p>
+      </div>
+      <div class="feature-cell">
+        <svg class="feature-icon" viewBox="0 0 32 32" fill="none" stroke="#F7A54F" stroke-width="1.5" stroke-linecap="round">
+          <rect x="5" y="8" width="10" height="18" rx="2"/>
+          <rect x="17" y="5" width="10" height="21" rx="2"/>
+          <line x1="5" y1="26" x2="27" y2="26"/>
+        </svg>
+        <h3 class="feature-title">You vs Yesterday</h3>
+        <p class="feature-body">Your only real competition. Kairos shows how today's focus compares to your personal baseline, week after week.</p>
+      </div>
+      <div class="feature-cell">
+        <svg class="feature-icon" viewBox="0 0 32 32" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round">
+          <polygon points="16,4 20,12 28,13 22,19 24,27 16,23 8,27 10,19 4,13 12,12"/>
+        </svg>
+        <h3 class="feature-title">Identity Labels</h3>
+        <p class="feature-body">Night Owl. Sprint Machine. Monk Mode. Your behavioral patterns earn you an identity — not assigned, earned.</p>
+      </div>
+      <div class="feature-cell">
+        <svg class="feature-icon" viewBox="0 0 32 32" fill="none" stroke="#39E07A" stroke-width="1.5" stroke-linecap="round">
+          <rect x="5" y="5" width="22" height="22" rx="3"/>
+          <line x1="10" y1="12" x2="22" y2="12"/>
+          <line x1="10" y1="17" x2="18" y2="17"/>
+          <line x1="10" y1="22" x2="20" y2="22"/>
+        </svg>
+        <h3 class="feature-title">Weekly Report</h3>
+        <p class="feature-body">Your week in focus. Best window, strain trend, score progression, and one actionable recommendation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ RITUAL ══ -->
+<section id="ritual">
+  <div class="ritual-glow"></div>
+  <div class="container">
+    <div class="container-sm" style="margin:0 auto;">
+      <p class="label section-label reveal">The ritual</p>
+      <h2 class="section-title reveal reveal-delay-1">60 seconds that<br>change everything.</h2>
+      <p class="section-sub reveal reveal-delay-2">Most people sit down to work and hope focus comes. Kairos measures it first.</p>
+    </div>
+    <div class="ritual-layout">
+      <div class="ritual-steps">
+        <div class="ritual-step active reveal reveal-delay-1">
+          <div class="ritual-step-num">01</div>
+          <div>
+            <p class="ritual-step-title">Breathe</p>
+            <p class="ritual-step-body">A 15-second breathing exercise measures your nervous system state through response timing and consistency.</p>
+          </div>
+        </div>
+        <div class="ritual-step reveal reveal-delay-2">
+          <div class="ritual-step-num">02</div>
+          <div>
+            <p class="ritual-step-title">Type</p>
+            <p class="ritual-step-body">Type a fixed sentence. Your WPM and accuracy are measured against your personal baseline to gauge cognitive activation.</p>
+          </div>
+        </div>
+        <div class="ritual-step reveal reveal-delay-3">
+          <div class="ritual-step-num">03</div>
+          <div>
+            <p class="ritual-step-title">React</p>
+            <p class="ritual-step-body">Tap when the signal appears. Your reaction time in milliseconds reveals alertness and attentional readiness.</p>
+          </div>
+        </div>
+        <div class="ritual-step reveal reveal-delay-4">
+          <div class="ritual-step-num">04</div>
+          <div>
+            <p class="ritual-step-title">Self-report</p>
+            <p class="ritual-step-body">Rate your energy, stress, clarity, and motivation. Kairos combines subjective and objective data for a complete picture.</p>
+          </div>
+        </div>
+        <div class="ritual-step reveal reveal-delay-5">
+          <div class="ritual-step-num">05</div>
+          <div>
+            <p class="ritual-step-title">Get your score</p>
+            <p class="ritual-step-body">Kairos calculates your readiness score and recommends the right session intensity, duration, and focus mode for this moment.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ritual-mockup reveal reveal-delay-3">
+        <div class="ritual-card">
+          <div class="ritual-circle-wrap">
+            <div class="ritual-circle">
+              <div class="ritual-circle-inner"></div>
+            </div>
+          </div>
+
+          <p class="ritual-card-title">Protocol Ready</p>
+          <p class="ritual-card-sub">YOUR CALIBRATION IS COMPLETE</p>
+
+          <div class="ritual-score-reveal">
+            <p class="rsr-label">Readiness Score</p>
+            <p class="rsr-value" id="ritual-score">84</p>
+            <p class="rsr-desc">Deep Focus · 50 min protocol</p>
+          </div>
+
+          <div class="ritual-bars">
+            <div class="ritual-bar-row">
+              <span class="ritual-bar-label">Typing</span>
+              <div class="ritual-bar-track"><div class="ritual-bar-fill" style="width:88%"></div></div>
+              <span class="ritual-bar-val">88</span>
+            </div>
+            <div class="ritual-bar-row">
+              <span class="ritual-bar-label">Reaction</span>
+              <div class="ritual-bar-track"><div class="ritual-bar-fill" style="width:79%;background:var(--green)"></div></div>
+              <span class="ritual-bar-val">79</span>
+            </div>
+            <div class="ritual-bar-row">
+              <span class="ritual-bar-label">Energy</span>
+              <div class="ritual-bar-track"><div class="ritual-bar-fill" style="width:82%;background:var(--amber)"></div></div>
+              <span class="ritual-bar-val">82</span>
+            </div>
+            <div class="ritual-bar-row">
+              <span class="ritual-bar-label">Clarity</span>
+              <div class="ritual-bar-track"><div class="ritual-bar-fill" style="width:91%;background:var(--gold)"></div></div>
+              <span class="ritual-bar-val">91</span>
             </div>
           </div>
         </div>
@@ -1168,280 +2430,572 @@ footer{
   </div>
 </section>
 
-<!-- ===== PROBLEM ===== -->
-<section id="problem">
+<!-- ══ ANALYTICS ══ -->
+<section id="analytics">
   <div class="container">
-    <div class="section-tag">The problem</div>
-    <h2>We are living through<br>an <em>attention crisis.</em></h2>
-    <p class="section-sub">The modern world is engineered to fragment your mind. Every notification, every scroll, every ping — a small theft from the life you meant to build.</p>
-    <div class="problem-grid">
-      <div class="problem-item">
-        <div class="p-num">01</div>
-        <div class="p-title">Constant stimulation</div>
-        <p class="p-desc">Your brain is rewired by infinite scroll. Silence feels wrong. Boredom feels unbearable. Deep thinking feels impossible.</p>
+    <div class="container-sm" style="margin:0 auto;">
+      <p class="label section-label reveal">Performance identity</p>
+      <h2 class="section-title reveal reveal-delay-1">You are more than<br>your screen time.</h2>
+      <p class="section-sub reveal reveal-delay-2">Kairos tracks cognitive performance, not hours. Know your peak window, your strain trends, and where your mind is actually going.</p>
+    </div>
+    <div class="analytics-layout">
+      <div class="analytics-cards">
+        <div class="analytics-card reveal reveal-delay-1">
+          <div class="ac-header">
+            <span class="ac-title">Today's Focus Score</span>
+            <span class="ac-badge" style="background:rgba(57,224,122,0.1);color:var(--green);border:1px solid rgba(57,224,122,0.2)">↑ +7 vs yesterday</span>
+          </div>
+          <p class="ac-value" style="color:var(--green)"><span class="counter" data-target="83">0</span></p>
+          <p class="ac-sub">Above your 7-day average of 76</p>
+          <div class="ac-bars">
+            <div class="ac-bar" style="height:40%"></div>
+            <div class="ac-bar" style="height:55%"></div>
+            <div class="ac-bar" style="height:35%"></div>
+            <div class="ac-bar" style="height:70%"></div>
+            <div class="ac-bar" style="height:60%"></div>
+            <div class="ac-bar" style="height:45%"></div>
+            <div class="ac-bar active" style="height:83%"></div>
+          </div>
+        </div>
+
+        <div class="analytics-card reveal reveal-delay-2">
+          <div class="ac-header">
+            <span class="ac-title">Deep Work Hours</span>
+            <span class="ac-badge" style="background:rgba(79,142,247,0.1);color:var(--blue);border:1px solid rgba(79,142,247,0.2)">This week</span>
+          </div>
+          <p class="ac-value"><span class="counter" data-target="14" data-suffix="h">0</span></p>
+          <p class="ac-sub">Best focus window: 21:00 — 23:00</p>
+        </div>
+
+        <div class="analytics-card reveal reveal-delay-3">
+          <div class="ac-header">
+            <span class="ac-title">Current Streak</span>
+            <span class="ac-badge" style="background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.2)">🔥 Personal best</span>
+          </div>
+          <p class="ac-value" style="color:var(--gold)"><span class="counter" data-target="12">0</span><span style="font-size:20px;color:var(--text3);font-family:'JetBrains Mono',monospace"> days</span></p>
+          <p class="ac-sub">Longest ever: 12 days · you're there</p>
+        </div>
       </div>
-      <div class="problem-item">
-        <div class="p-num">02</div>
-        <div class="p-title">Shallow by default</div>
-        <p class="p-desc">You work. But rarely deeply. Most hours are reactions — emails, Slack, context switches. Your best thinking never happens.</p>
-      </div>
-      <div class="problem-item">
-        <div class="p-num">03</div>
-        <div class="p-title">Wasted potential</div>
-        <p class="p-desc">You know what you're capable of. You've felt it. But you can't access it consistently. That gap — that's the problem Kairos solves.</p>
+
+      <div class="identity-panel reveal reveal-delay-2">
+        <span class="identity-crown">🌙</span>
+        <p class="identity-pct">Top 4% globally</p>
+        <p class="identity-name">Night Builder</p>
+        <p class="identity-desc">Your best work happens when the world goes quiet. After 21:00, your focus score averages 89 — your highest performing window by a wide margin.</p>
+        <div class="identity-stats">
+          <div class="identity-stat">
+            <p class="is-label">Avg score</p>
+            <p class="is-value">89</p>
+          </div>
+          <div class="identity-stat">
+            <p class="is-label">Peak window</p>
+            <p class="is-value" style="font-size:14px;font-family:'JetBrains Mono',monospace">21–23h</p>
+          </div>
+          <div class="identity-stat">
+            <p class="is-label">Sessions</p>
+            <p class="is-value">48</p>
+          </div>
+          <div class="identity-stat">
+            <p class="is-label">Best streak</p>
+            <p class="is-value">12d</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== IDENTITY ===== -->
-<section id="identity">
-  <div class="container">
-    <div class="identity-inner">
-      <div class="section-tag" style="justify-content:center">Who it's for</div>
-      <h2>This is for the ones<br>who still <em>want to go deep.</em></h2>
-      <ul class="identity-list">
-        <li class="lit">The builder with too many tabs open.</li>
-        <li>The founder who hasn't done real work in weeks.</li>
-        <li>The student who can't finish a paragraph.</li>
-        <li>The creator stuck at the same idea for months.</li>
-        <li>The person who remembers what focus felt like.</li>
-      </ul>
-      <p class="identity-note">You don't need more tasks. You need time that means something.</p>
+<!-- ══ SHARE ══ -->
+<section id="share">
+  <div class="container-sm text-center" style="margin:0 auto;">
+    <p class="label section-label reveal">Built to share</p>
+    <h2 class="section-title reveal reveal-delay-1">Every session ends<br>with proof.</h2>
+    <p class="section-sub reveal reveal-delay-2" style="margin:0 auto;">Your focus becomes visible. Session cards you'll actually want to keep.</p>
+  </div>
+  <div style="overflow:hidden;margin-top:0;">
+    <div class="share-scroll">
+      <!-- First set -->
+      <div class="share-card" style="background:linear-gradient(135deg,rgba(79,142,247,0.12),rgba(79,142,247,0.04));border-color:rgba(79,142,247,0.2)">
+        <p class="sc-time" style="color:var(--blue)">2h 14m</p>
+        <p class="sc-label">Deep Work</p>
+        <p class="sc-score">Focus Score: 91 ↑</p>
+      </div>
+      <div class="share-card" style="background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border-color:rgba(201,168,76,0.2)">
+        <p class="sc-time" style="color:var(--gold)">12 days</p>
+        <p class="sc-label">Monk Mode streak</p>
+        <p class="sc-score">Personal best 🔥</p>
+      </div>
+      <div class="share-card" style="background:linear-gradient(135deg,rgba(57,224,122,0.12),rgba(57,224,122,0.04));border-color:rgba(57,224,122,0.2)">
+        <p class="sc-time" style="color:var(--green)">Score 94</p>
+        <p class="sc-label">New personal best</p>
+        <p class="sc-score">0 interruptions · 90 min</p>
+      </div>
+      <div class="share-card" style="background:linear-gradient(135deg,rgba(123,97,255,0.12),rgba(123,97,255,0.04));border-color:rgba(123,97,255,0.2)">
+        <p class="sc-time" style="color:#7B61FF">14h 30m</p>
+        <p class="sc-label">Deep work this week</p>
+        <p class="sc-score">Top 8% globally</p>
+      </div>
+      <div class="share-card" style="background:linear-gradient(135deg,rgba(247,165,79,0.12),rgba(247,165,79,0.04));border-color:rgba(247,165,79,0.2)">
+        <p class="sc-time" style="color:var(--amber)">Readiness</p>
+        <p class="sc-label">Morning ritual</p>
+        <p class="sc-score">Score 88 · Deep Focus ready</p>
+      </div>
+      <!-- Duplicate for seamless scroll -->
+      <div class="share-card" style="background:linear-gradient(135deg,rgba(79,142,247,0.12),rgba(79,142,247,0.04));border-color:rgba(79,142,247,0.2)">
+        <p class="sc-time" style="color:var(--blue)">2h 14m</p>
+        <p class="sc-label">Deep Work</p>
+        <p class="sc-score">Focus Score: 91 ↑</p>
+      </div>
+      <div class="share-card" style="background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border-color:rgba(201,168,76,0.2)">
+        <p class="sc-time" style="color:var(--gold)">12 days</p>
+        <p class="sc-label">Monk Mode streak</p>
+        <p class="sc-score">Personal best 🔥</p>
+      </div>
+      <div class="share-card" style="background:linear-gradient(135deg,rgba(57,224,122,0.12),rgba(57,224,122,0.04));border-color:rgba(57,224,122,0.2)">
+        <p class="sc-time" style="color:var(--green)">Score 94</p>
+        <p class="sc-label">New personal best</p>
+        <p class="sc-score">0 interruptions · 90 min</p>
+      </div>
+      <div class="share-card" style="background:linear-gradient(135deg,rgba(123,97,255,0.12),rgba(123,97,255,0.04));border-color:rgba(123,97,255,0.2)">
+        <p class="sc-time" style="color:#7B61FF">14h 30m</p>
+        <p class="sc-label">Deep work this week</p>
+        <p class="sc-score">Top 8% globally</p>
+      </div>
+      <div class="share-card" style="background:linear-gradient(135deg,rgba(247,165,79,0.12),rgba(247,165,79,0.04));border-color:rgba(247,165,79,0.2)">
+        <p class="sc-time" style="color:var(--amber)">Readiness</p>
+        <p class="sc-label">Morning ritual</p>
+        <p class="sc-score">Score 88 · Deep Focus ready</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ===== FEATURES ===== -->
-<section id="features">
+<!-- ══ PRICING ══ -->
+<section id="pricing">
   <div class="container">
-    <div class="section-tag">What Kairos does</div>
-    <h2>A focus operating system.<br>Not another <em>productivity app.</em></h2>
-    <p class="section-sub">Kairos isn't a timer. It's a complete system for rebuilding your capacity for deep work — session by session, day by day.</p>
-    <div class="features-grid">
-      <div class="feature-card">
-        <svg class="f-icon" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="white" stroke-width="1.5"/><path d="M16 9v7l4 4" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <div class="f-title">Deep Work Sessions</div>
-        <p class="f-desc">Structured blocks of protected time. Set your intention, lock in, and emerge with something real. No interruptions allowed.</p>
-      </div>
-      <div class="feature-card">
-        <svg class="f-icon" viewBox="0 0 32 32" fill="none"><path d="M6 16 Q16 6 26 16 Q16 26 6 16" stroke="white" stroke-width="1.5"/><circle cx="16" cy="16" r="3" fill="white" opacity="0.5"/></svg>
-        <div class="f-title">Focus Rituals</div>
-        <p class="f-desc">How you begin determines everything. Kairos guides you through entry rituals that shift your brain into a different gear.</p>
-      </div>
-      <div class="feature-card">
-        <svg class="f-icon" viewBox="0 0 32 32" fill="none"><rect x="7" y="20" width="4" height="6" rx="1" stroke="white" stroke-width="1.5"/><rect x="14" y="14" width="4" height="12" rx="1" stroke="white" stroke-width="1.5"/><rect x="21" y="8" width="4" height="18" rx="1" stroke="white" stroke-width="1.5"/></svg>
-        <div class="f-title">Behavioral Analytics</div>
-        <p class="f-desc">When do you focus best? What kills your flow? Kairos tracks patterns invisible to you and surfaces what actually matters.</p>
-      </div>
-      <div class="feature-card">
-        <svg class="f-icon" viewBox="0 0 32 32" fill="none"><path d="M16 6L18.5 12.5L26 13.5L20.5 18.5L22 26L16 22.5L10 26L11.5 18.5L6 13.5L13.5 12.5Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
-        <div class="f-title">Focus Score</div>
-        <p class="f-desc">A single number that reflects the quality of your attention over time. Watch it grow as deep work becomes your default mode.</p>
-      </div>
-      <div class="feature-card">
-        <svg class="f-icon" viewBox="0 0 32 32" fill="none"><rect x="8" y="8" width="16" height="16" rx="3" stroke="white" stroke-width="1.5"/><path d="M12 16h8M16 12v8" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/></svg>
-        <div class="f-title">Lock In Mode</div>
-        <p class="f-desc">Full commitment. All distractions blocked. Your phone becomes a single-purpose tool for the work that matters.</p>
-      </div>
-      <div class="feature-card">
-        <svg class="f-icon" viewBox="0 0 32 32" fill="none"><path d="M8 26L8 18M14 26L14 12M20 26L20 16M26 26L26 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <div class="f-title">Progress & Streaks</div>
-        <p class="f-desc">Consistency compounds. Kairos makes your effort visible — building an identity around the kind of person who shows up.</p>
-      </div>
+    <div class="text-center">
+      <p class="label section-label reveal">Planned launch pricing</p>
+      <h2 class="section-title reveal reveal-delay-1">Invest in your focus.</h2>
+      <p class="section-sub reveal reveal-delay-2" style="margin:0 auto 32px;">The cost of one lost hour of deep work exceeds the cost of Kairos Premium for a month.</p>
+      <span class="pricing-note reveal reveal-delay-3">Waitlist members get locked-in launch pricing</span>
     </div>
-  </div>
-</section>
 
-<!-- ===== DIFFERENT ===== -->
-<section id="different">
-  <div class="container">
-    <div class="diff-inner">
-      <div>
-        <div class="section-tag">Why it's different</div>
-        <h2>Not a timer.<br>Not a task list.<br><em>A different thing.</em></h2>
-        <ul class="diff-list">
-          <li><span class="diff-x">✕</span><span>Generic productivity apps treat symptoms. Kairos works at the root — your relationship with attention itself.</span></li>
-          <li><span class="diff-x">✕</span><span>Habit trackers gamify streaks. Kairos builds identity. There's a difference between counting days and becoming someone.</span></li>
-          <li><span class="diff-x">✕</span><span>Pomodoro timers give you intervals. Kairos gives you architecture — a full system for how you spend cognitive time.</span></li>
-          <li><span class="diff-x">✕</span><span>To-do apps optimize tasks. Kairos optimizes you — using behavioral data to surface when and how you focus best.</span></li>
+    <div class="pricing-grid">
+      <!-- Free -->
+      <div class="pricing-card reveal reveal-delay-1">
+        <span class="pricing-badge badge-free">Free</span>
+        <p class="pricing-price">€0</p>
+        <p class="pricing-period">forever</p>
+        <p class="pricing-name">Foundation</p>
+        <p class="pricing-tagline">Start building your focus practice.</p>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li class="pricing-feature">3 sessions per week</li>
+          <li class="pricing-feature">Basic ritual calibration</li>
+          <li class="pricing-feature">Focus score + streak</li>
+          <li class="pricing-feature dimmed">App blocking</li>
+          <li class="pricing-feature dimmed">AI coach</li>
+          <li class="pricing-feature dimmed">Identity labels</li>
+          <li class="pricing-feature dimmed">Weekly report</li>
         </ul>
+        <button class="pricing-cta pricing-cta-ghost" onclick="scrollToFormFromPricing()">Join waitlist</button>
       </div>
-      <div class="diff-block">
-        <div class="diff-stat">
-          <div class="diff-stat-num">2.5h</div>
-          <div class="diff-stat-label">Average deep work per day for top performers</div>
-        </div>
-        <div class="diff-stat">
-          <div class="diff-stat-num">23 min</div>
-          <div class="diff-stat-label">Time to refocus after a single distraction</div>
-        </div>
-        <div class="diff-stat">
-          <div class="diff-stat-num">40%</div>
-          <div class="diff-stat-label">Productivity lost to context-switching daily</div>
-        </div>
-        <div class="diff-stat">
-          <div class="diff-stat-num">∞</div>
-          <div class="diff-stat-label">What becomes possible when you learn to go deep</div>
-        </div>
+
+      <!-- Student -->
+      <div class="pricing-card reveal reveal-delay-2">
+        <span class="pricing-badge badge-student">Student</span>
+        <p class="pricing-price">€5</p>
+        <p class="pricing-period">per month</p>
+        <p class="pricing-name">Focus</p>
+        <p class="pricing-tagline">Everything you need. Built for student life.</p>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li class="pricing-feature">Unlimited sessions</li>
+          <li class="pricing-feature">Full ritual calibration</li>
+          <li class="pricing-feature">App blocking</li>
+          <li class="pricing-feature">Focus analytics</li>
+          <li class="pricing-feature">Streak + identity labels</li>
+          <li class="pricing-feature dimmed">AI coach</li>
+          <li class="pricing-feature dimmed">Year in Review</li>
+        </ul>
+        <button class="pricing-cta pricing-cta-primary" onclick="scrollToFormFromPricing()">Join waitlist</button>
+      </div>
+
+      <!-- Premium -->
+      <div class="pricing-card featured reveal reveal-delay-3">
+        <span class="pricing-badge badge-popular">Most popular</span>
+        <p class="pricing-price">€13</p>
+        <p class="pricing-period">per month</p>
+        <p class="pricing-name">Premium</p>
+        <p class="pricing-tagline">The full Kairos experience.</p>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li class="pricing-feature">Everything in Student</li>
+          <li class="pricing-feature">AI behavioral coach</li>
+          <li class="pricing-feature">Best focus window detection</li>
+          <li class="pricing-feature">You vs Yesterday</li>
+          <li class="pricing-feature">Weekly performance report</li>
+          <li class="pricing-feature">Year in Review</li>
+          <li class="pricing-feature">Priority support</li>
+        </ul>
+        <button class="pricing-cta pricing-cta-primary" onclick="scrollToFormFromPricing()">Join waitlist</button>
+      </div>
+
+      <!-- Elite -->
+      <div class="pricing-card elite reveal reveal-delay-4">
+        <span class="pricing-badge badge-elite">Elite</span>
+        <p class="pricing-price" style="color:var(--gold)">€25</p>
+        <p class="pricing-period">per month</p>
+        <p class="pricing-name" style="color:var(--gold)">Elite</p>
+        <p class="pricing-tagline">For those who treat performance as identity.</p>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li class="pricing-feature">Everything in Premium</li>
+          <li class="pricing-feature">Exclusive identity tiers</li>
+          <li class="pricing-feature">Early access to all features</li>
+          <li class="pricing-feature">Direct founder access</li>
+          <li class="pricing-feature">Lifetime locked pricing</li>
+          <li class="pricing-feature">Elite badge on profile</li>
+          <li class="pricing-feature">Shape the product roadmap</li>
+        </ul>
+        <button class="pricing-cta pricing-cta-elite" onclick="scrollToFormFromPricing()">Join waitlist</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== WAITLIST ===== -->
-<section id="waitlist">
-  <div class="waitlist-ghost">Kairos</div>
-  <div class="container" style="position:relative;z-index:1">
-    <div class="section-tag" style="justify-content:center">Get early access</div>
-    <h2>Be among the first<br>to <em>lock in.</em></h2>
-    <p class="section-sub">Kairos launches to a small group first. Early access means early advantage — and a hand in shaping what focus looks like.</p>
-    <div class="waitlist-form">
-      <input type="email" class="email-input" id="waitlistEmail" placeholder="your@email.com"/>
-      <button class="cta-btn" onclick="submitEmail('waitlistEmail','waitlistSuccess','waitlistNote')">Join waitlist</button>
-    </div>
-    <p class="waitlist-note" id="waitlistNote">No noise. We'll reach out when you're in.</p>
-    <div class="success-msg" id="waitlistSuccess">✓ You're on the list. We'll be in touch.</div>
-  </div>
-</section>
-
-<!-- ===== FAQ ===== -->
+<!-- ══ FAQ ══ -->
 <section id="faq">
-  <div class="container">
-    <div class="section-tag">Questions</div>
-    <h2>Frequently<br><em>asked.</em></h2>
-    <div class="faq-list">
+  <div class="container-sm">
+    <div class="text-center">
+      <p class="label section-label reveal">FAQ</p>
+      <h2 class="section-title reveal reveal-delay-1">Questions answered.</h2>
+    </div>
+    <div class="faq-list reveal reveal-delay-2">
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">What is Kairos? <span class="faq-arrow">+</span></button>
-        <div class="faq-a">Kairos is a deep work operating system for ambitious people. Built around structured focus sessions, behavioral insights, and an identity-first approach to meaningful work. It's not a task manager. Not a habit tracker. Something closer to a focus practice.</div>
+        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+          Is Kairos a task manager?
+          <span class="faq-icon">
+            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">No. Kairos is not a task manager, calendar, or productivity suite. It doesn't care what you're working on. It cares about the <strong>quality of the cognitive state you bring to that work.</strong> Think of it less as an organizer and more as a performance system for your mind.</div>
+        </div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">When does it launch? <span class="faq-arrow">+</span></button>
-        <div class="faq-a">We're not giving a date yet — intentionally. Kairos will launch when it's right, not when it's rushed. Waitlist members will be the first to know, and the first inside.</div>
+        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+          Is Kairos for students?
+          <span class="faq-icon">
+            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes — and we built a <strong>Student plan at €5/month</strong> specifically for it. Students deal with high cognitive load, irregular schedules, and constant distraction. Kairos was designed exactly for that environment. We also offer proof-of-enrollment discounts.</div>
+        </div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">Who is it for? <span class="faq-arrow">+</span></button>
-        <div class="faq-a">Kairos is built for people who take their attention seriously — founders, builders, students, creators, and anyone who feels the gap between the work they're doing and the work they're capable of.</div>
+        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+          Does Kairos actually block apps?
+          <span class="faq-icon">
+            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes. When a session starts, Kairos activates a focus mode that blocks distracting apps for the session duration. <strong>You define which apps are blocked.</strong> This uses iOS Screen Time APIs — no workarounds, no easy bypass. The block is enforced at the system level.</div>
+        </div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">Will there be early access? <span class="faq-arrow">+</span></button>
-        <div class="faq-a">Yes. The waitlist exists precisely for this. Early access members get in before the public launch, help shape core features, and carry founding-user status inside the product. The list is intentionally kept small.</div>
+        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+          What makes Kairos different from Opal, Forest, or Freedom?
+          <span class="faq-icon">
+            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Those tools solve one thing: removing distraction. <strong>Kairos solves the before, during, and after.</strong> Before: ritual calibration reads your cognitive state. During: session scoring, live focus tracking, and intentional blocking. After: analytics, identity tracking, AI coaching. It's not a blocker. It's a performance system that includes blocking as one component.</div>
+        </div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" onclick="toggleFaq(this)">Is it free? <span class="faq-arrow">+</span></button>
-        <div class="faq-a">Kairos will have a free tier. The full experience — deep behavioral insights, advanced session architecture, and future features — will be part of a paid plan. Early waitlist members receive preferential pricing at launch.</div>
+        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+          When will Kairos launch?
+          <span class="faq-icon">
+            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">We're in active development. <strong>Early access will open to waitlist members first</strong> — in a small batch, not a flood. Waitlist members also get locked-in launch pricing, which won't be available at public launch.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+          Is there a free plan?
+          <span class="faq-icon">
+            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes. The free plan gives you access to basic sessions, ritual calibration, your focus score, and streak tracking. It's real — not crippled. You can understand what Kairos does before committing. <strong>Advanced features like AI coaching, app blocking, and identity labels require a paid plan.</strong></div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+          What is the ritual calibration, exactly?
+          <span class="faq-icon">
+            <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/>
+            </svg>
+          </span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">It's a 60-second pre-session protocol. Kairos measures four things: <strong>breathing consistency</strong> (timing response), <strong>typing performance</strong> (WPM and accuracy vs your baseline), <strong>reaction time</strong> (alertness in milliseconds), and <strong>self-reported energy, clarity, and stress.</strong> These inputs are combined into a readiness score that determines your session's recommended intensity and duration.</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ══ FINAL CTA ══ -->
+<section id="final-cta">
+  <div class="final-glow"></div>
+  <div class="container-sm">
+    <p class="label section-label reveal" style="margin-bottom:20px;">The choice</p>
+    <h2 class="final-title reveal reveal-delay-1">
+      Your future will not be<br>built in <span class="accent-gold">distraction.</span>
+    </h2>
+    <p class="final-sub reveal reveal-delay-2">
+      The people building things that matter treat focus like a scarce resource — because it is. Kairos helps you protect it.
+    </p>
+
+    <div class="final-form reveal reveal-delay-3">
+      <div id="final-form-inner">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <input
+            type="email"
+            class="hero-input"
+            id="final-email"
+            placeholder="your@email.com"
+            autocomplete="email"
+            aria-label="Email address"
+            style="text-align:center;border-radius:12px;"
+          />
+          <select class="role-select" id="final-role" aria-label="Your role" style="border-radius:12px;">
+            <option value="">Your role (optional)</option>
+            <option value="student">Student</option>
+            <option value="founder">Founder</option>
+            <option value="creator">Creator</option>
+            <option value="developer">Developer</option>
+            <option value="other">Other</option>
+          </select>
+          <p class="form-error" id="final-error">Please enter a valid email address.</p>
+          <button class="btn-primary" id="final-submit" onclick="handleSubmit('final')" style="width:100%;justify-content:center;">
+            Join the waitlist
+          </button>
+          <p class="hero-trust" style="justify-content:center;">No spam. Early access only.</p>
+        </div>
+      </div>
+      <div class="success-state" id="final-success">
+        <div class="success-icon">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M4 11L9 16L18 7" stroke="#39E07A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p class="success-title">You're in.</p>
+        <p class="success-sub">Early access opens to waitlist members first. We'll reach out when your spot is ready.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
 <footer>
-  <div class="footer-logo">Kairos</div>
-  <div class="footer-note">© 2025 Kairos. All rights reserved.</div>
+  <div class="container">
+    <div class="footer-inner">
+      <span class="footer-logo">Kairos<span>.</span></span>
+      <span
+
+```html
+ class="footer-copy">© 2026 Kairos. Focus is becoming a luxury.</span>
+    </div>
+  </div>
 </footer>
 
 <script>
-function scrollToWaitlist(){
-  document.getElementById('waitlist').scrollIntoView({behavior:'smooth'});
-}
+(function(){
+  // ── SPOTLIGHT
+  const spotlight = document.getElementById('spotlight');
+  document.addEventListener('mousemove', e => {
+    spotlight.style.left = e.clientX + 'px';
+    spotlight.style.top = e.clientY + 'px';
+  });
 
-/* =============================================
-   EMAIL CAPTURE — CONNECT YOUR BACKEND HERE
-   =============================================
-   OPTION A — Supabase:
-     const { error } = await supabase
-       .from('waitlist').insert([{ email }]);
+  // ── SCROLL REVEAL
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => revealObserver.observe(r));
 
-   OPTION B — Beehiiv:
-     await fetch('https://api.beehiiv.com/v2/publications/PUB_ID/subscriptions', {
-       method:'POST',
-       headers:{'Content-Type':'application/json','Authorization':'Bearer API_KEY'},
-       body:JSON.stringify({ email })
-     });
-
-   OPTION C — Mailchimp (via serverless):
-     await fetch('/api/subscribe',{
-       method:'POST',
-       headers:{'Content-Type':'application/json'},
-       body:JSON.stringify({ email })
-     });
-
-   OPTION D — Google Sheets (Apps Script):
-     await fetch('YOUR_APPS_SCRIPT_URL',{
-       method:'POST', body:JSON.stringify({ email })
-     });
-   ============================================= */
-async function submitEmail(inputId, successId, noteId){
-  const input   = document.getElementById(inputId);
-  const success = document.getElementById(successId);
-  const note    = document.getElementById(noteId);
-  const email   = input.value.trim();
-
-  if(!email || !email.includes('@')){
-    input.style.borderColor='#554444';
-    input.style.boxShadow='0 0 0 3px rgba(180,80,80,0.08)';
-    setTimeout(()=>{
-      input.style.borderColor='';
-      input.style.boxShadow='';
-    },1200);
-    return;
+  // ── ANIMATED COUNTERS
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1400;
+    const step = 16;
+    const steps = duration / step;
+    const increment = target / steps;
+    let current = 0;
+    const timer = setInterval(() => {
+      current = Math.min(current + increment, target);
+      el.textContent = Math.floor(current) + suffix;
+      if (current >= target) clearInterval(timer);
+    }, step);
   }
 
-  /* === REPLACE THIS WITH YOUR BACKEND CALL === */
-  console.log('Email captured:', email);
-  /* ============================================ */
+  const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.counter').forEach(animateCounter);
+        counterObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
 
-  input.value='';
-  note.style.display='none';
-  success.classList.add('show');
-  setTimeout(()=>{
-    success.classList.remove('show');
-    note.style.display='';
-  }, 5000);
-}
+  document.querySelectorAll('.analytics-card').forEach(c => counterObserver.observe(c));
 
-function toggleFaq(btn){
-  const answer=btn.nextElementSibling;
-  const isOpen=btn.classList.contains('open');
-  document.querySelectorAll('.faq-q').forEach(b=>b.classList.remove('open'));
-  document.querySelectorAll('.faq-a').forEach(a=>a.classList.remove('open'));
-  if(!isOpen){btn.classList.add('open');answer.classList.add('open');}
-}
-
-/* Live timer on phone mockup */
-let timerSec=42*60+18;
-setInterval(()=>{
-  if(timerSec>0)timerSec--;
-  const m=Math.floor(timerSec/60), s=timerSec%60;
-  const el=document.getElementById('timerDisplay');
-  if(el) el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-},1000);
-
-/* Identity highlight cycle */
-const litItems=document.querySelectorAll('.identity-list li');
-let currentLit=0;
-setInterval(()=>{
-  litItems.forEach(li=>li.classList.remove('lit'));
-  currentLit=(currentLit+1)%litItems.length;
-  litItems[currentLit].classList.add('lit');
-},2400);
-
-/* Scroll fade-in */
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.style.opacity='1';
-      e.target.style.transform='translateY(0)';
+  // ── FAQ ACCORDION
+  window.toggleFaq = function(btn) {
+    const item = btn.closest('.faq-item');
+    const answer = item.querySelector('.faq-answer');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-answer').style.maxHeight = '0';
+      i.querySelector('.faq-question').setAttribute('aria-expanded','false');
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+      btn.setAttribute('aria-expanded','true');
     }
-  });
-},{threshold:0.08});
+  };
 
-document.querySelectorAll('.problem-item,.feature-card,.diff-stat,.faq-item').forEach(el=>{
-  el.style.opacity='0';
-  el.style.transform='translateY(24px)';
-  el.style.transition='opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1)';
-  observer.observe(el);
-});
+  // ── FORM VALIDATION & SUBMIT
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  }
+
+  window.handleSubmit = function(prefix) {
+    const emailEl = document.getElementById(prefix + '-email');
+    const errorEl = document.getElementById(prefix + '-error');
+    const roleEl  = document.getElementById(prefix + '-role');
+    const email   = emailEl.value.trim();
+
+    errorEl.classList.remove('show');
+
+    if (!isValidEmail(email)) {
+      errorEl.classList.add('show');
+      emailEl.focus();
+      emailEl.style.borderColor = 'rgba(247,84,84,0.4)';
+      setTimeout(() => { emailEl.style.borderColor = ''; }, 2000);
+      return;
+    }
+
+    // Store in localStorage
+    const entries = JSON.parse(localStorage.getItem('kairos_waitlist') || '[]');
+    const exists  = entries.find(e => e.email === email);
+    if (!exists) {
+      entries.push({ email, role: roleEl ? roleEl.value : '', ts: Date.now() });
+      localStorage.setItem('kairos_waitlist', JSON.stringify(entries));
+    }
+
+    // Show success
+    document.getElementById(prefix + '-form-inner').style.display = 'none';
+    document.getElementById(prefix + '-success').classList.add('show');
+
+    // Also flip hero submit if we're on final
+    if (prefix === 'final') {
+      const heroSubmit = document.getElementById('hero-submit');
+      if (heroSubmit) {
+        heroSubmit.textContent = "You're on the waitlist";
+        heroSubmit.disabled = true;
+        heroSubmit.style.opacity = '0.6';
+        heroSubmit.style.cursor = 'default';
+      }
+    }
+  };
+
+  // ── SMOOTH SCROLL HELPERS
+  window.scrollToForm = function(e) {
+    e && e.preventDefault();
+    document.getElementById('hero-email').focus();
+    document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+  };
+
+  window.scrollToFormMobile = function() {
+    document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => { document.getElementById('hero-email').focus(); }, 600);
+  };
+
+  window.scrollToFormFromPricing = function() {
+    document.getElementById('final-cta').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => { document.getElementById('final-email').focus(); }, 600);
+  };
+
+  // ── NAV SCROLL STYLE
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 40
+      ? 'rgba(8,8,12,0.92)'
+      : 'rgba(8,8,12,0.7)';
+  }, { passive: true });
+
+  // ── RITUAL BAR ANIMATION
+  const ritualObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.ritual-bar-fill').forEach(bar => {
+          const w = bar.style.width;
+          bar.style.width = '0';
+          setTimeout(() => {
+            bar.style.transition = 'width 1s cubic-bezier(0.22,1,0.36,1)';
+            bar.style.width = w;
+          }, 300);
+        });
+        ritualObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  const ritualCard = document.querySelector('.ritual-card');
+  if (ritualCard) ritualObserver.observe(ritualCard);
+
+  // ── CHECK EXISTING WAITLIST
+  const stored = JSON.parse(localStorage.getItem('kairos_waitlist') || '[]');
+  if (stored.length > 0) {
+    ['hero','final'].forEach(prefix => {
+      const inner = document.getElementById(prefix + '-form-inner');
+      const success = document.getElementById(prefix + '-success');
+      if (inner && success) {
+        inner.style.display = 'none';
+        success.classList.add('show');
+      }
+    });
+  }
+})();
 </script>
 </body>
 </html>
+```
