@@ -5,1135 +5,816 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kairos — Focus is Becoming a Luxury</title>
-<meta name="description" content="The performance system for your mind. Deep work rituals, session tracking, and focus analytics.">
+<meta name="description" content="The performance system for your mind. Deep work rituals, session tracking, and focus analytics for people who take their attention seriously.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 
-/* ─── DESIGN TOKENS ──────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════ */
 :root {
-  --font-display: 'Manrope', sans-serif;
-  --font-body:    'Inter', sans-serif;
-  --font-mono:    'IBM Plex Mono', monospace;
+  --fd: 'Manrope', sans-serif;
+  --fb: 'Inter', sans-serif;
+  --fm: 'IBM Plex Mono', monospace;
 
-  --text-xs:   clamp(10px, 2.2vw,  11px);
-  --text-sm:   clamp(12px, 2.8vw,  13px);
-  --text-base: clamp(14px, 3.5vw,  16px);
-  --text-lg:   clamp(16px, 4vw,    18px);
-  --text-xl:   clamp(18px, 4.5vw,  22px);
-  --text-2xl:  clamp(22px, 5.5vw,  30px);
-  --text-3xl:  clamp(30px, 7vw,    44px);
-  --text-4xl:  clamp(38px, 9vw,    60px);
+  --xs:   clamp(10px, 2vw,  11px);
+  --sm:   clamp(12px, 2.5vw,13px);
+  --base: clamp(14px, 3vw,  16px);
+  --lg:   clamp(16px, 3.5vw,18px);
+  --xl:   clamp(19px, 4vw,  22px);
+  --2xl:  clamp(24px, 5vw,  30px);
+  --3xl:  clamp(32px, 6.5vw,46px);
+  --4xl:  clamp(40px, 8.5vw,62px);
 
-  --bg:        #08080E;
-  --bg-2:      #0C0C15;
-  --surface:   #111119;
-  --raised:    #17171F;
-  --border:    rgba(255,255,255,0.07);
-  --border-lg: rgba(255,255,255,0.10);
+  --bg:   #060609;
+  --bg2:  #09090F;
+  --sur:  #0E0E18;
+  --rsd:  #141420;
+  --rim:  rgba(255,255,255,.055);
+  --rimb: rgba(255,255,255,.09);
 
-  --blue:      #4F8EF7;
-  --blue-a12:  rgba(79,142,247,0.12);
-  --blue-a20:  rgba(79,142,247,0.20);
-  --gold:      #C9A84C;
-  --gold-a10:  rgba(201,168,76,0.10);
-  --gold-a20:  rgba(201,168,76,0.20);
-  --green:     #3DD68C;
-  --amber:     #F0A256;
-  --red:       #F56565;
+  --blu:  #4F8EF7;
+  --blu1: rgba(79,142,247,.10);
+  --blu2: rgba(79,142,247,.18);
+  --gld:  #C9A84C;
+  --gld1: rgba(201,168,76,.10);
+  --gld2: rgba(201,168,76,.20);
+  --grn:  #3DD68C;
+  --amb:  #F0A256;
+  --red:  #F56565;
 
-  --t1: #FFFFFF;
-  --t2: #A0A0B8;
-  --t3: #50506A;
-  --t4: #28283A;
+  --t1:#FFFFFF;
+  --t2:#9898B0;
+  --t3:#484860;
+  --t4:#222232;
 
-  --radius-sm:  8px;
-  --radius-md:  12px;
-  --radius-lg:  16px;
-  --radius-xl:  24px;
-  --radius-pill: 999px;
-
-  --shadow-sm: 0 2px 12px rgba(0,0,0,0.3);
-  --shadow-md: 0 8px 32px rgba(0,0,0,0.4);
-  --shadow-lg: 0 24px 64px rgba(0,0,0,0.5);
+  --r-sm:  8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+  --r-p:  999px;
 }
 
-/* ─── RESET ──────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--t1);
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+/* ═══════════════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--t1);
+  font-family:var(--fb);
+  font-size:var(--base);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
 }
-img, svg { display: block; }
-button, input, select { font-family: inherit; }
-:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+img,svg{display:block}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:2px solid var(--blu);outline-offset:3px}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--rsd);border-radius:2px}
 
-/* ─── SCROLLBAR ───────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--raised); border-radius: 2px; }
-
-/* ─── NOISE ───────────────────────────────────────────────────── */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: .025;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px;
+/* grain */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;
+  opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
 }
 
-/* ─── LAYOUT ──────────────────────────────────────────────────── */
-.wrap     { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
-.wrap-sm  { max-width: 640px;  margin: 0 auto; padding: 0 20px; }
-.wrap-xs  { max-width: 480px;  margin: 0 auto; padding: 0 20px; }
+/* ═══════════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════════ */
+.w   {max-width:1080px;margin:0 auto;padding:0 22px}
+.wsm {max-width:660px; margin:0 auto;padding:0 22px}
+.wxs {max-width:440px; margin:0 auto;padding:0 22px}
 
-/* ─── TYPOGRAPHY HELPERS ──────────────────────────────────────── */
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: 500;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--t3);
-  margin-bottom: 20px;
-}
-.eyebrow-dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: var(--blue);
-  animation: blink 2.4s ease-in-out infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+/* ═══════════════════════════════════════════════════
+   TYPOGRAPHY
+═══════════════════════════════════════════════════ */
+h1,h2,h3{font-family:var(--fd);letter-spacing:-.028em;line-height:1.07}
+h1{font-size:var(--4xl);font-weight:800}
+h2{font-size:var(--3xl);font-weight:800}
+h3{font-size:var(--xl); font-weight:700}
 
-h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.025em; line-height: 1.08; }
-h1 { font-size: var(--text-4xl); font-weight: 800; }
-h2 { font-size: var(--text-3xl); font-weight: 800; }
-h3 { font-size: var(--text-xl);  font-weight: 700; }
+.label{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--fm);font-size:var(--xs);
+  font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--t3);margin-bottom:18px;
+}
+.label-dot{
+  width:5px;height:5px;border-radius:50%;background:var(--blu);
+  animation:blink 2.4s ease-in-out infinite;
+}
+.label-dot.gold{background:var(--gld)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
-.section-sub {
-  font-size: var(--text-lg);
-  color: var(--t2);
-  line-height: 1.65;
-  margin-top: 16px;
-}
+.sub{font-size:var(--lg);color:var(--t2);line-height:1.68;margin-top:14px}
 
-/* ─── NAVIGATION ──────────────────────────────────────────────── */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 200;
-  height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  background: rgba(8,8,14,.8);
-  border-bottom: 1px solid rgba(255,255,255,.04);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  transition: background .3s;
+/* ═══════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:56px;display:flex;align-items:center;
+  justify-content:space-between;padding:0 22px;
+  background:rgba(6,6,9,.82);
+  border-bottom:1px solid rgba(255,255,255,.04);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  transition:background .3s;
 }
-.nav-logo {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 17px;
-  letter-spacing: -.03em;
-  color: var(--t1);
-  text-decoration: none;
+.nav-logo{
+  font-family:var(--fd);font-weight:800;font-size:17px;
+  letter-spacing:-.03em;color:var(--t1);text-decoration:none;
 }
-.nav-logo em { font-style: normal; color: var(--gold); }
-.nav-links {
-  display: none;
-  list-style: none;
-  gap: 28px;
+.nav-logo em{font-style:normal;color:var(--gld)}
+.nav-links{display:none;list-style:none;gap:28px}
+.nav-links a{
+  font-size:var(--sm);font-weight:500;color:var(--t3);
+  text-decoration:none;transition:color .2s;
 }
-.nav-links a {
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--t3);
-  text-decoration: none;
-  transition: color .2s;
+.nav-links a:hover{color:var(--t2)}
+@media(min-width:768px){
+  nav{padding:0 32px}
+  .nav-links{display:flex}
 }
-.nav-links a:hover { color: var(--t2); }
-.nav-pill {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: #fff;
-  background: var(--blue);
-  border: none;
-  padding: 9px 20px;
-  border-radius: var(--radius-pill);
-  cursor: pointer;
-  transition: opacity .2s, transform .15s;
+.nav-cta{
+  font-family:var(--fb);font-size:var(--sm);font-weight:600;
+  color:#fff;background:var(--blu);border:none;
+  padding:9px 20px;border-radius:var(--r-p);cursor:pointer;
+  transition:opacity .2s,transform .15s;
+  -webkit-tap-highlight-color:transparent;
 }
-.nav-pill:hover { opacity: .88; transform: translateY(-1px); }
-@media (min-width: 768px) {
-  nav { padding: 0 32px; }
-  .nav-links { display: flex; }
-}
+.nav-cta:hover{opacity:.88;transform:translateY(-1px)}
 
-/* ─── BUTTONS ─────────────────────────────────────────────────── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 52px;
-  padding: 0 28px;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity .2s, transform .15s, box-shadow .2s;
-  border: none;
-  white-space: nowrap;
-  -webkit-tap-highlight-color: transparent;
+/* ═══════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  height:52px;padding:0 28px;border-radius:var(--r-p);
+  font-family:var(--fb);font-size:var(--base);font-weight:600;
+  cursor:pointer;border:none;
+  transition:opacity .2s,transform .18s,box-shadow .2s;
+  -webkit-tap-highlight-color:transparent;
+  white-space:nowrap;
 }
-.btn-primary {
-  background: var(--blue);
-  color: #fff;
-  box-shadow: 0 0 0 0 var(--blue-a20);
+.btn-blue{
+  background:var(--blu);color:#fff;
+  box-shadow:0 0 0 0 rgba(79,142,247,0);
 }
-.btn-primary:hover {
-  opacity: .9;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px var(--blue-a20);
+.btn-blue:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 10px 32px rgba(79,142,247,.22)}
+.btn-blue:active{transform:translateY(0)}
+.btn-blue:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-ghost{
+  background:transparent;color:var(--t2);
+  border:1px solid var(--rimb);
 }
-.btn-primary:active { transform: translateY(0); }
-.btn-ghost {
-  background: transparent;
-  color: var(--t2);
-  border: 1px solid var(--border-lg);
+.btn-ghost:hover{border-color:rgba(255,255,255,.18);color:var(--t1)}
+.btn-gold{
+  background:linear-gradient(135deg,rgba(201,168,76,.85),#C9A84C);
+  color:var(--bg);font-weight:700;
 }
-.btn-ghost:hover { border-color: rgba(255,255,255,.18); color: var(--t1); }
+.btn-gold:hover{opacity:.9;transform:translateY(-2px)}
 
-/* ─── INPUTS ──────────────────────────────────────────────────── */
-.input {
-  width: 100%;
-  height: 52px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 0 18px;
-  color: var(--t1);
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  outline: none;
-  transition: border-color .2s, background .2s;
-  -webkit-appearance: none;
+/* spinner */
+.spinner{
+  width:16px;height:16px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.25);
+  border-top-color:#fff;
+  animation:spin .55s linear infinite;flex-shrink:0;
 }
-.input::placeholder { color: var(--t3); }
-.input:focus {
-  border-color: var(--blue-a20);
-  background: var(--blue-a12);
-}
-.select {
-  width: 100%;
-  height: 52px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 0 18px;
-  color: var(--t3);
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  outline: none;
-  cursor: pointer;
-  -webkit-appearance: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2350506A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-}
-.select option { background: #17171F; }
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* ─── REVEAL ANIMATIONS ───────────────────────────────────────── */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity .65s cubic-bezier(.22,1,.36,1), transform .65s cubic-bezier(.22,1,.36,1);
+/* ═══════════════════════════════════════════════════
+   INPUTS
+═══════════════════════════════════════════════════ */
+.inp{
+  width:100%;height:52px;
+  background:rgba(255,255,255,.038);
+  border:1px solid var(--rim);border-radius:var(--r-lg);
+  padding:0 18px;color:var(--t1);
+  font-family:var(--fb);font-size:var(--base);
+  outline:none;
+  transition:border-color .2s,background .2s;
+  -webkit-appearance:none;
 }
-.reveal.in { opacity: 1; transform: none; }
-.d1 { transition-delay: .06s; }
-.d2 { transition-delay: .12s; }
-.d3 { transition-delay: .18s; }
-.d4 { transition-delay: .24s; }
-.d5 { transition-delay: .30s; }
+.inp::placeholder{color:var(--t3)}
+.inp:focus{border-color:rgba(79,142,247,.3);background:rgba(79,142,247,.05)}
+.inp.err{border-color:rgba(245,101,101,.4);background:rgba(245,101,101,.04)}
 
-/* ─── HERO ────────────────────────────────────────────────────── */
-#hero {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 100px 0 72px;
-  position: relative;
-  overflow: hidden;
+.sel{
+  width:100%;height:52px;
+  background:rgba(255,255,255,.038);
+  border:1px solid var(--rim);border-radius:var(--r-lg);
+  padding:0 18px;color:var(--t3);
+  font-family:var(--fb);font-size:var(--sm);
+  outline:none;cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23484860' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center;
+  transition:border-color .2s;
 }
-.hero-glow {
-  position: absolute;
-  top: -20%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(ellipse, rgba(79,142,247,.07) 0%, transparent 68%);
-  pointer-events: none;
-}
-.hero-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 56px;
-  align-items: center;
-}
-.hero-copy { text-align: center; }
-.hero-copy h1 {
-  max-width: 14ch;
-  margin: 0 auto 18px;
-}
-.hero-copy h1 .dim { color: var(--t3); }
-.hero-lead {
-  font-size: var(--text-lg);
-  color: var(--t2);
-  max-width: 38ch;
-  margin: 0 auto 36px;
-  line-height: 1.6;
-}
-/* form */
-.hero-form { display: flex; flex-direction: column; gap: 10px; max-width: 400px; margin: 0 auto; }
-.hero-form-error {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--red);
-  letter-spacing: .04em;
-  display: none;
-  padding: 0 4px;
-}
-.hero-form-error.show { display: block; }
-.hero-trust {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--t3);
-  letter-spacing: .06em;
-  text-align: center;
-  margin-top: 4px;
-}
+.sel option{background:#17172A;color:var(--t1)}
+.sel:focus{border-color:rgba(79,142,247,.3)}
 
-/* success */
-.form-success {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 32px 20px;
-  text-align: center;
-  max-width: 400px;
-  margin: 0 auto;
-}
-.form-success.show { display: flex; }
-.success-ring {
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  background: rgba(61,214,140,.1);
-  border: 1px solid rgba(61,214,140,.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: pop .4s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes pop { from{transform:scale(0.5);opacity:0} to{transform:scale(1);opacity:1} }
-.success-title {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: 700;
-}
-.success-sub { font-size: var(--text-sm); color: var(--t3); line-height: 1.6; }
+/* ═══════════════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════════════ */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.07s}.d2{transition-delay:.14s}
+.d3{transition-delay:.21s}.d4{transition-delay:.28s}
+.d5{transition-delay:.35s}
 
-/* phone mockup */
-.hero-visual { display: flex; justify-content: center; }
-.phone {
-  width: 240px;
-  height: 490px;
-  background: linear-gradient(170deg, #18182A 0%, #0E0E1C 100%);
-  border-radius: 38px;
-  border: 1px solid rgba(255,255,255,.09);
-  position: relative;
-  overflow: hidden;
+/* ═══════════════════════════════════════════════════
+   SECTION
+═══════════════════════════════════════════════════ */
+section{padding:96px 0}
+@media(min-width:768px){section{padding:120px 0}}
+
+/* ═══════════════════════════════════════════════════
+   PHONE COMPONENT
+═══════════════════════════════════════════════════ */
+.phone-shell{
+  width:252px;height:522px;
+  background:linear-gradient(172deg,#1B1B2D 0%,#0C0C1C 100%);
+  border-radius:44px;
+  border:1px solid rgba(255,255,255,.08);
+  position:relative;overflow:hidden;
   box-shadow:
-    0 0 0 .5px rgba(0,0,0,.8),
-    var(--shadow-lg),
-    0 0 60px rgba(79,142,247,.07),
-    inset 0 1px 0 rgba(255,255,255,.07);
-  animation: phone-float 6s ease-in-out infinite;
+    0 0 0 .5px rgba(0,0,0,.9),
+    0 48px 96px rgba(0,0,0,.75),
+    0 0 80px rgba(79,142,247,.06),
+    inset 0 1px 0 rgba(255,255,255,.06);
 }
-@keyframes phone-float {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
+.phone-island{
+  position:absolute;top:13px;left:50%;
+  transform:translateX(-50%);
+  width:100px;height:30px;background:#000;
+  border-radius:20px;z-index:20;
 }
-.phone-notch {
-  position: absolute;
-  top: 12px; left: 50%;
-  transform: translateX(-50%);
-  width: 80px; height: 22px;
-  background: #080810;
-  border-radius: 12px;
-  z-index: 10;
-  border: 1px solid rgba(255,255,255,.05);
+.phone-screen{
+  position:absolute;inset:0;
+  padding:52px 14px 18px;
+  display:flex;flex-direction:column;gap:7px;overflow:hidden;
 }
-.phone-screen {
-  position: absolute;
-  inset: 0;
-  padding: 48px 14px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+/* shared phone primitives */
+.ph-bar{display:flex;justify-content:space-between;align-items:center;padding:0 2px}
+.ph-time{font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.28);letter-spacing:.04em}
+.ph-status{display:flex;align-items:center;gap:5px}
+.ph-bat{width:18px;height:9px;border:1.2px solid rgba(255,255,255,.28);border-radius:2px;position:relative}
+.ph-bat::after{content:'';position:absolute;top:1.5px;left:1.5px;right:4px;bottom:1.5px;background:rgba(255,255,255,.3);border-radius:.5px}
+.ph-bat::before{content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);width:3px;height:5px;background:rgba(255,255,255,.28);border-radius:0 1px 1px 0}
+.ph-greet{font-family:var(--fd);font-size:10px;font-weight:500;color:rgba(255,255,255,.22);padding:2px 2px}
+.ph-label{font-family:var(--fm);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
+.ph-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.055);border-radius:13px;padding:11px 12px}
+.ph-row{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.ph-val{font-family:var(--fd);font-weight:700;line-height:1}
+.ph-sub{font-family:var(--fm);font-size:7px;letter-spacing:.06em;color:var(--t3)}
+
+/* ═══════════════════════════════════════════════════
+   FORM STATE
+═══════════════════════════════════════════════════ */
+.form-wrap{position:relative}
+.form-inner{display:flex;flex-direction:column;gap:10px}
+.form-err{
+  font-family:var(--fm);font-size:var(--xs);color:var(--red);
+  letter-spacing:.04em;display:none;padding:0 2px;
 }
-.ps-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 2px;
+.form-err.on{display:block}
+.form-trust{
+  font-family:var(--fm);font-size:var(--xs);color:var(--t3);
+  letter-spacing:.06em;text-align:center;
 }
-.ps-time {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: rgba(255,255,255,.3);
+.form-success{
+  display:none;flex-direction:column;align-items:center;
+  gap:14px;text-align:center;padding:24px 0;
 }
-.ps-greeting {
-  font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 500;
-  color: rgba(255,255,255,.25);
-  padding: 4px 0;
+.form-success.on{display:flex}
+.suc-ring{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(61,214,140,.09);
+  border:1px solid rgba(61,214,140,.22);
+  display:flex;align-items:center;justify-content:center;
+  animation:pop .45s cubic-bezier(.34,1.56,.64,1);
 }
-/* score ring */
-.ps-ring-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 10px 0 6px;
+@keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.suc-title{font-family:var(--fd);font-size:var(--xl);font-weight:700}
+.suc-sub{font-size:var(--sm);color:var(--t3);line-height:1.65;max-width:280px}
+
+/* ═══════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════ */
+#hero{
+  min-height:100dvh;display:flex;flex-direction:column;
+  justify-content:center;padding-top:56px;
+  position:relative;overflow:hidden;
 }
-.ps-ring-svg { transform: rotate(-90deg); display: block; }
-.ps-ring-bg  { fill: none; stroke: rgba(255,255,255,.05); stroke-width: 4.5; }
-.ps-ring-fill {
-  fill: none;
-  stroke: var(--blue);
-  stroke-width: 4.5;
-  stroke-linecap: round;
-  stroke-dasharray: 188;
-  stroke-dashoffset: 188;
-  filter: drop-shadow(0 0 5px rgba(79,142,247,.5));
-  transition: stroke-dashoffset 1.4s cubic-bezier(.22,1,.36,1);
+.hero-bg{
+  position:absolute;top:-10%;left:50%;
+  transform:translateX(-50%);
+  width:900px;height:700px;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 30%,rgba(79,142,247,.065) 0%,transparent 65%);
 }
-.ps-ring-fill.animate { stroke-dashoffset: 47; }
-.ps-ring-label {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.hero-bg2{
+  position:absolute;bottom:-5%;right:-10%;
+  width:500px;height:500px;pointer-events:none;
+  background:radial-gradient(ellipse,rgba(201,168,76,.04) 0%,transparent 65%);
 }
-.ps-ring-number {
-  font-family: var(--font-display);
-  font-size: 19px;
-  font-weight: 800;
-  color: var(--t1);
-  line-height: 1;
+.hero-grid{
+  display:flex;flex-direction:column;
+  align-items:center;gap:52px;
+  padding:72px 0 80px;
 }
-.ps-ring-sub {
-  font-family: var(--font-mono);
-  font-size: 7px;
-  color: var(--t3);
-  letter-spacing: .08em;
-  margin-top: 2px;
+.hero-left{text-align:center;max-width:580px}
+.hero-left h1{margin-bottom:18px}
+.hero-left h1 .dim{color:var(--t3)}
+.hero-lede{
+  font-size:var(--lg);color:var(--t2);
+  max-width:36ch;margin:0 auto 36px;line-height:1.65;
 }
-.ps-ring-container { position: relative; width: 72px; height: 72px; }
-.ps-ring-title {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  color: var(--t3);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-}
-/* mini cards row */
-.ps-row { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-.ps-card {
-  background: rgba(255,255,255,.03);
-  border: 1px solid rgba(255,255,255,.05);
-  border-radius: 9px;
-  padding: 9px 10px;
-}
-.ps-card-label {
-  font-family: var(--font-mono);
-  font-size: 7px;
-  color: var(--t3);
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  margin-bottom: 3px;
-}
-.ps-card-value {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1;
-}
-/* session card */
-.ps-session {
-  background: var(--blue-a12);
-  border: 1px solid var(--blue-a20);
-  border-radius: 11px;
-  padding: 11px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.ps-session-title {
-  font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-.ps-session-sub {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  color: var(--blue);
-  letter-spacing: .05em;
-}
-.ps-session-play {
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  background: var(--blue);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 14px rgba(79,142,247,.4);
-  flex-shrink: 0;
-}
-.ps-session-arrow {
-  width: 0; height: 0;
-  border-top: 4px solid transparent;
-  border-bottom: 4px solid transparent;
-  border-left: 6px solid #fff;
-  margin-left: 2px;
-}
-/* identity bar */
-.ps-identity {
-  background: linear-gradient(135deg, rgba(201,168,76,.08), rgba(201,168,76,.02));
-  border: 1px solid rgba(201,168,76,.14);
-  border-radius: 9px;
-  padding: 9px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.ps-identity-name {
-  font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--gold);
-}
-.ps-identity-tag {
-  font-family: var(--font-mono);
-  font-size: 7px;
-  color: var(--bg);
-  background: var(--gold);
-  padding: 3px 7px;
-  border-radius: 999px;
-  letter-spacing: .05em;
+.hero-form{max-width:400px;margin:0 auto}
+@media(min-width:960px){
+  .hero-grid{flex-direction:row;justify-content:center;align-items:center;gap:80px;padding:80px 0}
+  .hero-left{text-align:left;margin:0}
+  .hero-left h1{margin-bottom:18px}
+  .hero-lede{margin:0 0 36px}
+  .hero-form{margin:0}
+  .form-trust{text-align:left}
 }
 
+/* ring SVG */
+.ring-svg{transform:rotate(-90deg);display:block}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.05);stroke-width:4.5}
+.ring-fill{
+  fill:none;stroke:var(--blu);stroke-width:4.5;stroke-linecap:round;
+  stroke-dasharray:195;stroke-dashoffset:195;
+  filter:drop-shadow(0 0 6px rgba(79,142,247,.5));
+  transition:stroke-dashoffset 1.6s cubic-bezier(.22,1,.36,1);
+}
+.ring-fill.go{stroke-dashoffset:49}
+.ring-container{position:relative;width:76px;height:76px}
+.ring-inner{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.ring-num{font-family:var(--fd);font-size:20px;font-weight:800;color:var(--t1);line-height:1}
+.ring-lbl{font-family:var(--fm);font-size:6.5px;color:var(--t3);letter-spacing:.09em;margin-top:2px}
+
+/* session card inside phone */
+.ph-session{
+  background:var(--blu1);
+  border:1px solid var(--blu2);
+  border-radius:13px;
+  padding:11px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ph-ses-title{font-family:var(--fd);font-size:11.5px;font-weight:700;margin-bottom:2px}
+.ph-ses-sub{font-family:var(--fm);font-size:7.5px;color:var(--blu);letter-spacing:.05em}
+.ph-play{
+  width:26px;height:26px;border-radius:50%;background:var(--blu);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 0 16px rgba(79,142,247,.45);
+}
+.ph-arrow{
+  width:0;height:0;
+  border-top:4px solid transparent;border-bottom:4px solid transparent;
+  border-left:6.5px solid #fff;margin-left:2px;
+}
+/* identity pill in phone */
+.ph-id{
+  background:linear-gradient(135deg,rgba(201,168,76,.09),rgba(201,168,76,.03));
+  border:1px solid rgba(201,168,76,.14);
+  border-radius:11px;padding:9px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ph-id-name{font-family:var(--fd);font-size:10.5px;font-weight:700;color:var(--gld)}
+.ph-id-tag{
+  font-family:var(--fm);font-size:7px;color:var(--bg);
+  background:var(--gld);padding:3px 7px;border-radius:var(--r-p);letter-spacing:.05em;
+}
 /* floating badge */
-.phone-badge {
-  position: absolute;
-  right: -16px;
-  top: 90px;
-  background: rgba(17,17,25,.95);
-  border: 1px solid rgba(61,214,140,.2);
-  border-radius: 12px;
-  padding: 10px 14px;
-  backdrop-filter: blur(12px);
-  animation: phone-float 5s ease-in-out infinite .8s;
-  box-shadow: var(--shadow-md);
+.phone-badge{
+  position:absolute;
+  background:rgba(14,14,24,.96);
+  border-radius:13px;
+  padding:10px 14px;
+  box-shadow:0 8px 32px rgba(0,0,0,.55);
+  border:1px solid rgba(255,255,255,.07);
+  backdrop-filter:blur(16px);
 }
-.pb-label {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  color: var(--t3);
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  margin-bottom: 2px;
+.pb-lbl{font-family:var(--fm);font-size:8px;color:var(--t3);letter-spacing:.09em;text-transform:uppercase;margin-bottom:2px}
+.pb-val{font-family:var(--fd);font-size:15px;font-weight:800;line-height:1}
+.pb-sub{font-family:var(--fm);font-size:8px;color:var(--t3);margin-top:2px}
+.ph-float{animation:pf 6s ease-in-out infinite}
+@keyframes pf{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+/* ═══════════════════════════════════════════════════
+   PROBLEM
+═══════════════════════════════════════════════════ */
+#problem{background:var(--bg2)}
+.problem-list{
+  display:flex;flex-direction:column;
+  gap:1px;margin-top:48px;
 }
-.pb-value {
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--green);
+.problem-item{
+  padding:28px 24px;
+  border:1px solid transparent;
+  border-radius:var(--r-lg);
+  cursor:default;
+  transition:border-color .25s,background .25s;
+  position:relative;
 }
-.pb-sub {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  color: var(--t3);
-  margin-top: 1px;
+.problem-item:hover{border-color:rgba(245,101,101,.1);background:rgba(245,101,101,.02)}
+.problem-item::before{
+  content:attr(data-n);
+  font-family:var(--fm);font-size:var(--xs);
+  color:var(--t4);letter-spacing:.1em;
+  display:block;margin-bottom:10px;
+}
+.problem-item p{
+  font-family:var(--fd);
+  font-size:clamp(17px,3.5vw,22px);
+  font-weight:700;line-height:1.38;color:var(--t2);
+}
+.problem-item p strong{color:var(--t1);font-weight:800}
+@media(min-width:640px){
+  .problem-list{display:grid;grid-template-columns:1fr 1fr;gap:1px}
 }
 
-@media (min-width: 900px) {
-  #hero { padding: 120px 0 100px; }
-  .hero-grid {
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 80px;
-    text-align: left;
-  }
-  .hero-copy { text-align: left; flex: 1; max-width: 520px; }
-  .hero-copy h1  { margin: 0 0 18px; }
-  .hero-lead     { margin: 0 0 36px; }
-  .hero-form     { margin: 0; }
-  .hero-trust    { text-align: left; }
-  .hero-visual   { flex-shrink: 0; }
+/* ═══════════════════════════════════════════════════
+   WHY OTHERS FAIL
+═══════════════════════════════════════════════════ */
+.why-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:12px;margin-top:48px;
+}
+.why-card{
+  background:var(--sur);border:1px solid var(--rim);
+  border-radius:var(--r-lg);padding:24px;
+  transition:border-color .25s,transform .25s;
+}
+.why-card:hover{border-color:var(--rimb);transform:translateY(-2px)}
+.why-tool{font-family:var(--fm);font-size:var(--xs);color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.why-miss{
+  display:inline-block;
+  font-family:var(--fm);font-size:10px;color:var(--red);
+  background:rgba(245,101,101,.08);border:1px solid rgba(245,101,101,.14);
+  border-radius:var(--r-p);padding:3px 10px;margin-bottom:10px;letter-spacing:.05em;
+}
+.why-card p{font-size:var(--sm);color:var(--t3);line-height:1.65}
+.why-card p strong{color:var(--t2)}
+@media(min-width:700px){.why-grid{grid-template-columns:repeat(4,1fr)}}
+
+/* ═══════════════════════════════════════════════════
+   METHOD
+═══════════════════════════════════════════════════ */
+#method{background:var(--bg2)}
+.method-grid{
+  display:grid;grid-template-columns:1fr;
+  gap:1px;margin-top:48px;
+  background:var(--rim);
+  border:1px solid var(--rim);
+  border-radius:var(--r-xl);overflow:hidden;
+}
+.method-step{
+  background:var(--bg2);padding:32px 28px;
+  transition:background .2s;
+}
+.method-step:hover{background:rgba(79,142,247,.025)}
+.m-num{font-family:var(--fm);font-size:var(--xs);color:var(--blu);letter-spacing:.12em;opacity:.7;margin-bottom:16px}
+.m-ico{
+  width:38px;height:38px;border-radius:11px;
+  background:var(--blu1);border:1px solid var(--blu2);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:18px;
+}
+.m-ico svg{width:15px;height:15px;stroke:var(--blu);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.method-step h3{font-size:var(--xl);margin-bottom:8px}
+.method-step p{font-size:var(--sm);color:var(--t3);line-height:1.65}
+@media(min-width:640px) {.method-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.method-grid{grid-template-columns:repeat(4,1fr)}}
+
+/* ═══════════════════════════════════════════════════
+   PRODUCT SCREENS
+═══════════════════════════════════════════════════ */
+#screens{overflow:hidden}
+.screens-grid{
+  display:flex;flex-direction:column;
+  align-items:center;gap:24px;
+  margin-top:56px;
+}
+@media(min-width:700px){
+  .screens-grid{flex-direction:row;justify-content:center;align-items:flex-start;gap:20px}
 }
 
-/* ─── SECTION SPACING ─────────────────────────────────────────── */
-section { padding: 88px 0; }
-@media (min-width: 768px) { section { padding: 112px 0; } }
+/* ritual screen */
+.rph .ph-readiness-score{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:12px 0 8px;
+}
+.rph .rsc{font-family:var(--fd);font-size:56px;font-weight:800;color:var(--grn);line-height:1;letter-spacing:-.03em}
+.rph .rsc-glow{filter:drop-shadow(0 0 18px rgba(61,214,140,.35))}
+.rph .rsc-label{font-family:var(--fm);font-size:7.5px;color:var(--t3);letter-spacing:.12em;text-transform:uppercase}
+.rph .rsc-protocol{font-family:var(--fd);font-size:10px;font-weight:600;color:var(--grn);opacity:.7;margin-top:2px}
 
-/* ─── PROBLEM ─────────────────────────────────────────────────── */
-#problem { background: var(--bg-2); }
-.problem-statements {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin-top: 48px;
-}
-.problem-item {
-  padding: 28px 24px;
-  border: 1px solid transparent;
-  border-radius: var(--radius-lg);
-  transition: border-color .25s, background .25s;
-  cursor: default;
-  position: relative;
-}
-.problem-item:hover {
-  border-color: rgba(245,101,101,.12);
-  background: rgba(245,101,101,.025);
-}
-.problem-item::before {
-  content: attr(data-num);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--t4);
-  margin-bottom: 10px;
-  display: block;
-  letter-spacing: .1em;
-}
-.problem-item p {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: 700;
-  line-height: 1.35;
-  color: var(--t2);
-}
-.problem-item p strong { color: var(--t1); font-weight: 800; }
-@media (min-width: 640px) {
-  .problem-statements { display: grid; grid-template-columns: 1fr 1fr; }
-}
+.bars{display:flex;flex-direction:column;gap:7px;padding:4px 0}
+.bar-row{display:flex;align-items:center;gap:7px}
+.bar-lbl{font-family:var(--fm);font-size:7px;color:var(--t3);letter-spacing:.06em;width:44px;flex-shrink:0}
+.bar-track{flex:1;height:3px;background:rgba(255,255,255,.05);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;transition:width 1.4s cubic-bezier(.22,1,.36,1)}
+.bar-num{font-family:var(--fm);font-size:7px;color:var(--t3);width:18px;text-align:right;flex-shrink:0}
 
-/* ─── WHY OTHERS FAIL ─────────────────────────────────────────── */
-#why { text-align: center; }
-.why-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 48px;
-  text-align: left;
+.rph-cta{
+  background:var(--grn);border-radius:10px;
+  padding:10px;display:flex;align-items:center;justify-content:center;gap:6px;
+  margin-top:2px;
 }
-.why-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  transition: border-color .25s;
-}
-.why-card:hover { border-color: var(--border-lg); }
-.why-tool {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--t3);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-.why-miss {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--red);
-  background: rgba(245,101,101,.08);
-  border: 1px solid rgba(245,101,101,.15);
-  border-radius: var(--radius-pill);
-  padding: 3px 10px;
-  margin-bottom: 10px;
-  letter-spacing: .06em;
-}
-.why-card p {
-  font-size: var(--text-sm);
-  color: var(--t3);
-  line-height: 1.6;
-}
-@media (min-width: 640px) { .why-grid { grid-template-columns: repeat(4,1fr); } }
+.rph-cta span{font-family:var(--fd);font-size:11px;font-weight:700;color:var(--bg)}
 
-/* ─── METHOD ──────────────────────────────────────────────────── */
-#method { background: var(--bg-2); text-align: center; }
-.method-steps {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1px;
-  margin-top: 48px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  overflow: hidden;
+/* session screen */
+.sph .session-ring-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  gap:4px;padding:8px 0 4px;
 }
-.method-step {
-  background: var(--bg);
-  padding: 32px 28px;
-  text-align: left;
-  transition: background .2s;
+.sph .big-ring-container{position:relative;width:110px;height:110px}
+.sph .big-ring-svg{transform:rotate(-90deg)}
+.sph .big-ring-bg{fill:none;stroke:rgba(255,255,255,.05);stroke-width:5}
+.sph .big-ring-fill{
+  fill:none;stroke:var(--blu);stroke-width:5;stroke-linecap:round;
+  stroke-dasharray:314;stroke-dashoffset:314;
+  filter:drop-shadow(0 0 6px rgba(79,142,247,.5));
+  transition:stroke-dashoffset 2s cubic-bezier(.22,1,.36,1);
 }
-.method-step:hover { background: rgba(79,142,247,.025); }
-.step-num {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--blue);
-  letter-spacing: .12em;
-  opacity: .7;
-  margin-bottom: 16px;
+.sph .big-ring-fill.go{stroke-dashoffset:94}
+.sph .big-ring-inner{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
 }
-.step-icon {
-  width: 40px; height: 40px;
-  border-radius: 12px;
-  background: var(--blue-a12);
-  border: 1px solid var(--blue-a20);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 18px;
+.sph .timer{font-family:var(--fd);font-size:22px;font-weight:800;color:var(--t1);line-height:1;letter-spacing:-.02em}
+.sph .timer-sub{font-family:var(--fm);font-size:7px;color:var(--t3);letter-spacing:.08em;margin-top:3px}
+.sph .live-score{text-align:center;margin-top:4px}
+.sph .ls-label{font-family:var(--fm);font-size:7.5px;color:var(--t3);letter-spacing:.1em;text-transform:uppercase}
+.sph .ls-val{font-family:var(--fd);font-size:32px;font-weight:800;color:var(--t1);line-height:1.1}
+.session-status{
+  display:flex;align-items:center;gap:7px;
+  padding:6px 10px;
+  background:rgba(61,214,140,.07);border:1px solid rgba(61,214,140,.14);
+  border-radius:var(--r-p);align-self:flex-start;
 }
-.step-icon svg { width: 16px; height: 16px; stroke: var(--blue); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.method-step h3 { font-size: var(--text-xl); margin-bottom: 8px; }
-.method-step p  { font-size: var(--text-sm); color: var(--t3); line-height: 1.65; }
-@media (min-width: 640px)  { .method-steps { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 1000px) { .method-steps { grid-template-columns: repeat(4,1fr); } }
-
-/* ─── PRODUCT PREVIEW ─────────────────────────────────────────── */
-#product { text-align: center; }
-.product-metrics {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 48px;
-}
-.metric-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  text-align: left;
-  transition: border-color .25s, transform .25s;
-}
-.metric-card:hover { border-color: var(--border-lg); transform: translateY(-3px); }
-.mc-label {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--t3);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-.mc-value {
-  font-family: var(--font-display);
-  font-size: var(--text-3xl);
-  font-weight: 800;
-  line-height: 1;
-  margin-bottom: 6px;
-}
-.mc-sub { font-size: var(--text-sm); color: var(--t3); }
-/* mini spark bar */
-.mc-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 28px;
-  margin-top: 14px;
-}
-.mc-bar {
-  flex: 1;
-  border-radius: 3px 3px 0 0;
-  background: var(--blue-a20);
-  transition: background .2s;
-}
-.mc-bar.hi { background: var(--blue); }
-.product-features {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-.feat-pill {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 16px 18px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-align: left;
-}
-.feat-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.feat-pill span { font-size: var(--text-sm); font-weight: 500; color: var(--t2); }
-@media (min-width: 640px)  { .product-metrics { grid-template-columns: repeat(4,1fr); } .product-features { grid-column: unset; } }
-
-/* ─── IDENTITY ────────────────────────────────────────────────── */
-#identity { background: var(--bg-2); text-align: center; }
-.identity-statement {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  color: var(--t2);
-  max-width: 30ch;
-  margin: 0 auto 16px;
-  line-height: 1.35;
-}
-.identity-statement strong { color: var(--t1); }
-.identity-tags {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 40px;
-}
-.identity-tag {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  padding: 10px 18px;
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--t2);
-  transition: border-color .2s, color .2s;
-}
-.identity-tag:hover { border-color: var(--border-lg); color: var(--t1); }
-.identity-tag-dot { width: 6px; height: 6px; border-radius: 50%; }
-.identity-gold {
-  border-color: var(--gold-a20);
-  color: var(--gold);
-  background: var(--gold-a10);
-}
-.identity-gold .identity-tag-dot { background: var(--gold); }
-.identity-tag:not(.identity-gold) .identity-tag-dot { background: var(--t3); }
-.identity-sub {
-  margin-top: 32px;
-  font-size: var(--text-sm);
-  color: var(--t3);
-  max-width: 36ch;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.65;
+.status-dot{width:5px;height:5px;border-radius:50%;background:var(--grn);animation:blink 1.8s ease-in-out infinite}
+.status-text{font-family:var(--fm);font-size:8px;color:var(--grn);letter-spacing:.08em;text-transform:uppercase}
+.sph-controls{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:auto}
+.sph-btn{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);
+  border-radius:9px;padding:9px;
+  font-family:var(--fd);font-size:10px;font-weight:600;color:var(--t2);
+  text-align:center;
 }
 
-/* ─── PRICING ─────────────────────────────────────────────────── */
-#pricing { text-align: center; }
-.pricing-note {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--gold);
-  background: var(--gold-a10);
-  border: 1px solid rgba(201,168,76,.15);
-  border-radius: var(--radius-pill);
-  padding: 5px 14px;
-  letter-spacing: .08em;
-  margin-top: 16px;
+/* coach screen */
+.cph .coach-header{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 0 4px;
 }
-.pricing-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin-top: 48px;
-  text-align: left;
+.coach-avatar{
+  width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blu),#7B61FF);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
-.pricing-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  padding: 28px 24px;
-  display: flex;
-  flex-direction: column;
-  transition: border-color .25s, transform .25s;
+.coach-avatar svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round}
+.coach-name{font-family:var(--fd);font-size:10.5px;font-weight:700}
+.coach-role{font-family:var(--fm);font-size:7px;color:var(--t3);letter-spacing:.06em}
+.coach-bubble{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:13px 13px 13px 3px;
+  padding:11px 12px;
 }
-.pricing-card:hover { transform: translateY(-4px); }
-.pricing-card.pop {
-  border-color: var(--blue-a20);
-  background: linear-gradient(160deg, rgba(79,142,247,.06), var(--surface) 60%);
-  box-shadow: 0 0 40px rgba(79,142,247,.07), var(--shadow-md);
+.coach-bubble p{font-size:10.5px;color:var(--t2);line-height:1.55}
+.coach-bubble p strong{color:var(--t1)}
+.coach-bubble2{border-radius:13px 13px 13px 3px;margin-left:8px}
+.coach-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--blu1);border:1px solid var(--blu2);
+  border-radius:var(--r-p);padding:4px 10px;margin-top:4px;
 }
-.pricing-card.elite { border-color: var(--gold-a20); }
-.pricing-badge {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
-  margin-bottom: 20px;
-  align-self: flex-start;
-}
-.badge-free    { background: rgba(255,255,255,.05); color: var(--t3); }
-.badge-student { background: rgba(61,214,140,.1); color: var(--green); border: 1px solid rgba(61,214,140,.2); }
-.badge-pop     { background: var(--blue-a12); color: var(--blue); border: 1px solid var(--blue-a20); }
-.badge-elite   { background: var(--gold-a10); color: var(--gold); border: 1px solid var(--gold-a20); }
-.pricing-price {
-  font-family: var(--font-display);
-  font-size: 38px;
-  font-weight: 800;
-  letter-spacing: -.03em;
-  line-height: 1;
-  margin-bottom: 3px;
-}
-.pricing-period {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--t3);
-  letter-spacing: .06em;
-  margin-bottom: 18px;
-}
-.pricing-name {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: 700;
-  margin-bottom: 5px;
-}
-.pricing-tagline { font-size: var(--text-sm); color: var(--t3); margin-bottom: 22px; line-height: 1.5; }
-.pricing-divider { height: 1px; background: var(--border); margin-bottom: 20px; }
-.pricing-features { list-style: none; display: flex; flex-direction: column; gap: 11px; flex: 1; margin-bottom: 24px; }
-.pricing-feature {
-  font-size: var(--text-sm);
-  color: var(--t2);
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  line-height: 1.4;
-}
-.pricing-feature::before { content: '✓'; color: var(--blue); font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-.pricing-feature.off { color: var(--t4); }
-.pricing-feature.off::before { content: '—'; color: var(--t4); }
-.pricing-cta {
-  width: 100%;
-  height: 48px;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: opacity .2s, transform .15s;
-  margin-top: auto;
-}
-.pricing-cta.primary { background: var(--blue); color: #fff; }
-.pricing-cta.primary:hover { opacity: .88; transform: translateY(-1px); }
-.pricing-cta.ghost { background: transparent; color: var(--t2); border: 1px solid var(--border-lg); }
-.pricing-cta.ghost:hover { border-color: rgba(255,255,255,.18); color: var(--t1); }
-.pricing-cta.gold-cta { background: linear-gradient(135deg, rgba(201,168,76,.8), var(--gold)); color: var(--bg); }
-.pricing-cta.gold-cta:hover { opacity: .9; transform: translateY(-1px); }
-@media (min-width: 640px)  { .pricing-grid { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 1000px) { .pricing-grid { grid-template-columns: repeat(4,1fr); } }
+.coach-tag span{font-family:var(--fm);font-size:7.5px;color:var(--blu);letter-spacing:.05em}
 
-/* ─── FINAL CTA ───────────────────────────────────────────────── */
-#final {
-  background: var(--bg-2);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+/* analytics screen */
+.aph .identity-hero{
+  background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03));
+  border:1px solid rgba(201,168,76,.16);
+  border-radius:13px;padding:14px;text-align:center;
 }
-.final-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 100%, rgba(79,142,247,.07), transparent 65%);
-  pointer-events: none;
+.aph .id-sup{font-family:var(--fm);font-size:7px;color:var(--gld);letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.aph .id-name{font-family:var(--fd);font-size:18px;font-weight:800;color:var(--gld);letter-spacing:-.02em}
+.aph .id-pct{font-family:var(--fm);font-size:8px;color:rgba(201,168,76,.6);margin-top:2px}
+.aph .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.aph .stat-cell{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:10px;padding:9px 8px;text-align:center;
 }
-#final h2 { margin-bottom: 14px; }
-#final h2 .gold { color: var(--gold); }
-.final-sub {
-  font-size: var(--text-lg);
-  color: var(--t3);
-  max-width: 30ch;
-  margin: 0 auto 40px;
-  line-height: 1.6;
+.aph .sc-val{font-family:var(--fd);font-size:16px;font-weight:700;line-height:1}
+.aph .sc-lbl{font-family:var(--fm);font-size:7px;color:var(--t3);letter-spacing:.07em;margin-top:3px}
+.aph .spark{display:flex;align-items:flex-end;gap:3px;height:28px;margin-top:4px}
+.aph .spark-bar{flex:1;border-radius:2px 2px 0 0;background:rgba(79,142,247,.25)}
+.aph .spark-bar.hi{background:var(--blu)}
+.aph .window-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:11px;padding:10px;
+  display:flex;align-items:center;justify-content:space-between;
 }
-.final-form { max-width: 380px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-
-/* ─── FOOTER ──────────────────────────────────────────────────── */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 32px 20px;
-}
-.footer-inner {
-  max-width: 1080px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.footer-logo {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 15px;
-  letter-spacing: -.03em;
-  color: var(--t1);
-}
-.footer-logo em { font-style: normal; color: var(--gold); }
-.footer-copy {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--t3);
-  letter-spacing: .05em;
+.aph .wc-left{}
+.aph .wc-label{font-family:var(--fm);font-size:7px;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.aph .wc-val{font-family:var(--fd);font-size:13px;font-weight:700;color:var(--blu)}
+.aph .wc-badge{
+  font-family:var(--fm);font-size:7px;
+  background:var(--blu1);border:1px solid var(--blu2);
+  color:var(--blu);padding:3px 8px;border-radius:var(--r-p);
 }
 
-/* ─── FAQ ─────────────────────────────────────────────────────── */
-#faq { background: var(--bg); }
-.faq-list { margin-top: 40px; }
-.faq-item { border-bottom: 1px solid var(--border); }
-.faq-q {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  padding: 22px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  cursor: pointer;
-  color: var(--t1);
-  font-family: var(--font-display);
-  font-size: var(--text-base);
-  font-weight: 600;
-  transition: color .2s;
+/* ═══════════════════════════════════════════════════
+   IDENTITY
+═══════════════════════════════════════════════════ */
+#identity{background:var(--bg2)}
+.id-statement{
+  font-family:var(--fd);
+  font-size:clamp(22px,4.5vw,30px);
+  font-weight:700;color:var(--t2);
+  max-width:30ch;line-height:1.35;
 }
-.faq-q:hover { color: var(--blue); }
-.faq-chevron {
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: transform .3s, border-color .2s, background .2s;
+.id-statement strong{color:var(--t1)}
+.id-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:40px}
+.id-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--sur);border:1px solid var(--rim);
+  border-radius:var(--r-p);padding:10px 18px;
+  font-family:var(--fd);font-size:var(--sm);font-weight:600;
+  color:var(--t2);transition:border-color .2s,color .2s;
 }
-.faq-item.open .faq-chevron {
-  transform: rotate(45deg);
-  background: var(--blue-a12);
-  border-color: var(--blue-a20);
-}
-.faq-a {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .38s cubic-bezier(.4,0,.2,1);
-}
-.faq-a-inner {
-  padding: 0 0 22px;
-  font-size: var(--text-sm);
-  color: var(--t3);
-  line-height: 1.7;
-  max-width: 540px;
-}
-.faq-a-inner strong { color: var(--t2); }
+.id-tag:hover{border-color:var(--rimb);color:var(--t1)}
+.id-tag-dot{width:6px;height:6px;border-radius:50%}
+.id-gold{border-color:var(--gld2);color:var(--gld);background:var(--gld1)}
+.id-gold .id-tag-dot{background:var(--gld)}
+.id-tag:not(.id-gold) .id-tag-dot{background:var(--t3)}
+.id-note{margin-top:28px;font-size:var(--sm);color:var(--t3);line-height:1.65}
 
-/* ─── MISC HELPERS ────────────────────────────────────────────── */
-.text-center { text-align: center; }
-.color-blue  { color: var(--blue); }
-.color-gold  { color: var(--gold); }
-.color-green { color: var(--green); }
-.color-t3    { color: var(--t3); }
+/* ═══════════════════════════════════════════════════
+   PRICING
+═══════════════════════════════════════════════════ */
+.pricing-note{
+  display:inline-block;
+  font-family:var(--fm);font-size:var(--xs);color:var(--gld);
+  background:var(--gld1);border:1px solid rgba(201,168,76,.16);
+  border-radius:var(--r-p);padding:5px 14px;letter-spacing:.08em;margin-top:14px;
+}
+.pricing-grid{
+  display:grid;grid-template-columns:1fr;
+  gap:12px;margin-top:48px;
+}
+.pricing-card{
+  background:var(--sur);border:1px solid var(--rim);
+  border-radius:var(--r-xl);padding:28px 24px;
+  display:flex;flex-direction:column;
+  transition:border-color .25s,transform .25s;
+}
+.pricing-card:hover{transform:translateY(-4px)}
+.pricing-card.pop{
+  border-color:var(--blu2);
+  background:linear-gradient(160deg,rgba(79,142,247,.06),var(--sur) 55%);
+  box-shadow:0 0 48px rgba(79,142,247,.07),0 24px 64px rgba(0,0,0,.4);
+}
+.pricing-card.eli{border-color:var(--gld2)}
+.p-badge{
+  display:inline-block;
+  font-family:var(--fm);font-size:9px;font-weight:500;letter-spacing:.1em;
+  text-transform:uppercase;padding:4px 10px;border-radius:var(--r-p);
+  margin-bottom:20px;align-self:flex-start;
+}
+.pb-free   {background:rgba(255,255,255,.04);color:var(--t3)}
+.pb-std    {background:rgba(61,214,140,.09);color:var(--grn);border:1px solid rgba(61,214,140,.18)}
+.pb-pop    {background:var(--blu1);color:var(--blu);border:1px solid var(--blu2)}
+.pb-eli    {background:var(--gld1);color:var(--gld);border:1px solid var(--gld2)}
+.p-price   {font-family:var(--fd);font-size:40px;font-weight:800;letter-spacing:-.035em;line-height:1;margin-bottom:3px}
+.p-period  {font-family:var(--fm);font-size:var(--xs);color:var(--t3);letter-spacing:.06em;margin-bottom:18px}
+.p-name    {font-family:var(--fd);font-size:var(--xl);font-weight:700;margin-bottom:5px}
+.p-tagline {font-size:var(--sm);color:var(--t3);margin-bottom:22px;line-height:1.5}
+.p-divider {height:1px;background:var(--rim);margin-bottom:20px}
+.p-features{list-style:none;display:flex;flex-direction:column;gap:11px;flex:1;margin-bottom:24px}
+.p-feat{font-size:var(--sm);color:var(--t2);display:flex;align-items:flex-start;gap:9px;line-height:1.45}
+.p-feat::before{content:'✓';color:var(--blu);font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+.p-feat.off{color:var(--t4)}
+.p-feat.off::before{content:'—';color:var(--t4)}
+.p-cta{
+  width:100%;height:46px;border-radius:var(--r-p);
+  font-family:var(--fb);font-size:var(--sm);font-weight:600;
+  cursor:pointer;border:none;margin-top:auto;
+  transition:opacity .2s,transform .15s;
+}
+.p-cta.blue{background:var(--blu);color:#fff}
+.p-cta.blue:hover{opacity:.88;transform:translateY(-1px)}
+.p-cta.ghost{background:transparent;color:var(--t2);border:1px solid var(--rimb)}
+.p-cta.ghost:hover{border-color:rgba(255,255,255,.18);color:var(--t1)}
+.p-cta.gold{background:linear-gradient(135deg,rgba(201,168,76,.85),var(--gld));color:var(--bg);font-weight:700}
+.p-cta.gold:hover{opacity:.9;transform:translateY(-1px)}
+@media(min-width:640px) {.pricing-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.pricing-grid{grid-template-columns:repeat(4,1fr)}}
+
+/* ═══════════════════════════════════════════════════
+   FAQ
+═══════════════════════════════════════════════════ */
+#faq{background:var(--bg2)}
+.faq-list{margin-top:40px}
+.faq-item{border-bottom:1px solid var(--rim)}
+.faq-q{
+  width:100%;text-align:left;background:none;border:none;
+  padding:22px 0;display:flex;justify-content:space-between;align-items:center;
+  gap:16px;cursor:pointer;color:var(--t1);
+  font-family:var(--fd);font-size:var(--base);font-weight:600;
+  transition:color .2s;
+}
+.faq-q:hover{color:var(--blu)}
+.faq-icon{
+  width:22px;height:22px;border-radius:50%;
+  border:1px solid var(--rim);display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:transform .3s,border-color .2s,background .2s;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--blu1);border-color:var(--blu2)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .38s cubic-bezier(.4,0,.2,1)}
+.faq-ai{
+  padding:0 0 22px;font-size:var(--sm);
+  color:var(--t3);line-height:1.75;max-width:560px;
+}
+.faq-ai strong{color:var(--t2)}
+
+/* ═══════════════════════════════════════════════════
+   FINAL CTA
+═══════════════════════════════════════════════════ */
+#final{position:relative;overflow:hidden;text-align:center}
+.final-glow{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 100%,rgba(79,142,247,.07),transparent 62%);
+}
+#final h2{max-width:18ch;margin:0 auto 14px}
+#final h2 em{font-style:normal;color:var(--gld)}
+.final-sub{font-size:var(--lg);color:var(--t3);max-width:28ch;margin:0 auto 40px;line-height:1.65}
+.final-form{max-width:380px;margin:0 auto}
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════ */
+footer{border-top:1px solid var(--rim);padding:32px 22px}
+.foot-inner{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.foot-logo{font-family:var(--fd);font-weight:800;font-size:15px;letter-spacing:-.03em}
+.foot-logo em{font-style:normal;color:var(--gld)}
+.foot-copy{font-family:var(--fm);font-size:var(--xs);color:var(--t3);letter-spacing:.05em}
 
 </style>
 </head>
 <body>
 
-<!-- ── NAV ──────────────────────────────────────────────────── -->
+<!-- NAV -->
 <nav id="nav">
   <a href="#" class="nav-logo">Kairos<em>.</em></a>
-  <ul class="nav-links" style="display:flex;list-style:none;gap:28px;">
+  <ul class="nav-links" style="display:flex;list-style:none;gap:28px">
     <li><a href="#method">How it works</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
-  <button class="nav-pill" onclick="focusForm()">Join waitlist</button>
+  <button class="nav-cta" onclick="focusForm('hero')">Join waitlist</button>
 </nav>
 
-<!-- ── HERO ─────────────────────────────────────────────────── -->
+<!-- ══════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════ -->
 <section id="hero">
-  <div class="hero-glow"></div>
-  <div class="wrap">
+  <div class="hero-bg"></div>
+  <div class="hero-bg2"></div>
+  <div class="w">
     <div class="hero-grid">
 
-      <div class="hero-copy">
-        <div class="eyebrow reveal">
-          <span class="eyebrow-dot"></span>
-          Early access · waitlist open
+      <!-- Copy + Form -->
+      <div class="hero-left">
+        <div class="label rv">
+          <span class="label-dot gold"></span>Early access · waitlist open
         </div>
+        <h1 class="rv d1">Focus is<br>becoming<br><span style="color:var(--t3)">a luxury.</span></h1>
+        <p class="hero-lede rv d2">Kairos is the performance system for your mind.</p>
 
-        <h1 class="reveal d1">
-          Focus is<br>becoming<br><span class="color-t3">a luxury.</span>
-        </h1>
-
-        <p class="hero-lead reveal d2">
-          Kairos is the performance system for your mind.
-        </p>
-
-        <!-- FORM -->
-        <div id="hero-form-wrap" class="reveal d3">
-          <div id="hero-form-inner">
-            <div class="hero-form">
-              <input
-                type="email"
-                class="input"
-                id="hero-email"
-                placeholder="your@email.com"
-                autocomplete="email"
-                aria-label="Email"
-              />
-              <select class="select" id="hero-role" aria-label="Your role">
+        <div class="hero-form rv d3">
+          <div id="hero-wrap" class="form-wrap">
+            <div id="hero-inner" class="form-inner">
+              <input type="email" class="inp" id="hero-email" placeholder="your@email.com" autocomplete="email" aria-label="Email address">
+              <select class="sel" id="hero-role" aria-label="Your role">
                 <option value="">Your role — optional</option>
                 <option value="student">Student</option>
                 <option value="founder">Founder</option>
@@ -1141,84 +822,94 @@ footer {
                 <option value="developer">Developer</option>
                 <option value="other">Other</option>
               </select>
-              <p class="hero-form-error" id="hero-error">Enter a valid email address.</p>
-              <button class="btn btn-primary" id="hero-btn" onclick="submitForm('hero')">
+              <p class="form-err" id="hero-err">Please enter a valid email address.</p>
+              <button class="btn btn-blue" id="hero-btn" onclick="submitForm('hero')" style="width:100%">
                 Join the waitlist
               </button>
-              <p class="hero-trust">No spam. Early access only.</p>
+              <p class="form-trust">No spam. Early access only.</p>
             </div>
-          </div>
-          <div class="form-success" id="hero-success">
-            <div class="success-ring">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M4 10l4.5 4.5L16 7" stroke="#3DD68C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+            <div class="form-success" id="hero-suc">
+              <div class="suc-ring">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M4 10l4.5 4.5L16 7" stroke="#3DD68C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <p class="suc-title">Welcome to Kairos.</p>
+              <p class="suc-sub">You're on the waitlist. We'll reach out when early access opens.</p>
             </div>
-            <p class="success-title">You're in.</p>
-            <p class="success-sub">We'll reach out when early access opens. Focus on what matters until then.</p>
           </div>
         </div>
       </div>
 
-      <!-- PHONE -->
-      <div class="hero-visual reveal d2">
-        <div style="position:relative;">
-          <div class="phone">
-            <div class="phone-notch"></div>
+      <!-- Phone Mockup -->
+      <div style="display:flex;justify-content:center;flex-shrink:0;" class="rv d2">
+        <div style="position:relative">
+          <!-- Dashboard phone -->
+          <div class="phone-shell ph-float" style="animation-delay:.3s">
+            <div class="phone-island"></div>
             <div class="phone-screen">
-              <div class="ps-bar">
-                <span class="ps-time">22:14</span>
-                <svg width="14" height="9" viewBox="0 0 14 9" fill="none">
-                  <rect x="1" y="2" width="10" height="7" rx="1.5" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
-                  <rect x="2" y="3" width="5" height="5" rx=".5" fill="rgba(255,255,255,.25)"/>
-                  <path d="M12 4.5v1" stroke="rgba(255,255,255,.25)" stroke-width="1.2" stroke-linecap="round"/>
-                </svg>
-              </div>
-              <p class="ps-greeting">Good evening, Louay.</p>
-
-              <div class="ps-ring-wrap">
-                <div class="ps-ring-container">
-                  <svg class="ps-ring-svg" width="72" height="72" viewBox="0 0 72 72">
-                    <circle class="ps-ring-bg"   cx="36" cy="36" r="30"/>
-                    <circle class="ps-ring-fill" id="ps-ring" cx="36" cy="36" r="30"/>
+              <div class="ph-bar">
+                <span class="ph-time">22:14</span>
+                <div class="ph-status">
+                  <svg width="11" height="8" viewBox="0 0 11 8" fill="none">
+                    <rect x="0" y="2.5" width="2" height="5.5" rx=".5" fill="rgba(255,255,255,.35)"/>
+                    <rect x="3" y="1.5" width="2" height="6.5" rx=".5" fill="rgba(255,255,255,.35)"/>
+                    <rect x="6" y="0" width="2" height="8" rx=".5" fill="rgba(255,255,255,.35)"/>
+                    <rect x="9" y="2" width="2" height="6" rx=".5" fill="rgba(255,255,255,.15)"/>
                   </svg>
-                  <div class="ps-ring-label">
-                    <span class="ps-ring-number">83</span>
-                    <span class="ps-ring-sub">FOCUS</span>
+                  <div class="ph-bat"></div>
+                </div>
+              </div>
+              <p class="ph-greet">Good evening, Louay.</p>
+
+              <!-- Score ring -->
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 0 4px">
+                <div class="ring-container">
+                  <svg class="ring-svg" width="76" height="76" viewBox="0 0 76 76">
+                    <circle class="ring-bg" cx="38" cy="38" r="31"/>
+                    <circle class="ring-fill" id="hero-ring" cx="38" cy="38" r="31"/>
+                  </svg>
+                  <div class="ring-inner">
+                    <span class="ring-num">83</span>
+                    <span class="ring-lbl">FOCUS</span>
                   </div>
                 </div>
-                <p class="ps-ring-title">Today's score</p>
+                <span class="ph-label">Today's performance</span>
               </div>
 
-              <div class="ps-row">
-                <div class="ps-card">
-                  <p class="ps-card-label">Strain</p>
-                  <p class="ps-card-value" style="color:var(--amber)">61</p>
+              <!-- Metrics row -->
+              <div class="ph-row">
+                <div class="ph-card">
+                  <p class="ph-label" style="margin-bottom:4px">Strain</p>
+                  <p class="ph-val" style="font-size:17px;color:var(--amb)">61</p>
                 </div>
-                <div class="ps-card">
-                  <p class="ps-card-label">Recovery</p>
-                  <p class="ps-card-value" style="color:var(--green)">78</p>
+                <div class="ph-card">
+                  <p class="ph-label" style="margin-bottom:4px">Recovery</p>
+                  <p class="ph-val" style="font-size:17px;color:var(--grn)">78</p>
                 </div>
               </div>
 
-              <div class="ps-session">
+              <!-- Session card -->
+              <div class="ph-session">
                 <div>
-                  <p class="ps-session-title">Deep Work</p>
-                  <p class="ps-session-sub">50 MIN · RITUAL READY</p>
+                  <p class="ph-ses-title">Deep Work</p>
+                  <p class="ph-ses-sub">50 MIN · RITUAL READY</p>
                 </div>
-                <div class="ps-session-play"><div class="ps-session-arrow"></div></div>
+                <div class="ph-play"><div class="ph-arrow"></div></div>
               </div>
 
-              <div class="ps-identity">
-                <p class="ps-identity-name">Night Builder</p>
-                <span class="ps-identity-tag">TOP 5%</span>
+              <!-- Identity -->
+              <div class="ph-id">
+                <p class="ph-id-name">Night Builder</p>
+                <span class="ph-id-tag">TOP 5%</span>
               </div>
             </div>
           </div>
 
-          <div class="phone-badge">
-            <p class="pb-label">Last session</p>
-            <p class="pb-value">Score 91</p>
+          <!-- Floating badge -->
+          <div class="phone-badge ph-float" style="right:-18px;top:88px;animation-delay:.9s">
+            <p class="pb-lbl">Last session</p>
+            <p class="pb-val" style="color:var(--grn)">Score 91</p>
             <p class="pb-sub">New personal best</p>
           </div>
         </div>
@@ -1228,424 +919,498 @@ footer {
   </div>
 </section>
 
-<!-- ── PROBLEM ───────────────────────────────────────────────── -->
+<!-- ══════════════════════════════════════════════
+   PROBLEM
+══════════════════════════════════════════════ -->
 <section id="problem">
-  <div class="wrap-sm text-center">
-    <div class="eyebrow reveal" style="justify-content:center;">
-      <span class="eyebrow-dot" style="background:var(--red)"></span>
-      The real problem
-    </div>
-    <h2 class="reveal d1">You're not lazy.<br>You're unprotected.</h2>
-    <p class="section-sub reveal d2">Your attention is the only resource that can't be earned back. You're spending it on autopilot.</p>
+  <div class="wsm">
+    <div class="label rv"><span class="label-dot" style="background:var(--red)"></span>The real problem</div>
+    <h2 class="rv d1">You're not lazy.<br>You're unprotected.</h2>
+    <p class="sub rv d2">Your attention is the only resource that can't be earned back. You're spending it on autopilot.</p>
   </div>
-
-  <div class="wrap" style="margin-top:0;">
-    <div class="problem-statements">
-      <div class="problem-item reveal d1" data-num="01">
+  <div class="w" style="margin-top:0">
+    <div class="problem-list rv d2">
+      <div class="problem-item" data-n="01">
         <p>You open your phone for 10 seconds.<br><strong>You lose 40 minutes.</strong></p>
       </div>
-      <div class="problem-item reveal d2" data-num="02">
+      <div class="problem-item" data-n="02">
         <p>You plan your day carefully.<br><strong>Your focus collapses by noon.</strong></p>
       </div>
-      <div class="problem-item reveal d3" data-num="03">
+      <div class="problem-item" data-n="03">
         <p>You finish the day exhausted.<br><strong>Nothing important got done.</strong></p>
       </div>
-      <div class="problem-item reveal d4" data-num="04">
+      <div class="problem-item" data-n="04">
         <p>You know what deep work feels like.<br><strong>You can't reliably get there.</strong></p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── WHY OTHERS FAIL ───────────────────────────────────────── -->
+<!-- ══════════════════════════════════════════════
+   WHY OTHERS FAIL
+══════════════════════════════════════════════ -->
 <section id="why">
-  <div class="wrap-sm text-center">
-    <div class="eyebrow reveal" style="justify-content:center;">
-      <span class="eyebrow-dot" style="background:var(--t3)"></span>
-      Why nothing has worked
-    </div>
-    <h2 class="reveal d1">Good tools.<br>Wrong problem.</h2>
-    <p class="section-sub reveal d2">The apps you've tried weren't built for this. They optimize around the symptom, not the cause.</p>
+  <div class="wsm">
+    <div class="label rv"><span class="label-dot"></span>Why nothing has worked</div>
+    <h2 class="rv d1">Good tools.<br>Wrong problem.</h2>
+    <p class="sub rv d2">The apps you've tried weren't built for this. They optimize the symptom, not the cause.</p>
   </div>
-
-  <div class="wrap">
-    <div class="why-grid" style="margin-top:48px;">
-      <div class="why-card reveal d1">
+  <div class="w">
+    <div class="why-grid" style="margin-top:48px">
+      <div class="why-card rv d1">
         <p class="why-tool">To-do lists</p>
         <span class="why-miss">organizes tasks</span>
-        <p>Knowing what to do is not your problem. <strong style="color:var(--t2)">Getting your brain to do it is.</strong></p>
+        <p>Knowing what to do is not your problem. <strong>Getting your brain to do it is.</strong></p>
       </div>
-      <div class="why-card reveal d2">
+      <div class="why-card rv d2">
         <p class="why-tool">Timers</p>
         <span class="why-miss">tracks minutes</span>
-        <p>Counting time doesn't change your cognitive state. <strong style="color:var(--t2)">A timer won't get you into flow.</strong></p>
+        <p>Counting time doesn't change your cognitive state. <strong>A timer won't get you into flow.</strong></p>
       </div>
-      <div class="why-card reveal d3">
+      <div class="why-card rv d3">
         <p class="why-tool">App blockers</p>
         <span class="why-miss">removes temptation</span>
-        <p>Blocking Instagram doesn't build focus identity. <strong style="color:var(--t2)">You'll find another exit.</strong></p>
+        <p>Blocking Instagram doesn't build focus identity. <strong>You'll find another exit.</strong></p>
       </div>
-      <div class="why-card reveal d4">
+      <div class="why-card rv d4">
         <p class="why-tool">Usage dashboards</p>
         <span class="why-miss">shows data</span>
-        <p>Seeing 6 hours of screen time doesn't tell you <strong style="color:var(--t2)">what to do about it.</strong></p>
+        <p>6 hours of screen time reported. Zero guidance on <strong>what to actually do about it.</strong></p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── METHOD ────────────────────────────────────────────────── -->
+<!-- ══════════════════════════════════════════════
+   METHOD
+══════════════════════════════════════════════ -->
 <section id="method">
-  <div class="wrap-sm text-center">
-    <div class="eyebrow reveal" style="justify-content:center;">
-      <span class="eyebrow-dot"></span>
-      The Kairos method
-    </div>
-    <h2 class="reveal d1">Four moves.<br>One system.</h2>
-    <p class="section-sub reveal d2">Not habits. Not discipline. A repeatable system that works with your cognitive state — not against it.</p>
+  <div class="wsm">
+    <div class="label rv"><span class="label-dot"></span>The Kairos method</div>
+    <h2 class="rv d1">Four moves.<br>One system.</h2>
+    <p class="sub rv d2">Not habits. Not willpower. A repeatable protocol that works with your cognitive state.</p>
   </div>
-
-  <div class="wrap">
-    <div class="method-steps" style="margin-top:48px;">
-
-      <div class="method-step reveal d1">
-        <p class="step-num">01</p>
-        <div class="step-icon">
-          <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5"/><circle cx="8" cy="8" r="2.5" fill="var(--blue)" stroke="none"/></svg>
+  <div class="w">
+    <div class="method-grid">
+      <div class="method-step rv d1">
+        <p class="m-num">01</p>
+        <div class="m-ico">
+          <svg viewBox="0 0 15 15"><circle cx="7.5" cy="7.5" r="5"/><circle cx="7.5" cy="7.5" r="2.5" fill="var(--blu)" stroke="none"/></svg>
         </div>
         <h3>Ritual</h3>
-        <p>60 seconds of calibration. Kairos reads your mind through breathing, typing, reaction time, and how you feel — and builds your session protocol.</p>
+        <p>60 seconds before every session. Kairos measures your cognitive state through breathing, typing, reaction, and self-report — then builds your exact protocol.</p>
       </div>
-
-      <div class="method-step reveal d2">
-        <p class="step-num">02</p>
-        <div class="step-icon">
-          <svg viewBox="0 0 16 16"><rect x="3" y="2" width="10" height="12" rx="2"/><line x1="6" y1="6" x2="10" y2="6"/><line x1="6" y1="9" x2="9" y2="9"/></svg>
+      <div class="method-step rv d2">
+        <p class="m-num">02</p>
+        <div class="m-ico">
+          <svg viewBox="0 0 15 15"><rect x="3" y="2" width="9" height="11" rx="1.5"/><line x1="5.5" y1="5.5" x2="9.5" y2="5.5"/><line x1="5.5" y1="8" x2="8" y2="8"/></svg>
         </div>
         <h3>Lock in</h3>
-        <p>Apps that steal your attention are blocked. Your environment is sealed. The work begins on your terms, not theirs.</p>
+        <p>Distraction apps are blocked the moment your session starts. Your environment is sealed. No negotiations, no override — just the work.</p>
       </div>
-
-      <div class="method-step reveal d3">
-        <p class="step-num">03</p>
-        <div class="step-icon">
-          <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><polyline points="8,5 8,8 10,10"/></svg>
+      <div class="method-step rv d3">
+        <p class="m-num">03</p>
+        <div class="m-ico">
+          <svg viewBox="0 0 15 15"><circle cx="7.5" cy="7.5" r="5.5"/><polyline points="7.5,4.5 7.5,7.5 9.5,9.5"/></svg>
         </div>
         <h3>Deep work</h3>
-        <p>Your session runs with your calibrated duration. Live focus score, interruption tracking, and real-time performance — all measured.</p>
+        <p>Your session runs at your calibrated intensity. Live focus score, interruption tracking, and real performance — every second measured.</p>
       </div>
-
-      <div class="method-step reveal d4">
-        <p class="step-num">04</p>
-        <div class="step-icon" style="background:rgba(61,214,140,.1);border-color:rgba(61,214,140,.2);">
-          <svg viewBox="0 0 16 16" style="stroke:var(--green)"><polyline points="2,10 6,6 9,9 14,4"/><circle cx="14" cy="4" r="1.5" fill="var(--green)" stroke="none"/></svg>
+      <div class="method-step rv d4">
+        <p class="m-num">04</p>
+        <div class="m-ico" style="background:rgba(61,214,140,.08);border-color:rgba(61,214,140,.18)">
+          <svg viewBox="0 0 15 15" style="stroke:var(--grn)"><polyline points="2,10 5.5,6.5 8.5,9.5 13,4"/></svg>
         </div>
         <h3>Review</h3>
-        <p>Rate your session. See your score. Kairos learns your peak patterns and tells you what to do differently next time.</p>
+        <p>Rate your session. See your score. Kairos identifies your peak patterns and sharpens your next protocol automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+   PRODUCT SCREENS
+══════════════════════════════════════════════ -->
+<section id="screens">
+  <div class="wsm" style="text-align:center">
+    <div class="label rv" style="justify-content:center"><span class="label-dot gold"></span>The product</div>
+    <h2 class="rv d1">Performance,<br>made visible.</h2>
+    <p class="sub rv d2" style="max-width:34ch;margin-left:auto;margin-right:auto">Your focus becomes a number. Your patterns become an identity. Your best work becomes your new baseline.</p>
+  </div>
+
+  <div class="w">
+    <div class="screens-grid">
+
+      <!-- Ritual Result screen -->
+      <div class="rv d1" style="display:flex;flex-direction:column;align-items:center;gap:14px">
+        <p style="font-family:var(--fm);font-size:var(--xs);color:var(--t3);letter-spacing:.1em;text-transform:uppercase">Ritual result</p>
+        <div class="phone-shell rph ph-float">
+          <div class="phone-island"></div>
+          <div class="phone-screen">
+            <div class="ph-bar">
+              <span class="ph-time">22:08</span>
+              <div class="ph-status"><div class="ph-bat"></div></div>
+            </div>
+            <p class="ph-greet">Calibration complete.</p>
+
+            <div class="rph readiness-score-wrap" style="display:flex;flex-direction:column;align-items:center;padding:10px 0 6px">
+              <span class="rsc-label">READINESS SCORE</span>
+              <span class="rsc rsc-glow" id="scr-num">84</span>
+              <span class="rsc-protocol">Deep Focus · 50 min protocol</span>
+            </div>
+
+            <div class="ph-card">
+              <p class="ph-label" style="margin-bottom:8px">Calibration breakdown</p>
+              <div class="bars">
+                <div class="bar-row">
+                  <span class="bar-lbl">Typing</span>
+                  <div class="bar-track"><div class="bar-fill" id="b1" style="width:0;background:var(--blu)"></div></div>
+                  <span class="bar-num">88</span>
+                </div>
+                <div class="bar-row">
+                  <span class="bar-lbl">Reaction</span>
+                  <div class="bar-track"><div class="bar-fill" id="b2" style="width:0;background:var(--grn)"></div></div>
+                  <span class="bar-num">79</span>
+                </div>
+                <div class="bar-row">
+                  <span class="bar-lbl">Energy</span>
+                  <div class="bar-track"><div class="bar-fill" id="b3" style="width:0;background:var(--amb)"></div></div>
+                  <span class="bar-num">82</span>
+                </div>
+                <div class="bar-row">
+                  <span class="bar-lbl">Clarity</span>
+                  <div class="bar-track"><div class="bar-fill" id="b4" style="width:0;background:var(--gld)"></div></div>
+                  <span class="bar-num">91</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="rph-cta">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="stroke:var(--bg);flex-shrink:0"><polygon points="3,1 11,6 3,11" fill="var(--bg)" stroke="none"/></svg>
+              <span>Begin deep focus</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Session screen -->
+      <div class="rv d2" style="display:flex;flex-direction:column;align-items:center;gap:14px">
+        <p style="font-family:var(--fm);font-size:var(--xs);color:var(--t3);letter-spacing:.1em;text-transform:uppercase">Focus session</p>
+        <div class="phone-shell sph ph-float" style="animation-delay:.5s">
+          <div class="phone-island"></div>
+          <div class="phone-screen">
+            <div class="ph-bar">
+              <span class="ph-time">22:14</span>
+              <div class="ph-status"><div class="ph-bat"></div></div>
+            </div>
+
+            <div class="session-status">
+              <span class="status-dot"></span>
+              <span class="status-text">In focus</span>
+            </div>
+
+            <div class="session-ring-wrap">
+              <div class="big-ring-container">
+                <svg class="big-ring-svg" width="110" height="110" viewBox="0 0 110 110">
+                  <circle class="big-ring-bg" cx="55" cy="55" r="50"/>
+                  <circle class="big-ring-fill" id="ses-ring" cx="55" cy="55" r="50"/>
+                </svg>
+                <div class="big-ring-inner">
+                  <span class="timer" id="timer-disp">47:23</span>
+                  <span class="timer-sub">of 50 min</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="live-score" style="text-align:center">
+              <p class="ls-label">Focus estimate</p>
+              <p class="ls-val" id="ls-val">76</p>
+            </div>
+
+            <div class="sph-controls">
+              <div class="sph-btn">⏸ Pause</div>
+              <div class="sph-btn" style="color:var(--t3)">End session</div>
+            </div>
+
+            <div style="margin-top:4px">
+              <div class="ph-id">
+                <p class="ph-id-name">Deep Focus mode</p>
+                <span class="ph-id-tag" style="background:var(--blu);color:#fff">0 interruptions</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Coach screen -->
+      <div class="rv d3" style="display:flex;flex-direction:column;align-items:center;gap:14px">
+        <p style="font-family:var(--fm);font-size:var(--xs);color:var(--t3);letter-spacing:.1em;text-transform:uppercase">AI coach</p>
+        <div class="phone-shell cph ph-float" style="animation-delay:1s">
+          <div class="phone-island"></div>
+          <div class="phone-screen">
+            <div class="ph-bar">
+              <span class="ph-time">22:31</span>
+              <div class="ph-status"><div class="ph-bat"></div></div>
+            </div>
+
+            <div class="coach-header">
+              <div class="coach-avatar">
+                <svg viewBox="0 0 13 13"><path d="M6.5 2C4.5 2 3 3.5 3 5.5c0 1.2.6 2.2 1.5 2.8V9h4V8.3C9.4 7.7 10 6.7 10 5.5 10 3.5 8.5 2 6.5 2z"/><path d="M4.5 9h4v1.5c0 .3-.2.5-.5.5h-3c-.3 0-.5-.2-.5-.5V9z"/></svg>
+              </div>
+              <div>
+                <p class="coach-name">Kairos Coach</p>
+                <p class="coach-role">AI · Behavioral analysis</p>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div class="coach-bubble">
+                <p>Your focus peaks after <strong>21:00</strong>. Your last 8 high-scoring sessions all started after 9pm.</p>
+              </div>
+
+              <div class="coach-bubble coach-bubble2">
+                <p>Tomorrow: <strong>schedule deep work at 21:30.</strong> Your recovery score will be optimal.</p>
+                <div class="coach-tag" style="margin-top:7px">
+                  <svg width="9" height="9" viewBox="0 0 9 9" fill="none" style="stroke:var(--blu);stroke-width:1.5;stroke-linecap:round"><circle cx="4.5" cy="4.5" r="3.5"/><polyline points="4.5,2.5 4.5,4.5 5.5,5.5"/></svg>
+                  <span>Schedule for 21:30</span>
+                </div>
+              </div>
+
+              <div class="coach-bubble" style="background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.12)">
+                <p><strong style="color:var(--gld)">Streak alert.</strong> 11 days in a row. Your personal best is 12.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics/Identity screen -->
+      <div class="rv d4" style="display:flex;flex-direction:column;align-items:center;gap:14px">
+        <p style="font-family:var(--fm);font-size:var(--xs);color:var(--t3);letter-spacing:.1em;text-transform:uppercase">Identity</p>
+        <div class="phone-shell aph ph-float" style="animation-delay:1.4s">
+          <div class="phone-island"></div>
+          <div class="phone-screen">
+            <div class="ph-bar">
+              <span class="ph-time">22:58</span>
+              <div class="ph-status"><div class="ph-bat"></div></div>
+            </div>
+            <p class="ph-greet">Your focus identity.</p>
+
+            <div class="identity-hero">
+              <p class="id-sup">Globally</p>
+              <p class="id-name">Night Builder</p>
+              <p class="id-pct">Top 4% · 48 sessions recorded</p>
+            </div>
+
+            <div class="stats-row">
+              <div class="stat-cell">
+                <p class="sc-val" style="color:var(--grn)">89</p>
+                <p class="sc-lbl">Avg score</p>
+              </div>
+              <div class="stat-cell">
+                <p class="sc-val" style="color:var(--gld)">12</p>
+                <p class="sc-lbl">Day streak</p>
+              </div>
+              <div class="stat-cell">
+                <p class="sc-val" style="color:var(--blu)">14h</p>
+                <p class="sc-lbl">This week</p>
+              </div>
+            </div>
+
+            <div>
+              <p class="ph-label" style="margin-bottom:6px">7-day focus score</p>
+              <div class="spark">
+                <div class="spark-bar" style="height:45%"></div>
+                <div class="spark-bar" style="height:60%"></div>
+                <div class="spark-bar" style="height:38%"></div>
+                <div class="spark-bar" style="height:72%"></div>
+                <div class="spark-bar" style="height:55%"></div>
+                <div class="spark-bar" style="height:48%"></div>
+                <div class="spark-bar hi" style="height:89%"></div>
+              </div>
+            </div>
+
+            <div class="window-card">
+              <div class="wc-left">
+                <p class="wc-label">Peak focus window</p>
+                <p class="wc-val">21:00 — 23:00</p>
+              </div>
+              <span class="wc-badge">Confirmed</span>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ── PRODUCT PREVIEW ───────────────────────────────────────── -->
-<section id="product">
-  <div class="wrap-sm text-center">
-    <div class="eyebrow reveal" style="justify-content:center;">
-      <span class="eyebrow-dot" style="background:var(--gold)"></span>
-      What you get
-    </div>
-    <h2 class="reveal d1">Performance,<br>made visible.</h2>
-    <p class="section-sub reveal d2">Your focus becomes a number. Your patterns become an identity. Your best work becomes your baseline.</p>
-  </div>
-
-  <div class="wrap">
-    <div class="product-metrics reveal d2">
-      <div class="metric-card">
-        <p class="mc-label">Focus Score</p>
-        <p class="mc-value color-green"><span class="counter" data-to="83">0</span></p>
-        <p class="mc-sub">↑ +7 vs yesterday</p>
-        <div class="mc-bars">
-          <div class="mc-bar" style="height:45%"></div>
-          <div class="mc-bar" style="height:60%"></div>
-          <div class="mc-bar" style="height:38%"></div>
-          <div class="mc-bar" style="height:72%"></div>
-          <div class="mc-bar" style="height:55%"></div>
-          <div class="mc-bar" style="height:48%"></div>
-          <div class="mc-bar hi" style="height:83%"></div>
-        </div>
-      </div>
-
-      <div class="metric-card">
-        <p class="mc-label">Deep Work</p>
-        <p class="mc-value"><span class="counter" data-to="14">0</span><span style="font-size:var(--text-xl);color:var(--t3);font-family:var(--font-mono)">h</span></p>
-        <p class="mc-sub">This week</p>
-      </div>
-
-      <div class="metric-card">
-        <p class="mc-label">Streak</p>
-        <p class="mc-value color-gold"><span class="counter" data-to="12">0</span></p>
-        <p class="mc-sub">Personal best 🔥</p>
-      </div>
-
-      <div class="metric-card">
-        <p class="mc-label">Readiness</p>
-        <p class="mc-value color-blue"><span class="counter" data-to="84">0</span></p>
-        <p class="mc-sub">Pre-session score</p>
-      </div>
-
-      <div class="product-features">
-        <div class="feat-pill">
-          <div class="feat-dot" style="background:var(--blue)"></div>
-          <span>Ritual calibration</span>
-        </div>
-        <div class="feat-pill">
-          <div class="feat-dot" style="background:var(--red)"></div>
-          <span>App blocking</span>
-        </div>
-        <div class="feat-pill">
-          <div class="feat-dot" style="background:var(--gold)"></div>
-          <span>AI coach</span>
-        </div>
-        <div class="feat-pill">
-          <div class="feat-dot" style="background:var(--green)"></div>
-          <span>Best focus window</span>
-        </div>
-        <div class="feat-pill">
-          <div class="feat-dot" style="background:var(--amber)"></div>
-          <span>You vs Yesterday</span>
-        </div>
-        <div class="feat-pill">
-          <div class="feat-dot" style="background:var(--blue)"></div>
-          <span>Weekly report</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── IDENTITY ───────────────────────────────────────────────── -->
+<!-- ══════════════════════════════════════════════
+   IDENTITY
+══════════════════════════════════════════════ -->
 <section id="identity">
-  <div class="wrap-sm text-center">
-    <div class="eyebrow reveal" style="justify-content:center;">
-      <span class="eyebrow-dot" style="background:var(--gold)"></span>
-      Who Kairos is for
+  <div class="w">
+    <div class="label rv"><span class="label-dot gold"></span>Who Kairos is for</div>
+    <p class="id-statement rv d1">Built for people who know their <strong>potential is worth protecting.</strong></p>
+    <p class="sub rv d2" style="max-width:38ch;margin-top:14px">Not a productivity tool. A performance system for the serious few — students, founders, creators, developers, builders.</p>
+    <div class="id-tags rv d3">
+      <span class="id-tag id-gold"><span class="id-tag-dot"></span>Night Builder</span>
+      <span class="id-tag"><span class="id-tag-dot"></span>Deep Thinker</span>
+      <span class="id-tag"><span class="id-tag-dot"></span>Sprint Machine</span>
+      <span class="id-tag"><span class="id-tag-dot"></span>Focused Operator</span>
+      <span class="id-tag"><span class="id-tag-dot"></span>Disciplined Creator</span>
     </div>
-    <p class="identity-statement reveal d1">
-      Built for people who know their <strong>potential is worth protecting.</strong>
-    </p>
-    <p class="section-sub reveal d2" style="max-width:34ch;margin:16px auto 0;">Not another productivity app. A performance system for the serious few.</p>
-
-    <div class="identity-tags reveal d3">
-      <span class="identity-tag identity-gold">
-        <span class="identity-tag-dot"></span>
-        Night Builder
-      </span>
-      <span class="identity-tag">
-        <span class="identity-tag-dot"></span>
-        Deep Thinker
-      </span>
-      <span class="identity-tag">
-        <span class="identity-tag-dot"></span>
-        Sprint Machine
-      </span>
-      <span class="identity-tag">
-        <span class="identity-tag-dot"></span>
-        Focused Operator
-      </span>
-      <span class="identity-tag">
-        <span class="identity-tag-dot"></span>
-        Disciplined Creator
-      </span>
-    </div>
-
-    <p class="identity-sub reveal d4">
-      Your identity isn't assigned. It's calculated from your actual performance.
-    </p>
+    <p class="id-note rv d4">Your identity isn't assigned. It's calculated from your actual performance over time.</p>
   </div>
 </section>
 
-<!-- ── PRICING ────────────────────────────────────────────────── -->
+<!-- ══════════════════════════════════════════════
+   PRICING
+══════════════════════════════════════════════ -->
 <section id="pricing">
-  <div class="wrap-sm text-center">
-    <div class="eyebrow reveal" style="justify-content:center;">
-      <span class="eyebrow-dot" style="background:var(--gold)"></span>
-      Planned pricing
-    </div>
-    <h2 class="reveal d1">Invest in<br>your mind.</h2>
-    <p class="section-sub reveal d2" style="max-width:32ch;margin:16px auto 0;">The cost of one lost hour of deep work exceeds a month of Kairos Premium.</p>
-    <span class="pricing-note reveal d3">Waitlist members lock in launch pricing</span>
+  <div class="wsm" style="text-align:center">
+    <div class="label rv" style="justify-content:center"><span class="label-dot gold"></span>Planned pricing</div>
+    <h2 class="rv d1">Invest in your mind.</h2>
+    <p class="sub rv d2" style="max-width:32ch;margin-left:auto;margin-right:auto">The cost of one lost hour of deep work exceeds a full month of Kairos Premium.</p>
+    <span class="pricing-note rv d3">Waitlist members lock in launch pricing</span>
   </div>
-
-  <div class="wrap">
+  <div class="w">
     <div class="pricing-grid">
-
-      <!-- Free -->
-      <div class="pricing-card reveal d1">
-        <span class="pricing-badge badge-free">Free</span>
-        <p class="pricing-price">€0</p>
-        <p class="pricing-period">forever</p>
-        <p class="pricing-name">Foundation</p>
-        <p class="pricing-tagline">Start your focus practice. No credit card.</p>
-        <div class="pricing-divider"></div>
-        <ul class="pricing-features">
-          <li class="pricing-feature">3 sessions per week</li>
-          <li class="pricing-feature">Ritual calibration</li>
-          <li class="pricing-feature">Focus score + streak</li>
-          <li class="pricing-feature off">App blocking</li>
-          <li class="pricing-feature off">AI coach</li>
+      <div class="pricing-card rv d1">
+        <span class="p-badge pb-free">Free</span>
+        <p class="p-price">€0</p>
+        <p class="p-period">forever</p>
+        <p class="p-name">Foundation</p>
+        <p class="p-tagline">Start your practice. No credit card required.</p>
+        <div class="p-divider"></div>
+        <ul class="p-features">
+          <li class="p-feat">3 sessions per week</li>
+          <li class="p-feat">Ritual calibration</li>
+          <li class="p-feat">Focus score + streak</li>
+          <li class="p-feat off">App blocking</li>
+          <li class="p-feat off">AI coach</li>
         </ul>
-        <button class="pricing-cta ghost" onclick="focusFinalForm()">Join waitlist</button>
+        <button class="p-cta ghost" onclick="focusForm('final')">Join waitlist</button>
       </div>
-
-      <!-- Student -->
-      <div class="pricing-card reveal d2">
-        <span class="pricing-badge badge-student">Student</span>
-        <p class="pricing-price">€5</p>
-        <p class="pricing-period">per month</p>
-        <p class="pricing-name">Focus</p>
-        <p class="pricing-tagline">Everything you need. Built for student life.</p>
-        <div class="pricing-divider"></div>
-        <ul class="pricing-features">
-          <li class="pricing-feature">Unlimited sessions</li>
-          <li class="pricing-feature">Full ritual calibration</li>
-          <li class="pricing-feature">App blocking</li>
-          <li class="pricing-feature">Focus analytics</li>
-          <li class="pricing-feature off">AI coach</li>
+      <div class="pricing-card rv d2">
+        <span class="p-badge pb-std">Student</span>
+        <p class="p-price">€5</p>
+        <p class="p-period">per month</p>
+        <p class="p-name">Focus</p>
+        <p class="p-tagline">Everything you need. Built for student life.</p>
+        <div class="p-divider"></div>
+        <ul class="p-features">
+          <li class="p-feat">Unlimited sessions</li>
+          <li class="p-feat">Full ritual calibration</li>
+          <li class="p-feat">App blocking</li>
+          <li class="p-feat">Focus analytics</li>
+          <li class="p-feat off">AI coach</li>
         </ul>
-        <button class="pricing-cta primary" onclick="focusFinalForm()">Join waitlist</button>
+        <button class="p-cta blue" onclick="focusForm('final')">Join waitlist</button>
       </div>
-
-      <!-- Premium -->
-      <div class="pricing-card pop reveal d3">
-        <span class="pricing-badge badge-pop">Most popular</span>
-        <p class="pricing-price">€13</p>
-        <p class="pricing-period">per month</p>
-        <p class="pricing-name">Premium</p>
-        <p class="pricing-tagline">The full Kairos experience, nothing held back.</p>
-        <div class="pricing-divider"></div>
-        <ul class="pricing-features">
-          <li class="pricing-feature">Everything in Student</li>
-          <li class="pricing-feature">AI behavioral coach</li>
-          <li class="pricing-feature">You vs Yesterday</li>
-          <li class="pricing-feature">Best focus window</li>
-          <li class="pricing-feature">Weekly report + Year in Review</li>
+      <div class="pricing-card pop rv d3">
+        <span class="p-badge pb-pop">Most popular</span>
+        <p class="p-price">€13</p>
+        <p class="p-period">per month</p>
+        <p class="p-name">Premium</p>
+        <p class="p-tagline">The full Kairos experience, nothing held back.</p>
+        <div class="p-divider"></div>
+        <ul class="p-features">
+          <li class="p-feat">Everything in Student</li>
+          <li class="p-feat">AI behavioral coach</li>
+          <li class="p-feat">You vs Yesterday</li>
+          <li class="p-feat">Best focus window</li>
+          <li class="p-feat">Weekly report + Year in Review</li>
         </ul>
-        <button class="pricing-cta primary" onclick="focusFinalForm()">Join waitlist</button>
+        <button class="p-cta blue" onclick="focusForm('final')">Join waitlist</button>
       </div>
-
-      <!-- Elite -->
-      <div class="pricing-card elite reveal d4">
-        <span class="pricing-badge badge-elite">Elite</span>
-        <p class="pricing-price" style="color:var(--gold)">€25</p>
-        <p class="pricing-period">per month</p>
-        <p class="pricing-name" style="color:var(--gold)">Elite</p>
-        <p class="pricing-tagline">For those who treat performance as identity.</p>
-        <div class="pricing-divider"></div>
-        <ul class="pricing-features">
-          <li class="pricing-feature">Everything in Premium</li>
-          <li class="pricing-feature">Lifetime locked pricing</li>
-          <li class="pricing-feature">Direct founder access</li>
-          <li class="pricing-feature">Shape the roadmap</li>
-          <li class="pricing-feature">Elite identity badge</li>
+      <div class="pricing-card eli rv d4">
+        <span class="p-badge pb-eli">Elite</span>
+        <p class="p-price" style="color:var(--gld)">€25</p>
+        <p class="p-period">per month</p>
+        <p class="p-name" style="color:var(--gld)">Elite</p>
+        <p class="p-tagline">For those who treat performance as identity.</p>
+        <div class="p-divider"></div>
+        <ul class="p-features">
+          <li class="p-feat">Everything in Premium</li>
+          <li class="p-feat">Lifetime locked pricing</li>
+          <li class="p-feat">Direct founder access</li>
+          <li class="p-feat">Shape the product roadmap</li>
+          <li class="p-feat">Elite identity badge</li>
         </ul>
-        <button class="pricing-cta gold-cta" onclick="focusFinalForm()">Join waitlist</button>
+        <button class="p-cta gold" onclick="focusForm('final')">Join waitlist</button>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ── FAQ ────────────────────────────────────────────────────── -->
+<!-- ══════════════════════════════════════════════
+   FAQ
+══════════════════════════════════════════════ -->
 <section id="faq">
-  <div class="wrap-sm">
-    <div class="eyebrow reveal">
-      <span class="eyebrow-dot"></span>
-      Common questions
-    </div>
-    <h2 class="reveal d1">Answered.</h2>
-
-    <div class="faq-list reveal d2">
+  <div class="wsm">
+    <div class="label rv"><span class="label-dot"></span>Questions</div>
+    <h2 class="rv d1">Answered.</h2>
+    <div class="faq-list rv d2">
 
       <div class="faq-item">
-        <button class="faq-q" onclick="faq(this)">
+        <button class="faq-q" onclick="toggleFaq(this)">
           Is Kairos a task manager?
-          <span class="faq-chevron"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
         </button>
-        <div class="faq-a">
-          <div class="faq-a-inner">No. Kairos doesn't care what you're working on. It cares about the <strong>quality of cognitive state you bring to that work.</strong> Think of it less as an organizer, more as a performance system for your mind.</div>
-        </div>
+        <div class="faq-a"><div class="faq-ai">No. Kairos doesn't care what you're working on. It cares about the <strong>quality of cognitive state you bring to that work.</strong> Think of it less as an organizer and more as a performance system for your mind.</div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="faq(this)">
-          What makes Kairos different from Opal or Forest?
-          <span class="faq-chevron"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What makes Kairos different from Opal, Forest, or Freedom?
+          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
         </button>
-        <div class="faq-a">
-          <div class="faq-a-inner">Those tools solve one thing: removing distraction. Kairos solves the <strong>before, during, and after.</strong> Ritual calibration reads your cognitive state. Sessions track performance in real time. Analytics reveal your identity patterns. It's not a blocker — it's a complete system.</div>
-        </div>
+        <div class="faq-a"><div class="faq-ai">Those tools solve one thing: removing distraction. Kairos solves the <strong>before, during, and after.</strong> Ritual reads your state. Sessions track performance in real time. Analytics build your identity. App blocking is one component — not the whole product.</div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="faq(this)">
+        <button class="faq-q" onclick="toggleFaq(this)">
           Does Kairos actually block apps?
-          <span class="faq-chevron"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
         </button>
-        <div class="faq-a">
-          <div class="faq-a-inner">Yes. Session blocking uses iOS Screen Time APIs. <strong>No workarounds, no easy bypass.</strong> You define which apps are blocked. The block is enforced at the system level for your session duration.</div>
-        </div>
+        <div class="faq-a"><div class="faq-ai">Yes. Blocking uses iOS Screen Time APIs. <strong>No workarounds, no easy bypass.</strong> You define which apps are blocked. Enforcement is at the system level for your entire session duration.</div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="faq(this)">
+        <button class="faq-q" onclick="toggleFaq(this)">
           Is there a student plan?
-          <span class="faq-chevron"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
         </button>
-        <div class="faq-a">
-          <div class="faq-a-inner">Yes — <strong>€5/month</strong>, with full ritual, tracking, and app blocking. Students deal with high cognitive load and constant distraction. Kairos was designed for exactly that environment.</div>
-        </div>
+        <div class="faq-a"><div class="faq-ai">Yes — <strong>€5/month</strong>, full ritual, tracking, and app blocking included. Students face the highest cognitive load with the most distraction. Kairos was designed exactly for that environment.</div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-q" onclick="faq(this)">
+        <button class="faq-q" onclick="toggleFaq(this)">
           When does Kairos launch?
-          <span class="faq-chevron"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
         </button>
-        <div class="faq-a">
-          <div class="faq-a-inner">We're in active development. <strong>Early access opens to waitlist members first</strong> — in a small batch, not a flood. Waitlist members also get locked-in launch pricing that won't be available publicly.</div>
-        </div>
+        <div class="faq-a"><div class="faq-ai">We're in active development. <strong>Early access opens to waitlist members first</strong> — in a small batch, not a flood. Waitlist members also get locked-in launch pricing that won't be available publicly.</div></div>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ── FINAL CTA ──────────────────────────────────────────────── -->
+<!-- ══════════════════════════════════════════════
+   FINAL CTA
+══════════════════════════════════════════════ -->
 <section id="final">
   <div class="final-glow"></div>
-  <div class="wrap-xs text-center">
-    <div class="eyebrow reveal" style="justify-content:center;">
-      <span class="eyebrow-dot"></span>
-      The decision
-    </div>
-    <h2 class="reveal d1">
-      Your future won't be<br>built in <span class="gold">distraction.</span>
-    </h2>
-    <p class="final-sub reveal d2">One waitlist. One decision. That's it.</p>
-
-    <div id="final-form-wrap" class="reveal d3">
-      <div id="final-form-inner">
-        <div class="final-form">
-          <input
-            type="email"
-            class="input"
-            id="final-email"
-            placeholder="your@email.com"
-            autocomplete="email"
-            aria-label="Email"
-          />
-          <select class="select" id="final-role" aria-label="Your role">
+  <div class="wxs" style="text-align:center">
+    <div class="label rv" style="justify-content:center"><span class="label-dot"></span>The decision</div>
+    <h2 class="rv d1">Your future won't be<br>built in <em>distraction.</em></h2>
+    <p class="final-sub rv d2">One waitlist. One decision. That's it.</p>
+    <div class="rv d3 final-form">
+      <div id="final-wrap" class="form-wrap">
+        <div id="final-inner" class="form-inner">
+          <input type="email" class="inp" id="final-email" placeholder="your@email.com" autocomplete="email" aria-label="Email address">
+          <select class="sel" id="final-role" aria-label="Your role">
             <option value="">Your role — optional</option>
             <option value="student">Student</option>
             <option value="founder">Founder</option>
@@ -1653,90 +1418,99 @@ footer {
             <option value="developer">Developer</option>
             <option value="other">Other</option>
           </select>
-          <p class="hero-form-error" id="final-error">Enter a valid email address.</p>
-          <button class="btn btn-primary" id="final-btn" onclick="submitForm('final')" style="width:100%;">
+          <p class="form-err" id="final-err">Please enter a valid email address.</p>
+          <button class="btn btn-blue" id="final-btn" onclick="submitForm('final')" style="width:100%">
             Join the waitlist
           </button>
-          <p class="hero-trust">No spam. Early access only.</p>
+          <p class="form-trust">No spam. Early access only.</p>
         </div>
-      </div>
-      <div class="form-success" id="final-success">
-        <div class="success-ring">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M4 10l4.5 4.5L16 7" stroke="#3DD68C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="form-success" id="final-suc">
+          <div class="suc-ring">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M4 10l4.5 4.5L16 7" stroke="#3DD68C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="suc-title">Welcome to Kairos.</p>
+          <p class="suc-sub">You're on the waitlist. Early access opens to members first — we'll reach out when your spot is ready.</p>
         </div>
-        <p class="success-title">You're on the list.</p>
-        <p class="success-sub">Early access opens to waitlist members first. We'll reach out when your spot is ready.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <span class="footer-logo">Kairos<em>.</em></span>
-    <span class="footer-copy">© 2026 Kairos — Focus is becoming a luxury.</span>
+  <div class="foot-inner">
+    <span class="foot-logo">Kairos<em>.</em></span>
+    <span class="foot-copy">© 2026 Kairos — Focus is becoming a luxury.</span>
   </div>
 </footer>
 
 <script>
 (function () {
+  'use strict';
 
-  /* ── SCROLL REVEAL ─────────────────────────────────────────── */
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
-    });
+  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxijcC0UmJs9_5sLwHkQ6bmpwCCzLFfzHF6KCZQBrjghp32lCS4V1S99qlWj0hcmbXt/exec';
+
+  /* ── SCROLL REVEAL ─────────────────────────────────────── */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
-  /* ── RING ANIMATION ────────────────────────────────────────── */
-  const ringEl = document.getElementById('ps-ring');
-  const ringObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { ringEl && ringEl.classList.add('animate'); ringObs.disconnect(); }
-    });
-  }, { threshold: .5 });
-  if (ringEl) ringObs.observe(ringEl.closest('.phone') || ringEl);
-
-  /* ── COUNTERS ──────────────────────────────────────────────── */
-  function runCounter(el) {
-    const to  = parseInt(el.dataset.to, 10);
-    const dur = 1200;
-    const fps = 16;
-    const steps = dur / fps;
-    let cur = 0;
-    const inc = to / steps;
-    const id = setInterval(() => {
-      cur = Math.min(cur + inc, to);
-      el.textContent = Math.floor(cur);
-      if (cur >= to) clearInterval(id);
-    }, fps);
-  }
-  const counterObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.querySelectorAll('.counter').forEach(runCounter);
-        counterObs.unobserve(e.target);
-      }
-    });
-  }, { threshold: .3 });
-  document.querySelectorAll('#product').forEach(s => counterObs.observe(s));
-
-  /* ── NAV SCROLL ────────────────────────────────────────────── */
+  /* ── NAV SCROLL ────────────────────────────────────────── */
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
-    nav.style.background = window.scrollY > 48
-      ? 'rgba(8,8,14,.95)'
-      : 'rgba(8,8,14,.80)';
+    nav.style.background = window.scrollY > 50 ? 'rgba(6,6,9,.96)' : 'rgba(6,6,9,.82)';
   }, { passive: true });
 
-  /* ── FAQ ───────────────────────────────────────────────────── */
-  window.faq = function (btn) {
+  /* ── RING ANIMATIONS ───────────────────────────────────── */
+  function animateRing(id, delay) {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('go');
+    }, delay);
+  }
+  animateRing('hero-ring', 900);
+
+  const screenObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateRing('ses-ring', 400);
+        // animate calibration bars
+        [['b1','88%'],['b2','79%'],['b3','82%'],['b4','91%']].forEach(([id, w], i) => {
+          setTimeout(() => {
+            const bar = document.getElementById(id);
+            if (bar) bar.style.width = w;
+          }, 300 + i * 120);
+        });
+        screenObs.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+  const screensEl = document.getElementById('screens');
+  if (screensEl) screenObs.observe(screensEl);
+
+  /* ── TIMER TICK ────────────────────────────────────────── */
+  let timerSeconds = 47 * 60 + 23;
+  const timerEl = document.getElementById('timer-disp');
+  const lsEl = document.getElementById('ls-val');
+  setInterval(() => {
+    timerSeconds++;
+    if (timerSeconds > 50 * 60) timerSeconds = 0;
+    const m = Math.floor(timerSeconds / 60);
+    const s = timerSeconds % 60;
+    if (timerEl) timerEl.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    if (lsEl) {
+      const score = Math.min(76 + Math.floor((timerSeconds - 47 * 60 - 23) / 30), 91);
+      lsEl.textContent = score;
+    }
+  }, 1000);
+
+  /* ── FAQ ───────────────────────────────────────────────── */
+  window.toggleFaq = function (btn) {
     const item = btn.closest('.faq-item');
-    const ans  = item.querySelector('.faq-a');
+    const ans = item.querySelector('.faq-a');
     const open = item.classList.contains('open');
     document.querySelectorAll('.faq-item.open').forEach(i => {
       i.classList.remove('open');
@@ -1748,72 +1522,109 @@ footer {
     }
   };
 
-  /* ── FORM VALIDATION ───────────────────────────────────────── */
-  function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
+  /* ── FOCUS HELPERS ─────────────────────────────────────── */
+  window.focusForm = function (prefix) {
+    const section = prefix === 'final' ? document.getElementById('final') : document.getElementById('hero');
+    if (section) section.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      const inp = document.getElementById(prefix + '-email');
+      if (inp) inp.focus();
+    }, 550);
+  };
 
-  window.submitForm = function (prefix) {
+  /* ── FORM SUBMISSION ───────────────────────────────────── */
+  function valid(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()); }
+
+  function showSuccess(prefix) {
+    const inner = document.getElementById(prefix + '-inner');
+    const suc   = document.getElementById(prefix + '-suc');
+    if (inner) inner.style.display = 'none';
+    if (suc)   suc.classList.add('on');
+    // mirror to the other form
+    const other = prefix === 'hero' ? 'final' : 'hero';
+    const oi = document.getElementById(other + '-inner');
+    const os = document.getElementById(other + '-suc');
+    if (oi) oi.style.display = 'none';
+    if (os) os.classList.add('on');
+  }
+
+  function setLoading(prefix, loading) {
+    const btn = document.getElementById(prefix + '-btn');
+    const emailInp = document.getElementById(prefix + '-email');
+    const roleInp  = document.getElementById(prefix + '-role');
+    if (!btn) return;
+    if (loading) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Joining…';
+      if (emailInp) emailInp.disabled = true;
+      if (roleInp)  roleInp.disabled  = true;
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Join the waitlist';
+      if (emailInp) emailInp.disabled = false;
+      if (roleInp)  roleInp.disabled  = false;
+    }
+  }
+
+  function showError(prefix, msg) {
+    const errEl = document.getElementById(prefix + '-err');
+    const inp   = document.getElementById(prefix + '-email');
+    if (errEl) { errEl.textContent = msg; errEl.classList.add('on'); }
+    if (inp)   { inp.classList.add('err'); setTimeout(() => inp.classList.remove('err'), 2400); }
+  }
+
+  window.submitForm = async function (prefix) {
     const emailEl = document.getElementById(prefix + '-email');
     const roleEl  = document.getElementById(prefix + '-role');
-    const errEl   = document.getElementById(prefix + '-error');
-    const email   = emailEl.value.trim();
+    const errEl   = document.getElementById(prefix + '-err');
+    if (!emailEl) return;
 
-    errEl.classList.remove('show');
+    const email = emailEl.value.trim();
+    const role  = roleEl ? roleEl.value : '';
 
-    if (!validEmail(email)) {
-      errEl.classList.add('show');
-      emailEl.style.borderColor = 'rgba(245,101,101,.4)';
+    if (errEl) errEl.classList.remove('on');
+    emailEl.classList.remove('err');
+
+    if (!valid(email)) {
+      showError(prefix, 'Please enter a valid email address.');
       emailEl.focus();
-      setTimeout(() => { emailEl.style.borderColor = ''; }, 2200);
       return;
     }
 
-    /* save to localStorage */
-    const list = JSON.parse(localStorage.getItem('k_waitlist') || '[]');
-    if (!list.find(e => e.email === email)) {
-      list.push({ email, role: roleEl ? roleEl.value : '', ts: Date.now() });
-      localStorage.setItem('k_waitlist', JSON.stringify(list));
+    // Check localStorage for duplicate
+    const saved = JSON.parse(localStorage.getItem('k_wl') || '[]');
+    if (saved.includes(email)) {
+      showSuccess(prefix);
+      return;
     }
 
-    /* show success on this form */
-    document.getElementById(prefix + '-form-inner').style.display = 'none';
-    document.getElementById(prefix + '-success').classList.add('show');
+    setLoading(prefix, true);
 
-    /* mirror success to the other form */
-    const other = prefix === 'hero' ? 'final' : 'hero';
-    const otherInner = document.getElementById(other + '-form-inner');
-    const otherSuccess = document.getElementById(other + '-success');
-    if (otherInner && otherSuccess) {
-      otherInner.style.display = 'none';
-      otherSuccess.classList.add('show');
+    try {
+      const params = new URLSearchParams({ email, role, source: 'landing', ts: Date.now() });
+      await fetch(`${ENDPOINT}?${params.toString()}`, { method: 'GET', mode: 'no-cors' });
+      saved.push(email);
+      localStorage.setItem('k_wl', JSON.stringify(saved));
+      showSuccess(prefix);
+    } catch (err) {
+      setLoading(prefix, false);
+      showError(prefix, 'Something went wrong. Please try again.');
     }
   };
 
-  /* ── FOCUS HELPERS ─────────────────────────────────────────── */
-  window.focusForm = function () {
-    document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
-    setTimeout(() => document.getElementById('hero-email').focus(), 500);
-  };
-  window.focusFinalForm = function () {
-    document.getElementById('final').scrollIntoView({ behavior: 'smooth' });
-    setTimeout(() => document.getElementById('final-email').focus(), 500);
-  };
-
-  /* ── RESTORE STATE ─────────────────────────────────────────── */
-  const saved = JSON.parse(localStorage.getItem('k_waitlist') || '[]');
-  if (saved.length) {
+  /* ── RESTORE STATE ─────────────────────────────────────── */
+  const prior = JSON.parse(localStorage.getItem('k_wl') || '[]');
+  if (prior.length) {
     ['hero', 'final'].forEach(p => {
-      const inner   = document.getElementById(p + '-form-inner');
-      const success = document.getElementById(p + '-success');
-      if (inner && success) { inner.style.display = 'none'; success.classList.add('show'); }
+      const inner = document.getElementById(p + '-inner');
+      const suc   = document.getElementById(p + '-suc');
+      if (inner) inner.style.display = 'none';
+      if (suc)   suc.classList.add('on');
     });
   }
 
-  /* ── RING TRIGGER ON LOAD ──────────────────────────────────── */
-  setTimeout(() => { if (ringEl) ringEl.classList.add('animate'); }, 800);
-
 })();
 </script>
-
 </body>
 </html>
 ```
