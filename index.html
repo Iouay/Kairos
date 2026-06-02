@@ -1377,8 +1377,16 @@ window.submit = async function(prefix) {
   setLoading(prefix, true);
 
   try {
-    const params = new URLSearchParams({ email, role, source: 'landing', ts: Date.now() });
-    await fetch(`${ENDPOINT}?${params}`, { method: 'GET', mode: 'no-cors' });
+    await fetch(ENDPOINT, {
+  method: "POST",
+  mode: "no-cors",
+  body: JSON.stringify({
+    email: email,
+    role: role,
+    source: "landing",
+    ts: Date.now()
+  })
+});
     saved.push(email);
     localStorage.setItem('k_wl', JSON.stringify(saved));
     showSuccess(prefix);
