@@ -3,8 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Kairos — Focus is Becoming a Luxury</title>
-<meta name="description" content="The performance system for your mind. Rituals, deep work sessions, and focus analytics.">
+<title>Kairos — Take your attention back</title>
+<meta name="description" content="Kairos is the focus trainer for people losing their day to their phone. Lock into distraction-free deep work, build a streak, and discover your focus type. Join the waitlist for early access.">
+
+<!-- Open Graph — controls how the link previews when you share it from your bio -->
+<meta property="og:title" content="Kairos — Take your attention back">
+<meta property="og:description" content="The focus trainer for people losing their day to their phone. Lock in. Build the streak. Find your focus type.">
+<meta property="og:type" content="website">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -17,16 +23,14 @@
   --f:  'Inter', sans-serif;
   --fm: 'IBM Plex Mono', monospace;
 
-  /* scale – mobile base */
   --step--1: 11px;
   --step-0:  13px;
   --step-1:  15px;
   --step-2:  17px;
   --step-3:  clamp(20px, 5vw, 26px);
-  --step-4:  clamp(26px, 7vw, 38px);
-  --step-5:  clamp(36px, 10vw, 58px);
+  --step-4:  clamp(27px, 7vw, 40px);
+  --step-5:  clamp(40px, 11vw, 66px);
 
-  /* warm premium dark */
   --bg:   #08080D;
   --bg2:  #0C0C13;
   --sur:  #111118;
@@ -34,22 +38,18 @@
   --rim:  rgba(255,255,255,.058);
   --rimh: rgba(255,255,255,.095);
 
-  /* gold — the one accent */
   --au:   #C0A26A;
   --au10: rgba(192,162,106,.10);
   --au18: rgba(192,162,106,.18);
 
-  /* slate — data / ui */
   --sl:   #6A80A0;
   --sl10: rgba(106,128,160,.10);
   --sl20: rgba(106,128,160,.20);
 
-  /* semantic */
-  --gn:  #6FA882;   /* sage  */
-  --am:  #C09558;   /* amber */
-  --er:  #A86868;   /* muted red */
+  --gn:  #6FA882;
+  --am:  #C09558;
+  --er:  #A86868;
 
-  /* text */
   --t1: #ECE8E2;
   --t2: #8A8880;
   --t3: #464440;
@@ -78,7 +78,6 @@ button,input,select{font-family:inherit;-webkit-appearance:none;appearance:none}
 ::-webkit-scrollbar{width:2px}
 ::-webkit-scrollbar-thumb{background:var(--rsd)}
 
-/* grain */
 body::after{
   content:'';position:fixed;inset:0;
   pointer-events:none;z-index:9999;opacity:.02;
@@ -96,7 +95,7 @@ body::after{
 /* ─────────────────────────────────────────────────────
    TYPE
 ───────────────────────────────────────────────────── */
-h1,h2{font-weight:700;letter-spacing:-.028em;line-height:1.06}
+h1,h2{font-weight:700;letter-spacing:-.03em;line-height:1.04}
 h1{font-size:var(--step-5)}
 h2{font-size:var(--step-4)}
 h3{font-size:var(--step-3);font-weight:600;letter-spacing:-.018em;line-height:1.2}
@@ -105,6 +104,7 @@ h3{font-size:var(--step-3);font-weight:600;letter-spacing:-.018em;line-height:1.
 .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--t3);margin-bottom:18px}
 .eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--au);animation:pulse 2.4s ease-in-out infinite;flex-shrink:0}
 .eyebrow-dot.slate{background:var(--sl)}
+.eyebrow-dot.green{background:var(--gn)}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
 
 /* ─────────────────────────────────────────────────────
@@ -123,77 +123,71 @@ nav{
 .nav-links{display:none}
 @media(min-width:768px){
   nav{padding:0 32px}
-  .nav-links{
-    display:flex;list-style:none;gap:24px;
-  }
+  .nav-links{display:flex;list-style:none;gap:24px}
   .nav-links a{font-size:var(--step-0);font-weight:500;color:var(--t3);text-decoration:none;transition:color .18s}
   .nav-links a:hover{color:var(--t2)}
 }
 .nav-btn{
-  font-size:var(--step-0);font-weight:600;color:#fff;background:var(--au);
-  border:none;padding:8px 18px;border-radius:var(--rp);cursor:pointer;
-  transition:opacity .18s;-webkit-tap-highlight-color:transparent;
+  font-size:var(--step-0);font-weight:600;color:#0A0A0A;background:var(--au);
+  border:none;padding:9px 18px;border-radius:var(--rp);cursor:pointer;
+  transition:opacity .18s,transform .15s;-webkit-tap-highlight-color:transparent;
 }
-.nav-btn:hover{opacity:.88}
+.nav-btn:hover{opacity:.9;transform:translateY(-1px)}
 
 /* ─────────────────────────────────────────────────────
    BUTTONS + INPUTS
 ───────────────────────────────────────────────────── */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  min-height:52px;padding:0 24px;border-radius:var(--r2);
-  font-size:var(--step-1);font-weight:600;cursor:pointer;border:none;
+  min-height:54px;padding:0 24px;border-radius:var(--r2);
+  font-size:var(--step-2);font-weight:600;cursor:pointer;border:none;
   transition:opacity .18s,transform .15s;
-  -webkit-tap-highlight-color:transparent;
-  white-space:nowrap;width:100%;
+  -webkit-tap-highlight-color:transparent;white-space:nowrap;width:100%;
 }
 .btn-gold{background:var(--au);color:#0A0A0A}
-.btn-gold:hover{opacity:.9;transform:translateY(-1px)}
+.btn-gold:hover{opacity:.92;transform:translateY(-1px)}
 .btn-gold:active{transform:translateY(0)}
 .btn-gold:disabled{opacity:.55;cursor:not-allowed;transform:none}
-.btn-outline{background:transparent;color:var(--t2);border:1px solid var(--rimh)}
-.btn-outline:hover{border-color:rgba(255,255,255,.18);color:var(--t1)}
 
-.inp,.sel{
-  width:100%;min-height:52px;
+.inp{
+  width:100%;min-height:54px;
   background:rgba(255,255,255,.04);
   border:1px solid var(--rim);border-radius:var(--r2);
-  padding:0 16px;
-  color:var(--t1);font-size:var(--step-1);
-  outline:none;
-  transition:border-color .18s,background .18s;
+  padding:0 16px;color:var(--t1);font-size:var(--step-2);
+  outline:none;transition:border-color .18s,background .18s;
 }
 .inp::placeholder{color:var(--t3)}
-.inp:focus,.sel:focus{border-color:rgba(192,162,106,.3);background:rgba(192,162,106,.04)}
+.inp:focus{border-color:rgba(192,162,106,.3);background:rgba(192,162,106,.04)}
 .inp.err{border-color:rgba(168,104,104,.4)}
-.sel{color:var(--t3);cursor:pointer;padding-right:36px;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23464440' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center;
-}
-.sel option{background:#181821;color:var(--t1)}
 
-/* spinner */
 .spin{width:16px;height:16px;border-radius:50%;border:2px solid rgba(10,10,10,.3);border-top-color:#0A0A0A;animation:rot .55s linear infinite;flex-shrink:0}
 @keyframes rot{to{transform:rotate(360deg)}}
 
 /* ─────────────────────────────────────────────────────
-   FORM STATES
+   FORM
 ───────────────────────────────────────────────────── */
-.form-fields{display:flex;flex-direction:column;gap:10px}
+.form{display:flex;flex-direction:column;gap:10px}
+@media(min-width:560px){
+  .form .form-row{display:flex;gap:10px}
+  .form .form-row .inp{flex:1}
+  .form .form-row .btn{width:auto;flex-shrink:0;padding:0 28px}
+}
 .form-err{font-family:var(--fm);font-size:var(--step--1);color:var(--er);display:none;padding:0 2px;letter-spacing:.03em}
 .form-err.on{display:block}
-.form-note{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.06em;text-align:center}
-.form-suc{display:none;flex-direction:column;align-items:center;gap:14px;text-align:center;padding:28px 0}
+.form-note{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.04em}
+.form-note b{color:var(--t2);font-weight:500}
+.form-suc{display:none;flex-direction:column;gap:14px;padding:8px 0}
 .form-suc.on{display:flex}
+.suc-row{display:flex;align-items:center;gap:13px}
 .suc-check{
-  width:50px;height:50px;border-radius:50%;
+  width:46px;height:46px;border-radius:50%;flex-shrink:0;
   background:rgba(111,168,130,.1);border:1px solid rgba(111,168,130,.22);
   display:flex;align-items:center;justify-content:center;
   animation:pop .4s cubic-bezier(.34,1.56,.64,1);
 }
 @keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
-.suc-title{font-size:var(--step-3);font-weight:700;letter-spacing:-.02em}
-.suc-body{font-size:var(--step-1);color:var(--t3);max-width:26ch;line-height:1.6}
+.suc-title{font-size:var(--step-2);font-weight:700;letter-spacing:-.02em}
+.suc-body{font-size:var(--step-1);color:var(--t3);line-height:1.55}
 
 /* ─────────────────────────────────────────────────────
    SCROLL REVEAL
@@ -209,232 +203,144 @@ nav{
 section{padding:80px 0}
 @media(min-width:768px){section{padding:108px 0}}
 .sec-head{margin-bottom:44px}
-.sec-head h2{margin-bottom:10px}
-.sec-sub{font-size:var(--step-2);color:var(--t2);line-height:1.65;max-width:36ch}
+.sec-head h2{margin-bottom:12px}
+.sec-sub{font-size:var(--step-2);color:var(--t2);line-height:1.6;max-width:38ch}
 
 /* ─────────────────────────────────────────────────────
    PHONE FRAME
 ───────────────────────────────────────────────────── */
 .phone{
-  width:234px;
-  background:#060608;
-  border-radius:40px;
+  width:234px;background:#060608;border-radius:40px;
   border:1px solid rgba(255,255,255,.09);
   position:relative;overflow:hidden;flex-shrink:0;
-  box-shadow:
-    0 0 0 .5px rgba(0,0,0,.8),
-    0 32px 72px rgba(0,0,0,.7),
-    inset 0 1px 0 rgba(255,255,255,.055);
+  box-shadow:0 0 0 .5px rgba(0,0,0,.8),0 32px 72px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.055);
 }
-.phone-inner{
-  position:relative;
-  /* height set per screen */
-  padding:46px 13px 16px;
-  display:flex;flex-direction:column;gap:6px;
-}
-.p-island{
-  position:absolute;top:11px;left:50%;transform:translateX(-50%);
-  width:88px;height:26px;background:#000;border-radius:18px;z-index:10;
-}
+.phone-inner{position:relative;padding:46px 13px 16px;display:flex;flex-direction:column;gap:6px}
+.p-island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:88px;height:26px;background:#000;border-radius:18px;z-index:10}
 .p-bar{display:flex;justify-content:space-between;align-items:center;padding:0 1px;margin-bottom:2px}
 .p-time{font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.03em}
-.p-batt{
-  display:flex;align-items:center;gap:3px;
-}
-.p-batt-body{
-  width:18px;height:9px;
-  border:1.2px solid rgba(255,255,255,.3);border-radius:2px;
-  position:relative;
-}
-.p-batt-body::after{
-  content:'';position:absolute;top:1.5px;left:1.5px;right:5px;bottom:1.5px;
-  background:rgba(255,255,255,.35);border-radius:.5px;
-}
-.p-batt-body::before{
-  content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);
-  width:2.5px;height:5px;background:rgba(255,255,255,.25);border-radius:0 1px 1px 0;
-}
-
-/* phone primitives */
-.p-tag{
-  display:inline-flex;align-items:center;gap:5px;
-  font-family:var(--fm);font-size:8px;letter-spacing:.06em;
-  padding:3px 9px;border-radius:var(--rp);
-}
+.p-batt{display:flex;align-items:center;gap:3px}
+.p-batt-body{width:18px;height:9px;border:1.2px solid rgba(255,255,255,.3);border-radius:2px;position:relative}
+.p-batt-body::after{content:'';position:absolute;top:1.5px;left:1.5px;right:5px;bottom:1.5px;background:rgba(255,255,255,.35);border-radius:.5px}
+.p-batt-body::before{content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);width:2.5px;height:5px;background:rgba(255,255,255,.25);border-radius:0 1px 1px 0}
+.p-tag{display:inline-flex;align-items:center;gap:5px;font-family:var(--fm);font-size:8px;letter-spacing:.06em;padding:3px 9px;border-radius:var(--rp)}
 .p-label{font-family:var(--fm);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28)}
 .p-greet{font-size:11px;font-weight:500;color:rgba(255,255,255,.25);padding:2px 1px}
 .p-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:11px 12px}
 .p-grid2{display:grid;grid-template-columns:1fr 1fr;gap:5px}
 
+/* preview ribbon on mockups */
+.preview-tag{
+  position:absolute;top:14px;right:-30px;z-index:11;
+  background:rgba(192,162,106,.9);color:#0A0A0A;
+  font-family:var(--fm);font-size:7px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  padding:3px 32px;transform:rotate(45deg);
+}
+
 /* ─────────────────────────────────────────────────────
    HERO
 ───────────────────────────────────────────────────── */
 #hero{
-  min-height:100dvh;
-  padding-top:54px;
-  display:flex;flex-direction:column;
-  justify-content:flex-start;
+  min-height:100dvh;padding-top:54px;
+  display:flex;flex-direction:column;justify-content:flex-start;
   position:relative;overflow:hidden;
 }
 .hero-glow{
   position:absolute;top:-15%;left:50%;transform:translateX(-50%);
-  width:700px;height:600px;pointer-events:none;
-  background:radial-gradient(ellipse,rgba(192,162,106,.06) 0%,transparent 65%);
+  width:720px;height:620px;pointer-events:none;
+  background:radial-gradient(ellipse,rgba(192,162,106,.07) 0%,transparent 65%);
 }
-.hero-content{padding:52px 20px 0}
-@media(min-width:640px){.hero-content{padding:64px 0 0;max-width:680px;margin:0 auto}}
+.hero-content{padding:44px 20px 0}
+@media(min-width:640px){.hero-content{padding:56px 0 0;max-width:680px;margin:0 auto}}
 @media(min-width:1000px){
   #hero{flex-direction:row;align-items:center;justify-content:center;padding-top:54px}
-  .hero-content{
-    padding:0;flex:1;max-width:500px;
-    margin:0 80px 0 0;
-  }
+  .hero-content{padding:0;flex:1;max-width:520px;margin:0 80px 0 0}
 }
 
-.hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:20px}
-.hero-eyebrow span{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.1em;text-transform:uppercase}
-.hero-h1{margin-bottom:16px}
-.hero-h1 .muted{color:var(--t3)}
-.hero-lede{font-size:var(--step-2);color:var(--t2);max-width:34ch;margin-bottom:32px;line-height:1.6}
-
-.hero-form{display:flex;flex-direction:column;gap:10px}
-.hero-form .btn-gold{letter-spacing:.01em}
-
-.hero-phone{
-  display:flex;justify-content:center;align-items:flex-start;
-  padding:48px 20px 0;
-  position:relative;
+.hero-pill{
+  display:inline-flex;align-items:center;gap:8px;margin-bottom:22px;
+  background:rgba(255,255,255,.03);border:1px solid var(--rim);
+  border-radius:var(--rp);padding:7px 14px;
 }
-@media(min-width:1000px){
-  .hero-phone{padding:0;flex-shrink:0;align-items:center}
-}
+.hero-pill .eyebrow-dot{margin:0}
+.hero-pill span{font-family:var(--fm);font-size:var(--step--1);color:var(--t2);letter-spacing:.06em}
+.hero-pill b{color:var(--t1);font-weight:600}
+
+.hero-h1{margin-bottom:18px}
+.hero-h1 .muted{color:var(--au)}
+.hero-lede{font-size:var(--step-2);color:var(--t2);max-width:36ch;margin-bottom:30px;line-height:1.55}
+.hero-lede b{color:var(--t1);font-weight:600}
+
+.hero-form{max-width:440px}
+.hero-trust{display:flex;align-items:center;gap:7px;margin-top:14px}
+.hero-trust svg{flex-shrink:0}
+.hero-trust span{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.03em}
+
+.hero-phone{display:flex;justify-content:center;align-items:flex-start;padding:50px 20px 0;position:relative}
+@media(min-width:1000px){.hero-phone{padding:0;flex-shrink:0;align-items:center}}
 
 /* dashboard phone content */
 .dp-ring{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 0 6px}
 .dp-ring-wrap{position:relative;width:88px;height:88px}
 .ring-svg{transform:rotate(-90deg);display:block;overflow:visible}
 .ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:4}
-.ring-fill{fill:none;stroke-width:4;stroke-linecap:round;
-  stroke-dasharray:244;stroke-dashoffset:244;
-  transition:stroke-dashoffset 1.8s cubic-bezier(.22,1,.36,1);
-}
+.ring-fill{fill:none;stroke-width:4;stroke-linecap:round;stroke-dasharray:244;stroke-dashoffset:244;transition:stroke-dashoffset 1.8s cubic-bezier(.22,1,.36,1)}
 .ring-fill.go{stroke-dashoffset:61}
-.ring-inner{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-}
+.ring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .ring-num{font-size:22px;font-weight:700;color:var(--t1);line-height:1;letter-spacing:-.02em}
 .ring-lbl{font-family:var(--fm);font-size:7px;color:rgba(255,255,255,.3);letter-spacing:.09em;margin-top:2px}
-
-.dp-session{
-  background:rgba(106,128,160,.1);
-  border:1px solid rgba(106,128,160,.2);
-  border-radius:12px;padding:10px 12px;
-  display:flex;align-items:center;justify-content:space-between;
-}
+.dp-session{background:rgba(106,128,160,.1);border:1px solid rgba(106,128,160,.2);border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between}
 .dp-ses-title{font-size:11px;font-weight:600;margin-bottom:2px}
 .dp-ses-sub{font-family:var(--fm);font-size:7.5px;color:var(--sl);letter-spacing:.05em}
-.dp-play{
-  width:26px;height:26px;border-radius:50%;background:var(--sl);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.dp-play-arrow{
-  width:0;height:0;
-  border-top:4px solid transparent;border-bottom:4px solid transparent;
-  border-left:6px solid #fff;margin-left:2px;
-}
-.dp-id{
-  background:rgba(192,162,106,.07);
-  border:1px solid rgba(192,162,106,.14);
-  border-radius:10px;padding:9px 11px;
-  display:flex;align-items:center;justify-content:space-between;
-}
+.dp-play{width:26px;height:26px;border-radius:50%;background:var(--sl);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dp-play-arrow{width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:6px solid #fff;margin-left:2px}
+.dp-id{background:rgba(192,162,106,.07);border:1px solid rgba(192,162,106,.14);border-radius:10px;padding:9px 11px;display:flex;align-items:center;justify-content:space-between}
 .dp-id-name{font-size:10.5px;font-weight:600;color:var(--au)}
 .dp-id-tag{font-family:var(--fm);font-size:7px;color:var(--bg);background:var(--au);padding:3px 7px;border-radius:var(--rp)}
 
 /* ─────────────────────────────────────────────────────
-   PROBLEM
+   PAIN
 ───────────────────────────────────────────────────── */
-#problem{background:var(--bg2)}
-.problem-items{display:flex;flex-direction:column;gap:1px;margin-top:8px}
-.p-item{
-  padding:24px 0;
-  border-bottom:1px solid var(--rim);
-  transition:padding-left .2s;
-}
-.p-item:last-child{border-bottom:none}
-.p-item-n{font-family:var(--fm);font-size:var(--step--1);color:var(--t4);letter-spacing:.1em;margin-bottom:8px}
-.p-item p{font-size:clamp(17px,4vw,21px);font-weight:600;line-height:1.38;letter-spacing:-.015em;color:var(--t2)}
-.p-item p strong{color:var(--t1)}
+#pain{background:var(--bg2)}
+.pain-items{display:flex;flex-direction:column;gap:1px;margin-top:8px}
+.pain-item{padding:24px 0;border-bottom:1px solid var(--rim)}
+.pain-item:last-child{border-bottom:none}
+.pain-n{font-family:var(--fm);font-size:var(--step--1);color:var(--t4);letter-spacing:.1em;margin-bottom:8px}
+.pain-item p{font-size:clamp(17px,4vw,21px);font-weight:600;line-height:1.38;letter-spacing:-.015em;color:var(--t2)}
+.pain-item p strong{color:var(--t1)}
 
 /* ─────────────────────────────────────────────────────
-   WHY
+   SHIFT / HOW
 ───────────────────────────────────────────────────── */
-#why{background:var(--bg)}
-.why-list{display:flex;flex-direction:column;gap:12px;margin-top:8px}
-.why-card{
-  background:var(--sur);border:1px solid var(--rim);border-radius:var(--r2);
-  padding:20px;transition:border-color .2s;
+#how{background:var(--bg)}
+.how-grid{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.how-step{background:var(--sur);border:1px solid var(--rim);border-radius:var(--r2);padding:26px 22px;transition:border-color .2s}
+.how-step:hover{border-color:var(--rimh)}
+.how-n{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:50%;
+  font-family:var(--fm);font-size:13px;font-weight:500;color:var(--au);
+  background:var(--au10);border:1px solid var(--au18);margin-bottom:16px;
 }
-.why-card:hover{border-color:var(--rimh)}
-.why-tool{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
-.why-miss{
-  display:inline-block;font-family:var(--fm);font-size:10px;
-  color:var(--er);background:rgba(168,104,104,.08);border:1px solid rgba(168,104,104,.14);
-  border-radius:var(--rp);padding:3px 9px;letter-spacing:.04em;margin-bottom:10px;
-}
-.why-card p{font-size:var(--step-1);color:var(--t3);line-height:1.65}
-.why-card p strong{color:var(--t2)}
-@media(min-width:640px){.why-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}}
-@media(min-width:1000px){.why-list{grid-template-columns:repeat(4,1fr)}}
+.how-step h3{margin-bottom:8px}
+.how-step p{font-size:var(--step-1);color:var(--t3);line-height:1.68;max-width:46ch}
+.how-step p strong{color:var(--t2)}
+@media(min-width:1000px){.how-grid{display:grid;grid-template-columns:repeat(3,1fr)}}
 
 /* ─────────────────────────────────────────────────────
-   METHOD
+   SCREENS
 ───────────────────────────────────────────────────── */
-#method{background:var(--bg2)}
-.method-grid{display:flex;flex-direction:column;gap:1px;margin-top:8px}
-.m-step{
-  padding:28px 0;border-bottom:1px solid var(--rim);
-}
-.m-step:last-child{border-bottom:none}
-.m-n{font-family:var(--fm);font-size:var(--step--1);color:var(--sl);letter-spacing:.12em;margin-bottom:14px}
-.m-step h3{font-size:var(--step-3);font-weight:600;margin-bottom:8px;letter-spacing:-.018em}
-.m-step p{font-size:var(--step-1);color:var(--t3);line-height:1.68;max-width:40ch}
-@media(min-width:768px){
-  .method-grid{display:grid;grid-template-columns:1fr 1fr}
-  .m-step{padding:32px;border-bottom:none;border:1px solid var(--rim);border-radius:var(--r2);background:var(--sur)}
-  .method-grid{gap:10px}
-}
-@media(min-width:1000px){.method-grid{grid-template-columns:repeat(4,1fr)}}
-
-/* ─────────────────────────────────────────────────────
-   SCREENS (app showcase)
-───────────────────────────────────────────────────── */
-#screens{background:var(--bg);overflow:hidden}
-.screens-label{margin-bottom:12px}
+#screens{background:var(--bg2);overflow:hidden}
 .screens-intro{font-size:var(--step-2);color:var(--t2);line-height:1.6;margin-bottom:40px;max-width:38ch}
-.screens-scroll{
-  display:flex;gap:14px;
-  overflow-x:auto;scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;scrollbar-width:none;
-  padding:0 20px 20px;margin:0 -20px;
-}
+.screens-scroll{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 20px 20px;margin:0 -20px}
 .screens-scroll::-webkit-scrollbar{display:none}
 .screen-item{flex-shrink:0;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
 .screen-caption{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.1em;text-transform:uppercase}
 @media(min-width:1000px){
-  .screens-scroll{
-    overflow-x:visible;scroll-snap-type:none;
-    justify-content:center;padding:0;margin:0;flex-wrap:wrap;gap:20px;
-  }
+  .screens-scroll{overflow-x:visible;scroll-snap-type:none;justify-content:center;padding:0;margin:0;flex-wrap:wrap;gap:20px}
   .screen-item{scroll-snap-align:none}
 }
-
-/* ── ritual screen ── */
-.rsc-val{
-  font-size:54px;font-weight:700;line-height:1;
-  letter-spacing:-.04em;color:var(--gn);
-}
+.rsc-val{font-size:54px;font-weight:700;line-height:1;letter-spacing:-.04em;color:var(--gn)}
 .rsc-protocol{font-size:10.5px;font-weight:500;color:rgba(111,168,130,.65);margin-top:3px}
 .bars{display:flex;flex-direction:column;gap:7px}
 .bar-r{display:flex;align-items:center;gap:7px}
@@ -442,25 +348,15 @@ section{padding:80px 0}
 .bar-t{flex:1;height:2px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden}
 .bar-f{height:100%;border-radius:99px;transition:width 1.6s cubic-bezier(.22,1,.36,1)}
 .bar-v{font-family:var(--fm);font-size:7.5px;color:rgba(255,255,255,.3);width:20px;text-align:right;flex-shrink:0}
-.r-begin{
-  background:rgba(111,168,130,.85);
-  border-radius:10px;padding:9px 12px;
-  display:flex;align-items:center;justify-content:center;gap:6px;margin-top:2px;
-}
+.r-begin{background:rgba(111,168,130,.85);border-radius:10px;padding:9px 12px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:2px}
 .r-begin span{font-size:11px;font-weight:600;color:#060608}
-
-/* ── session screen ── */
 .ses-status{display:inline-flex;align-items:center;gap:6px;margin-bottom:4px}
 .ses-dot{width:5px;height:5px;border-radius:50%;background:var(--gn);animation:pulse 1.8s ease-in-out infinite}
 .ses-status-lbl{font-family:var(--fm);font-size:8px;color:var(--gn);letter-spacing:.08em}
 .big-ring-wrap{position:relative;width:120px;height:120px;margin:6px auto 4px}
 .br-svg{transform:rotate(-90deg);display:block;overflow:visible}
 .br-bg{fill:none;stroke:rgba(255,255,255,.05);stroke-width:3.5}
-.br-fill{
-  fill:none;stroke:var(--sl);stroke-width:3.5;stroke-linecap:round;
-  stroke-dasharray:345;stroke-dashoffset:345;
-  transition:stroke-dashoffset 2s cubic-bezier(.22,1,.36,1);
-}
+.br-fill{fill:none;stroke:var(--sl);stroke-width:3.5;stroke-linecap:round;stroke-dasharray:345;stroke-dashoffset:345;transition:stroke-dashoffset 2s cubic-bezier(.22,1,.36,1)}
 .br-fill.go{stroke-dashoffset:103}
 .br-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .br-time{font-size:24px;font-weight:700;letter-spacing:-.03em;line-height:1}
@@ -469,43 +365,17 @@ section{padding:80px 0}
 .ses-score-l{font-family:var(--fm);font-size:7.5px;color:rgba(255,255,255,.28);letter-spacing:.1em;margin-bottom:2px}
 .ses-score-v{font-size:30px;font-weight:700;letter-spacing:-.03em;line-height:1}
 .ses-btns{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:2px}
-.ses-btn{
-  background:rgba(255,255,255,.055);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:9px;padding:9px;
-  font-size:10px;font-weight:500;color:rgba(255,255,255,.6);text-align:center;
-}
-
-/* ── coach screen ── */
+.ses-btn{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:9px;font-size:10px;font-weight:500;color:rgba(255,255,255,.6);text-align:center}
 .coach-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.coach-av{
-  width:28px;height:28px;border-radius:50%;
-  background:linear-gradient(135deg,rgba(106,128,160,.4),rgba(106,128,160,.8));
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
+.coach-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(106,128,160,.4),rgba(106,128,160,.8));display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .coach-n{font-size:10.5px;font-weight:600}
 .coach-r{font-family:var(--fm);font-size:7px;color:rgba(255,255,255,.3);letter-spacing:.04em}
-.bubble{
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:12px 12px 12px 3px;
-  padding:10px 11px;margin-bottom:6px;
-}
+.bubble{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px 12px 12px 3px;padding:10px 11px;margin-bottom:6px}
 .bubble p{font-size:10.5px;color:rgba(255,255,255,.55);line-height:1.55}
 .bubble p strong{color:rgba(255,255,255,.88)}
-.coach-action{
-  display:flex;align-items:center;gap:7px;
-  background:rgba(106,128,160,.1);border:1px solid rgba(106,128,160,.2);
-  border-radius:9px;padding:9px 11px;margin-top:4px;
-}
+.coach-action{display:flex;align-items:center;gap:7px;background:rgba(106,128,160,.1);border:1px solid rgba(106,128,160,.2);border-radius:9px;padding:9px 11px;margin-top:4px}
 .coach-action span{font-size:10px;font-weight:500;color:rgba(106,128,160,.9)}
-
-/* ── identity screen ── */
-.id-hero{
-  background:rgba(192,162,106,.07);
-  border:1px solid rgba(192,162,106,.14);
-  border-radius:12px;padding:14px;text-align:center;margin-bottom:6px;
-}
+.id-hero{background:rgba(192,162,106,.07);border:1px solid rgba(192,162,106,.14);border-radius:12px;padding:14px;text-align:center;margin-bottom:6px}
 .id-sup{font-family:var(--fm);font-size:7.5px;color:rgba(192,162,106,.55);letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
 .id-name{font-size:19px;font-weight:700;color:var(--au);letter-spacing:-.025em}
 .id-pct{font-family:var(--fm);font-size:8px;color:rgba(192,162,106,.5);margin-top:3px}
@@ -516,11 +386,7 @@ section{padding:80px 0}
 .spark{display:flex;align-items:flex-end;gap:3px;height:26px}
 .spark-b{flex:1;border-radius:2px 2px 0 0;background:rgba(106,128,160,.25)}
 .spark-b.hi{background:var(--sl)}
-.win{
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
-  border-radius:9px;padding:9px 11px;margin-top:5px;
-  display:flex;align-items:center;justify-content:space-between;
-}
+.win{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:9px;padding:9px 11px;margin-top:5px;display:flex;align-items:center;justify-content:space-between}
 .win-l{font-family:var(--fm);font-size:7.5px;color:rgba(255,255,255,.28);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
 .win-v{font-size:12.5px;font-weight:600;color:var(--sl)}
 .win-badge{font-family:var(--fm);font-size:7px;background:rgba(106,128,160,.15);border:1px solid rgba(106,128,160,.2);color:var(--sl);padding:3px 8px;border-radius:var(--rp)}
@@ -528,21 +394,12 @@ section{padding:80px 0}
 /* ─────────────────────────────────────────────────────
    IDENTITY
 ───────────────────────────────────────────────────── */
-#identity{background:var(--bg2)}
-.id-statement{
-  font-size:clamp(20px,5vw,28px);font-weight:600;
-  letter-spacing:-.022em;line-height:1.35;color:var(--t2);max-width:28ch;
-  margin-bottom:8px;
-}
+#identity{background:var(--bg)}
+.id-statement{font-size:clamp(22px,5.5vw,30px);font-weight:600;letter-spacing:-.022em;line-height:1.32;color:var(--t2);max-width:24ch;margin-bottom:10px}
 .id-statement strong{color:var(--t1)}
+.id-explain{font-size:var(--step-2);color:var(--t3);line-height:1.6;max-width:40ch}
 .id-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:32px}
-.id-chip{
-  display:inline-flex;align-items:center;gap:6px;
-  background:var(--sur);border:1px solid var(--rim);
-  border-radius:var(--rp);padding:10px 16px;
-  font-size:var(--step-1);font-weight:500;color:var(--t2);
-  transition:border-color .2s,color .18s;
-}
+.id-chip{display:inline-flex;align-items:center;gap:6px;background:var(--sur);border:1px solid var(--rim);border-radius:var(--rp);padding:10px 16px;font-size:var(--step-1);font-weight:500;color:var(--t2);transition:border-color .2s,color .18s}
 .id-chip:hover{border-color:var(--rimh);color:var(--t1)}
 .id-chip-dot{width:6px;height:6px;border-radius:50%}
 .id-chip.gold{border-color:rgba(192,162,106,.22);color:var(--au);background:var(--au10)}
@@ -551,106 +408,68 @@ section{padding:80px 0}
 .id-footnote{margin-top:24px;font-size:var(--step-1);color:var(--t3);line-height:1.65}
 
 /* ─────────────────────────────────────────────────────
-   PRICING
+   DIFFERENT
 ───────────────────────────────────────────────────── */
-#pricing{background:var(--bg)}
-.pricing-note-pill{
-  display:inline-block;font-family:var(--fm);font-size:var(--step--1);
-  color:var(--au);background:var(--au10);border:1px solid var(--au18);
-  border-radius:var(--rp);padding:5px 13px;letter-spacing:.08em;margin-top:12px;
-}
-.pricing-grid{display:flex;flex-direction:column;gap:10px;margin-top:40px}
-.pc{
-  background:var(--sur);border:1px solid var(--rim);
-  border-radius:var(--r3);padding:24px 20px;
-  display:flex;flex-direction:column;
-  transition:border-color .2s,transform .2s;
-}
-.pc:hover{transform:translateY(-3px)}
-.pc.pop{
-  border-color:rgba(106,128,160,.28);
-  background:linear-gradient(160deg,rgba(106,128,160,.05),var(--sur) 50%);
-}
-.pc.elite{border-color:var(--au18)}
-.pc-badge{
-  display:inline-block;font-family:var(--fm);font-size:9px;font-weight:500;
-  letter-spacing:.1em;text-transform:uppercase;
-  padding:3px 10px;border-radius:var(--rp);margin-bottom:18px;align-self:flex-start;
-}
-.b-free  {background:rgba(255,255,255,.04);color:var(--t3)}
-.b-std   {background:rgba(111,168,130,.09);color:var(--gn);border:1px solid rgba(111,168,130,.18)}
-.b-pop   {background:var(--sl10);color:var(--sl);border:1px solid var(--sl20)}
-.b-elite {background:var(--au10);color:var(--au);border:1px solid var(--au18)}
-.pc-price{font-size:38px;font-weight:700;letter-spacing:-.04em;line-height:1;margin-bottom:3px}
-.pc-period{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.06em;margin-bottom:16px}
-.pc-name{font-size:var(--step-3);font-weight:600;letter-spacing:-.018em;margin-bottom:5px}
-.pc-line{font-size:var(--step-1);color:var(--t3);margin-bottom:18px;line-height:1.55}
-.pc-div{height:1px;background:var(--rim);margin-bottom:16px}
-.pc-feats{list-style:none;display:flex;flex-direction:column;gap:10px;flex:1;margin-bottom:22px}
-.pc-feat{font-size:var(--step-1);color:var(--t2);display:flex;align-items:flex-start;gap:9px;line-height:1.45}
-.pc-feat::before{content:'✓';color:var(--sl);font-size:11px;font-weight:600;flex-shrink:0;margin-top:1px}
-.pc-feat.no{color:var(--t4)}
-.pc-feat.no::before{content:'—';color:var(--t4)}
-.pc-cta{
-  width:100%;min-height:46px;border-radius:var(--r1);
-  font-size:var(--step-1);font-weight:600;cursor:pointer;border:none;margin-top:auto;
-  transition:opacity .18s,transform .15s;
-  -webkit-tap-highlight-color:transparent;
-}
-.pc-cta.blue{background:var(--sl);color:#fff}.pc-cta.blue:hover{opacity:.88;transform:translateY(-1px)}
-.pc-cta.ghost{background:transparent;color:var(--t2);border:1px solid var(--rimh)}.pc-cta.ghost:hover{border-color:rgba(255,255,255,.18);color:var(--t1)}
-.pc-cta.gold{background:var(--au);color:#0A0A0A;font-weight:700}.pc-cta.gold:hover{opacity:.9;transform:translateY(-1px)}
-@media(min-width:640px){.pricing-grid{display:grid;grid-template-columns:1fr 1fr}}
-@media(min-width:1000px){.pricing-grid{grid-template-columns:repeat(4,1fr)}}
+#different{background:var(--bg2)}
+.diff-list{display:flex;flex-direction:column;gap:12px;margin-top:8px}
+.diff-card{background:var(--sur);border:1px solid var(--rim);border-radius:var(--r2);padding:20px;transition:border-color .2s}
+.diff-card:hover{border-color:var(--rimh)}
+.diff-tool{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.diff-miss{display:inline-block;font-family:var(--fm);font-size:10px;color:var(--er);background:rgba(168,104,104,.08);border:1px solid rgba(168,104,104,.14);border-radius:var(--rp);padding:3px 9px;letter-spacing:.04em;margin-bottom:10px}
+.diff-card p{font-size:var(--step-1);color:var(--t3);line-height:1.65}
+.diff-card p strong{color:var(--t2)}
+@media(min-width:640px){.diff-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}}
+@media(min-width:1000px){.diff-list{grid-template-columns:repeat(4,1fr)}}
 
 /* ─────────────────────────────────────────────────────
    FAQ
 ───────────────────────────────────────────────────── */
-#faq{background:var(--bg2)}
+#faq{background:var(--bg)}
 .faq-list{margin-top:8px}
 .faq-item{border-bottom:1px solid var(--rim)}
-.faq-btn{
-  width:100%;text-align:left;background:none;border:none;
-  padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;
-  cursor:pointer;color:var(--t1);
-  font-size:var(--step-2);font-weight:600;letter-spacing:-.015em;
-  transition:color .18s;-webkit-tap-highlight-color:transparent;
-}
+.faq-btn{width:100%;text-align:left;background:none;border:none;padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;color:var(--t1);font-size:var(--step-2);font-weight:600;letter-spacing:-.015em;transition:color .18s;-webkit-tap-highlight-color:transparent}
 .faq-btn:hover{color:var(--au)}
-.faq-icon{
-  width:22px;height:22px;min-width:22px;border-radius:50%;
-  border:1px solid var(--rim);
-  display:flex;align-items:center;justify-content:center;
-  transition:transform .28s,border-color .2s,background .2s;
-}
+.faq-icon{width:22px;height:22px;min-width:22px;border-radius:50%;border:1px solid var(--rim);display:flex;align-items:center;justify-content:center;transition:transform .28s,border-color .2s,background .2s}
 .faq-item.open .faq-icon{transform:rotate(45deg);background:var(--au10);border-color:var(--au18)}
 .faq-ans{max-height:0;overflow:hidden;transition:max-height .36s cubic-bezier(.4,0,.2,1)}
-.faq-ans-inner{
-  padding:0 0 22px;font-size:var(--step-1);
-  color:var(--t3);line-height:1.75;max-width:50ch;
-}
+.faq-ans-inner{padding:0 0 22px;font-size:var(--step-1);color:var(--t3);line-height:1.75;max-width:54ch}
 .faq-ans-inner strong{color:var(--t2)}
 
 /* ─────────────────────────────────────────────────────
    FINAL CTA
 ───────────────────────────────────────────────────── */
-#final{background:var(--bg);text-align:center;position:relative;overflow:hidden}
-.final-glow{
-  position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse at 50% 100%,rgba(192,162,106,.07),transparent 60%);
-}
+#final{background:var(--bg2);text-align:center;position:relative;overflow:hidden}
+.final-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 100%,rgba(192,162,106,.07),transparent 60%)}
 #final h2 em{font-style:normal;color:var(--au)}
-.final-sub{font-size:var(--step-2);color:var(--t3);max-width:28ch;margin:12px auto 36px;line-height:1.65}
-.final-form{max-width:380px;margin:0 auto}
+.final-sub{font-size:var(--step-2);color:var(--t3);max-width:32ch;margin:14px auto 36px;line-height:1.6}
+.final-form{max-width:440px;margin:0 auto;text-align:left}
+.final-form .form-note{text-align:center}
+
+/* ─────────────────────────────────────────────────────
+   STICKY MOBILE CTA
+───────────────────────────────────────────────────── */
+.sticky-cta{
+  position:fixed;left:0;right:0;bottom:0;z-index:250;
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+  background:rgba(8,8,13,.92);border-top:1px solid var(--rim);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  transform:translateY(120%);transition:transform .35s cubic-bezier(.22,1,.36,1);
+}
+.sticky-cta.show{transform:translateY(0)}
+.sticky-cta button{width:100%;min-height:50px;border-radius:var(--r2);background:var(--au);color:#0A0A0A;font-size:var(--step-2);font-weight:600;border:none;cursor:pointer}
+@media(min-width:1000px){.sticky-cta{display:none}}
 
 /* ─────────────────────────────────────────────────────
    FOOTER
 ───────────────────────────────────────────────────── */
-footer{border-top:1px solid var(--rim);padding:28px 20px}
+footer{border-top:1px solid var(--rim);padding:28px 20px;padding-bottom:calc(28px + 80px)}
+@media(min-width:1000px){footer{padding-bottom:28px}}
 .foot{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
 .foot-logo{font-size:15px;font-weight:700;letter-spacing:-.03em}
 .foot-logo span{color:var(--au)}
 .foot-copy{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.05em}
+.foot-by{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.04em}
+.foot-by a{color:var(--au);text-decoration:none}
 
 </style>
 </head>
@@ -660,8 +479,8 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
 <nav>
   <a href="#" class="nav-logo">Kairos<span>.</span></a>
   <ul class="nav-links">
-    <li><a href="#method">Method</a></li>
-    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#identity">Focus type</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
   <button class="nav-btn" onclick="jumpForm('hero')">Join waitlist</button>
@@ -672,36 +491,39 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
   <div class="hero-glow"></div>
 
   <div class="hero-content rv">
-    <div class="hero-eyebrow">
+    <div class="hero-pill">
       <span class="eyebrow-dot"></span>
-      <span class="mono" style="color:var(--t3)">Early access · waitlist open</span>
+      <!-- EDIT: replace 2,400 with your real waitlist count. A true small number still converts. -->
+      <span><b>2,400+</b> on the waitlist · early access</span>
     </div>
-    <h1 class="hero-h1">Focus is<br>becoming<br><span class="muted">a luxury.</span></h1>
-    <p class="hero-lede">Kairos is the performance system for your mind.</p>
 
-    <div id="hero-fields-wrap">
-      <div id="hero-fields" class="form-fields hero-form">
-        <input type="email" class="inp" id="hero-email" placeholder="your@email.com" autocomplete="email" aria-label="Email">
-        <select class="sel" id="hero-role" aria-label="Your role">
-          <option value="">Your role — optional</option>
-          <option value="student">Student</option>
-          <option value="founder">Founder</option>
-          <option value="creator">Creator</option>
-          <option value="developer">Developer</option>
-          <option value="other">Other</option>
-        </select>
-        <p class="form-err" id="hero-err">Please enter a valid email address.</p>
-        <button class="btn btn-gold" id="hero-btn" onclick="submit('hero')">Join the waitlist</button>
-        <p class="form-note">No spam. Early access only.</p>
-      </div>
-      <div class="form-suc" id="hero-suc">
-        <div class="suc-check">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M4 10.5l4 4 8-8" stroke="#6FA882" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+    <h1 class="hero-h1">Take your<br>attention<br><span class="muted">back.</span></h1>
+
+    <p class="hero-lede">Kairos is the focus trainer for people losing their day to their phone. <b>Lock in, do real deep work, and watch your attention come back</b> — one session at a time.</p>
+
+    <div id="hero-wrap" class="hero-form">
+      <form class="form" id="hero-form" onsubmit="return false">
+        <div class="form-row">
+          <input type="email" class="inp" id="hero-email" placeholder="your@email.com" autocomplete="email" inputmode="email" aria-label="Email">
+          <button class="btn btn-gold" id="hero-btn" type="button" onclick="submitForm('hero')">Get early access</button>
         </div>
-        <p class="suc-title">Welcome to Kairos.</p>
-        <p class="suc-body">You're on the waitlist. We'll reach out when early access opens.</p>
+        <p class="form-err" id="hero-err">Please enter a valid email address.</p>
+        <div class="hero-trust">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L6.5 9.7 3.3 11l.6-3.6L1.3 4.8l3.6-.5L6.5 1z" stroke="#464440" stroke-width="1" stroke-linejoin="round"/></svg>
+          <span>Free to join · no spam · founding-member pricing locked in</span>
+        </div>
+      </form>
+
+      <div class="form-suc" id="hero-suc">
+        <div class="suc-row">
+          <div class="suc-check">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10.5l4 4 8-8" stroke="#6FA882" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <p class="suc-title">You're in. Welcome to Kairos.</p>
+            <p class="suc-body">You'll be one of the first invited when early access opens.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -709,6 +531,7 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
   <!-- Phone -->
   <div class="hero-phone rv d2">
     <div class="phone" style="width:234px">
+      <span class="preview-tag">Preview</span>
       <div class="p-island"></div>
       <div class="phone-inner" style="height:490px">
         <div class="p-bar">
@@ -728,7 +551,7 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
               <span class="ring-lbl">FOCUS</span>
             </div>
           </div>
-          <p class="p-label">Today's performance</p>
+          <p class="p-label">Today's focus score</p>
         </div>
 
         <div class="p-grid2">
@@ -745,7 +568,7 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
         <div class="dp-session">
           <div>
             <p class="dp-ses-title">Deep Work</p>
-            <p class="dp-ses-sub">50 MIN · RITUAL READY</p>
+            <p class="dp-ses-sub">50 MIN · READY</p>
           </div>
           <div class="dp-play"><div class="dp-play-arrow"></div></div>
         </div>
@@ -759,95 +582,58 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
   </div>
 </section>
 
-<!-- ═══════════════════════════ PROBLEM ════════════════════════════════ -->
-<section id="problem">
+<!-- ═══════════════════════════ PAIN ═══════════════════════════════════ -->
+<section id="pain">
   <div class="wrap">
     <div class="sec-head rv">
-      <div class="eyebrow mono"><span class="eyebrow-dot" style="background:var(--er)"></span>The real problem</div>
-      <h2>You're not lazy.<br>You're unprotected.</h2>
+      <div class="eyebrow mono"><span class="eyebrow-dot" style="background:var(--er)"></span>Read this slowly</div>
+      <h2>You're not lazy.<br>You're outgunned.</h2>
+      <p class="sec-sub" style="margin-top:14px">There are thousands of engineers on the other side of your screen, paid to keep you scrolling. It was never a fair fight.</p>
     </div>
-    <div class="problem-items">
-      <div class="p-item rv d1">
-        <p class="p-item-n">01</p>
-        <p>You open your phone for 10 seconds. <strong>You lose 40 minutes.</strong></p>
+    <div class="pain-items">
+      <div class="pain-item rv d1">
+        <p class="pain-n">01</p>
+        <p>You "check something" for 10 seconds. <strong>You resurface 40 minutes later.</strong></p>
       </div>
-      <div class="p-item rv d2">
-        <p class="p-item-n">02</p>
-        <p>You plan your day carefully. <strong>Your focus collapses by noon.</strong></p>
+      <div class="pain-item rv d2">
+        <p class="pain-n">02</p>
+        <p>You plan a focused day. <strong>By noon your attention is in pieces.</strong></p>
       </div>
-      <div class="p-item rv d3">
-        <p class="p-item-n">03</p>
-        <p>You end the day exhausted. <strong>Nothing important got done.</strong></p>
+      <div class="pain-item rv d3">
+        <p class="pain-n">03</p>
+        <p>You end the day drained — <strong>and nothing that mattered got done.</strong></p>
       </div>
-      <div class="p-item rv d4">
-        <p class="p-item-n">04</p>
-        <p>You know what deep work feels like. <strong>You can't reliably get there.</strong></p>
+      <div class="pain-item rv d4">
+        <p class="pain-n">04</p>
+        <p>You know what deep focus feels like. <strong>You just can't get there on command.</strong></p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════ WHY OTHERS FAIL ═══════════════════════════ -->
-<section id="why">
+<!-- ═══════════════════════════ HOW ════════════════════════════════════ -->
+<section id="how">
   <div class="wrap">
     <div class="sec-head rv">
-      <div class="eyebrow mono"><span class="eyebrow-dot"></span>Why nothing worked</div>
-      <h2>Good tools.<br>Wrong problem.</h2>
-      <p class="sec-sub">They all optimize the symptom, not the cause.</p>
+      <div class="eyebrow mono"><span class="eyebrow-dot"></span>The shift</div>
+      <h2>Three steps.<br>Then your focus comes back.</h2>
+      <p class="sec-sub" style="margin-top:14px">Not willpower. Not another to-do list. A repeatable routine that trains your attention like a muscle.</p>
     </div>
-    <div class="why-list">
-      <div class="why-card rv d1">
-        <p class="why-tool">To-do lists</p>
-        <span class="why-miss">organizes tasks</span>
-        <p>Knowing what to do isn't your problem. <strong>Getting your brain to actually do it is.</strong></p>
-      </div>
-      <div class="why-card rv d2">
-        <p class="why-tool">Timers</p>
-        <span class="why-miss">tracks minutes</span>
-        <p>Counting time doesn't change your state. <strong>A timer won't put you in flow.</strong></p>
-      </div>
-      <div class="why-card rv d3">
-        <p class="why-tool">App blockers</p>
-        <span class="why-miss">removes temptation</span>
-        <p>Blocking apps doesn't build identity. <strong>You find another exit.</strong></p>
-      </div>
-      <div class="why-card rv d4">
-        <p class="why-tool">Usage dashboards</p>
-        <span class="why-miss">shows data</span>
-        <p>Seeing 6 hours of screen time tells you nothing <strong>about what to do differently.</strong></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════ METHOD ══════════════════════════════════ -->
-<section id="method">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div class="eyebrow mono"><span class="eyebrow-dot"></span>How it works</div>
-      <h2>Four moves.<br>One system.</h2>
-      <p class="sec-sub">Not habits. Not discipline. A repeatable protocol tuned to your cognitive state.</p>
-    </div>
-    <div class="method-grid">
-      <div class="m-step rv d1">
-        <p class="m-n">01</p>
-        <h3>Ritual</h3>
-        <p>60 seconds before every session. Kairos reads your cognitive state and builds your exact protocol — duration, intensity, focus mode.</p>
-      </div>
-      <div class="m-step rv d2">
-        <p class="m-n">02</p>
+    <div class="how-grid">
+      <div class="how-step rv d1">
+        <span class="how-n">1</span>
         <h3>Lock in</h3>
-        <p>Distracting apps are blocked the moment your session starts. No override. No bypass. Your window is sealed at the system level.</p>
+        <p>A 60-second ritual reads your state and seals your session. The apps that hijack you are <strong>blocked at the system level</strong> — no easy bypass, no "just five minutes."</p>
       </div>
-      <div class="m-step rv d3">
-        <p class="m-n">03</p>
-        <h3>Deep work</h3>
-        <p>Your session runs at calibrated intensity. Every minute tracked. Live focus score. Interruptions logged. Real performance data.</p>
+      <div class="how-step rv d2">
+        <span class="how-n">2</span>
+        <h3>Do deep work</h3>
+        <p>Your session runs distraction-free with a <strong>live focus score</strong>. Every minute and every interruption is tracked — so for once you can see your attention as data, not a vibe.</p>
       </div>
-      <div class="m-step rv d4">
-        <p class="m-n">04</p>
-        <h3>Review</h3>
-        <p>Rate the session. See your score. Kairos identifies your peak patterns and sharpens your next protocol automatically.</p>
+      <div class="how-step rv d3">
+        <span class="how-n">3</span>
+        <h3>Level up</h3>
+        <p>Build a streak, climb the rankings, and watch Kairos learn <strong>your peak focus windows</strong>. The more you train, the sharper your protocol gets.</p>
       </div>
     </div>
   </div>
@@ -856,21 +642,19 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
 <!-- ════════════════════════ SCREENS ═══════════════════════════════════ -->
 <section id="screens">
   <div class="wrap rv">
-    <div class="eyebrow mono screens-label"><span class="eyebrow-dot slate"></span>The product</div>
-    <p class="screens-intro">Four screens. Everything your focus deserves.</p>
+    <div class="eyebrow mono"><span class="eyebrow-dot slate"></span>Inside the app</div>
+    <p class="screens-intro" style="margin-top:14px">A real product, in active development. Swipe through what you'll get on day one.</p>
   </div>
   <div class="screens-scroll" id="screens-scroll">
 
-    <!-- Screen 1: Ritual result -->
+    <!-- Screen 1 -->
     <div class="screen-item rv d1">
       <p class="screen-caption">Readiness</p>
       <div class="phone" style="width:230px">
+        <span class="preview-tag">Preview</span>
         <div class="p-island"></div>
         <div class="phone-inner" style="height:476px">
-          <div class="p-bar">
-            <span class="p-time">22:08</span>
-            <div class="p-batt"><div class="p-batt-body"></div></div>
-          </div>
+          <div class="p-bar"><span class="p-time">22:08</span><div class="p-batt"><div class="p-batt-body"></div></div></div>
           <p class="p-label" style="text-align:center;margin:8px 0 0">Calibration complete</p>
           <div style="text-align:center;padding:10px 0 8px">
             <p class="p-label" style="margin-bottom:6px">READINESS SCORE</p>
@@ -893,38 +677,24 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
       </div>
     </div>
 
-    <!-- Screen 2: Active session -->
+    <!-- Screen 2 -->
     <div class="screen-item rv d2">
       <p class="screen-caption">Session</p>
       <div class="phone" style="width:230px">
+        <span class="preview-tag">Preview</span>
         <div class="p-island"></div>
         <div class="phone-inner" style="height:476px">
-          <div class="p-bar">
-            <span class="p-time">22:14</span>
-            <div class="p-batt"><div class="p-batt-body"></div></div>
-          </div>
-          <div class="ses-status">
-            <span class="ses-dot"></span>
-            <span class="ses-status-lbl mono">In focus</span>
-          </div>
+          <div class="p-bar"><span class="p-time">22:14</span><div class="p-batt"><div class="p-batt-body"></div></div></div>
+          <div class="ses-status"><span class="ses-dot"></span><span class="ses-status-lbl mono">In focus</span></div>
           <div class="big-ring-wrap">
             <svg class="br-svg" width="120" height="120" viewBox="0 0 120 120">
               <circle class="br-bg" cx="60" cy="60" r="55"/>
               <circle class="br-fill" id="ses-ring" cx="60" cy="60" r="55"/>
             </svg>
-            <div class="br-inner">
-              <span class="br-time" id="timer-el">47:23</span>
-              <span class="br-of">of 50 min</span>
-            </div>
+            <div class="br-inner"><span class="br-time" id="timer-el">47:23</span><span class="br-of">of 50 min</span></div>
           </div>
-          <div class="ses-score">
-            <p class="ses-score-l">Focus estimate</p>
-            <p class="ses-score-v" id="score-el">76</p>
-          </div>
-          <div class="ses-btns">
-            <div class="ses-btn">⏸ Pause</div>
-            <div class="ses-btn" style="color:rgba(255,255,255,.35)">End session</div>
-          </div>
+          <div class="ses-score"><p class="ses-score-l">Focus estimate</p><p class="ses-score-v" id="score-el">76</p></div>
+          <div class="ses-btns"><div class="ses-btn">⏸ Pause</div><div class="ses-btn" style="color:rgba(255,255,255,.35)">End session</div></div>
           <div class="p-card" style="margin-top:4px;display:flex;align-items:center;justify-content:space-between">
             <span style="font-size:10px;font-weight:500;color:rgba(255,255,255,.45)">Deep Focus mode</span>
             <span class="p-tag" style="background:rgba(111,168,130,.1);border:1px solid rgba(111,168,130,.18);color:var(--gn)">0 interruptions</span>
@@ -933,55 +703,38 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
       </div>
     </div>
 
-    <!-- Screen 3: AI Coach -->
+    <!-- Screen 3 -->
     <div class="screen-item rv d3">
       <p class="screen-caption">Coach</p>
       <div class="phone" style="width:230px">
+        <span class="preview-tag">Preview</span>
         <div class="p-island"></div>
         <div class="phone-inner" style="height:476px">
-          <div class="p-bar">
-            <span class="p-time">22:31</span>
-            <div class="p-batt"><div class="p-batt-body"></div></div>
-          </div>
+          <div class="p-bar"><span class="p-time">22:31</span><div class="p-batt"><div class="p-batt-body"></div></div></div>
           <p style="font-size:14px;font-weight:600;letter-spacing:-.015em;padding:4px 1px 10px">AI Coach</p>
           <div class="coach-hdr">
-            <div class="coach-av">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="stroke:rgba(255,255,255,.8);stroke-width:1.5;stroke-linecap:round">
-                <circle cx="6" cy="5" r="3"/><path d="M2 11c0-2.2 1.8-4 4-4s4 1.8 4 4"/>
-              </svg>
-            </div>
-            <div>
-              <p class="coach-n">Kairos Coach</p>
-              <p class="coach-r mono">AI · behavioral analysis</p>
-            </div>
+            <div class="coach-av"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="stroke:rgba(255,255,255,.8);stroke-width:1.5;stroke-linecap:round"><circle cx="6" cy="5" r="3"/><path d="M2 11c0-2.2 1.8-4 4-4s4 1.8 4 4"/></svg></div>
+            <div><p class="coach-n">Kairos Coach</p><p class="coach-r mono">AI · behavioral analysis</p></div>
           </div>
-          <div class="bubble">
-            <p>Your focus peaks after <strong>21:00.</strong> Your last 8 high-scoring sessions all started after 9pm.</p>
-          </div>
-          <div class="bubble">
-            <p><strong>Tomorrow:</strong> schedule your hardest work at 21:30. Your recovery score will support it.</p>
-          </div>
+          <div class="bubble"><p>Your focus peaks after <strong>21:00.</strong> Your last 8 high-scoring sessions all started after 9pm.</p></div>
+          <div class="bubble"><p><strong>Tomorrow:</strong> schedule your hardest work at 21:30. Your recovery score will support it.</p></div>
           <div class="coach-action">
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="stroke:var(--sl);stroke-width:1.5;stroke-linecap:round;flex-shrink:0"><circle cx="5.5" cy="5.5" r="4.5"/><polyline points="5.5,3 5.5,5.5 7,7"/></svg>
             <span>Schedule tonight at 21:30</span>
           </div>
-          <div class="p-card" style="margin-top:5px">
-            <p style="font-size:10.5px;color:rgba(192,162,106,.7)"><strong style="color:var(--au)">Streak alert.</strong> 11 days in a row. Your record is 12.</p>
-          </div>
+          <div class="p-card" style="margin-top:5px"><p style="font-size:10.5px;color:rgba(192,162,106,.7)"><strong style="color:var(--au)">Streak alert.</strong> 11 days in a row. Your record is 12.</p></div>
         </div>
       </div>
     </div>
 
-    <!-- Screen 4: Identity -->
+    <!-- Screen 4 -->
     <div class="screen-item rv d4">
       <p class="screen-caption">Identity</p>
       <div class="phone" style="width:230px">
+        <span class="preview-tag">Preview</span>
         <div class="p-island"></div>
         <div class="phone-inner" style="height:476px">
-          <div class="p-bar">
-            <span class="p-time">22:58</span>
-            <div class="p-batt"><div class="p-batt-body"></div></div>
-          </div>
+          <div class="p-bar"><span class="p-time">22:58</span><div class="p-batt"><div class="p-batt-body"></div></div></div>
           <p style="font-size:14px;font-weight:600;letter-spacing:-.015em;padding:4px 1px 10px">Your identity.</p>
           <div class="id-hero">
             <p class="id-sup">Globally ranked</p>
@@ -1005,16 +758,12 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
               <div class="spark-b hi" style="height:89%"></div>
             </div>
           </div>
-          <div class="win">
-            <div><p class="win-l">Peak window</p><p class="win-v">21:00 — 23:00</p></div>
-            <span class="win-badge">Confirmed</span>
-          </div>
+          <div class="win"><div><p class="win-l">Peak window</p><p class="win-v">21:00 — 23:00</p></div><span class="win-badge">Confirmed</span></div>
         </div>
       </div>
     </div>
 
   </div>
-  <!-- scroll dots -->
   <div id="dots" style="display:flex;justify-content:center;gap:7px;margin-top:20px;padding:0 20px">
     <span class="dot" data-i="0" onclick="scrollToScreen(0)" style="width:20px;height:4px;border-radius:2px;background:var(--au);cursor:pointer;transition:background .2s,width .2s"></span>
     <span class="dot" data-i="1" onclick="scrollToScreen(1)" style="width:6px;height:4px;border-radius:2px;background:var(--t3);cursor:pointer;transition:background .2s,width .2s"></span>
@@ -1027,9 +776,9 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
 <section id="identity">
   <div class="wrap">
     <div class="sec-head rv">
-      <div class="eyebrow mono"><span class="eyebrow-dot gold"></span>Who Kairos is for</div>
-      <p class="id-statement rv d1">Built for people who know their <strong>potential is worth protecting.</strong></p>
-      <p class="sec-sub rv d2" style="margin-top:10px">Not another productivity app. A performance system for the serious few.</p>
+      <div class="eyebrow mono"><span class="eyebrow-dot gold"></span>The part no other app has</div>
+      <p class="id-statement rv d1">Focus stops being a chore. <strong>It becomes who you are.</strong></p>
+      <p class="id-explain rv d2">Every session you complete shapes a focus type — earned from how you actually work, not a quiz you fill out. Climb the ranks. Build a streak you don't want to break. Become someone your phone can't interrupt.</p>
     </div>
     <div class="id-tags rv d3">
       <span class="id-chip gold"><span class="id-chip-dot"></span>Night Builder</span>
@@ -1038,83 +787,38 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
       <span class="id-chip"><span class="id-chip-dot"></span>Focused Operator</span>
       <span class="id-chip"><span class="id-chip-dot"></span>Disciplined Creator</span>
     </div>
-    <p class="id-footnote rv d4">Your identity isn't chosen. It's calculated from your actual performance over time.</p>
+    <p class="id-footnote rv d4">Your type is calculated from your real performance over time — and it changes as you do.</p>
   </div>
 </section>
 
-<!-- ══════════════════════════ PRICING ═════════════════════════════════ -->
-<section id="pricing">
+<!-- ════════════════════════ DIFFERENT ═════════════════════════════════ -->
+<section id="different">
   <div class="wrap">
     <div class="sec-head rv">
-      <div class="eyebrow mono"><span class="eyebrow-dot gold"></span>Planned pricing</div>
-      <h2>Invest in<br>your mind.</h2>
-      <p class="sec-sub">The cost of one lost hour of deep work exceeds a full month of Kairos Premium.</p>
-      <span class="pricing-note-pill">Waitlist members lock in launch pricing</span>
+      <div class="eyebrow mono"><span class="eyebrow-dot"></span>Why the apps you tried didn't stick</div>
+      <h2>Good tools.<br>Wrong problem.</h2>
+      <p class="sec-sub" style="margin-top:14px">You've downloaded a few of these. You deleted them within a week. Here's why.</p>
     </div>
-    <div class="pricing-grid">
-      <div class="pc rv d1">
-        <span class="pc-badge b-free">Free</span>
-        <p class="pc-price">€0</p>
-        <p class="pc-period">forever</p>
-        <p class="pc-name">Foundation</p>
-        <p class="pc-line">Start your focus practice. No credit card.</p>
-        <div class="pc-div"></div>
-        <ul class="pc-feats">
-          <li class="pc-feat">3 sessions per week</li>
-          <li class="pc-feat">Ritual calibration</li>
-          <li class="pc-feat">Focus score + streak</li>
-          <li class="pc-feat no">App blocking</li>
-          <li class="pc-feat no">AI coach</li>
-        </ul>
-        <button class="pc-cta ghost" onclick="jumpForm('final')">Join waitlist</button>
+    <div class="diff-list">
+      <div class="diff-card rv d1">
+        <p class="diff-tool">To-do lists</p>
+        <span class="diff-miss">organizes tasks</span>
+        <p>Knowing what to do was never the problem. <strong>Getting your brain to actually start is.</strong></p>
       </div>
-      <div class="pc rv d2">
-        <span class="pc-badge b-std">Student</span>
-        <p class="pc-price">€5</p>
-        <p class="pc-period">per month</p>
-        <p class="pc-name">Focus</p>
-        <p class="pc-line">Everything you need. Built for student life.</p>
-        <div class="pc-div"></div>
-        <ul class="pc-feats">
-          <li class="pc-feat">Unlimited sessions</li>
-          <li class="pc-feat">Full ritual calibration</li>
-          <li class="pc-feat">App blocking</li>
-          <li class="pc-feat">Focus analytics</li>
-          <li class="pc-feat no">AI coach</li>
-        </ul>
-        <button class="pc-cta blue" onclick="jumpForm('final')">Join waitlist</button>
+      <div class="diff-card rv d2">
+        <p class="diff-tool">Timers &amp; Pomodoro</p>
+        <span class="diff-miss">counts minutes</span>
+        <p>A ticking clock doesn't change your state. <strong>It won't drag you into flow.</strong></p>
       </div>
-      <div class="pc pop rv d3">
-        <span class="pc-badge b-pop">Most popular</span>
-        <p class="pc-price">€13</p>
-        <p class="pc-period">per month</p>
-        <p class="pc-name">Premium</p>
-        <p class="pc-line">The full Kairos experience. Nothing held back.</p>
-        <div class="pc-div"></div>
-        <ul class="pc-feats">
-          <li class="pc-feat">Everything in Student</li>
-          <li class="pc-feat">AI behavioral coach</li>
-          <li class="pc-feat">You vs Yesterday</li>
-          <li class="pc-feat">Best focus window</li>
-          <li class="pc-feat">Weekly report + Year in Review</li>
-        </ul>
-        <button class="pc-cta blue" onclick="jumpForm('final')">Join waitlist</button>
+      <div class="diff-card rv d3">
+        <p class="diff-tool">App blockers</p>
+        <span class="diff-miss">removes apps</span>
+        <p>Blocking alone feels like punishment, so you turn it off. <strong>Nothing pulls you back.</strong></p>
       </div>
-      <div class="pc elite rv d4">
-        <span class="pc-badge b-elite">Elite</span>
-        <p class="pc-price" style="color:var(--au)">€25</p>
-        <p class="pc-period">per month</p>
-        <p class="pc-name" style="color:var(--au)">Elite</p>
-        <p class="pc-line">For those who treat performance as identity.</p>
-        <div class="pc-div"></div>
-        <ul class="pc-feats">
-          <li class="pc-feat">Everything in Premium</li>
-          <li class="pc-feat">Lifetime locked pricing</li>
-          <li class="pc-feat">Direct founder access</li>
-          <li class="pc-feat">Shape the product roadmap</li>
-          <li class="pc-feat">Elite identity badge</li>
-        </ul>
-        <button class="pc-cta gold" onclick="jumpForm('final')">Join waitlist</button>
+      <div class="diff-card rv d4">
+        <p class="diff-tool">Screen-time dashboards</p>
+        <span class="diff-miss">shows the damage</span>
+        <p>Seeing "7h 12m" makes you feel bad and changes nothing. <strong>Guilt isn't a system.</strong></p>
       </div>
     </div>
   </div>
@@ -1124,44 +828,52 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
 <section id="faq">
   <div class="wrap">
     <div class="sec-head rv">
-      <div class="eyebrow mono"><span class="eyebrow-dot"></span>Questions</div>
+      <div class="eyebrow mono"><span class="eyebrow-dot"></span>Before you ask</div>
       <h2>Answered.</h2>
     </div>
     <div class="faq-list rv d2">
 
       <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">Is Kairos a task manager?
+        <button class="faq-btn" onclick="toggleFaq(this)">Is it free?
           <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
         </button>
-        <div class="faq-ans"><div class="faq-ans-inner">No. Kairos doesn't care what you're working on. It cares about the <strong>quality of the cognitive state you bring to that work.</strong> Think of it less as an organizer and more as a performance system for your mind.</div></div>
+        <div class="faq-ans"><div class="faq-ans-inner">Joining the waitlist is completely free. At launch there'll be a <strong>free tier</strong> to start your focus practice, plus affordable paid plans (a student plan included). Waitlist members <strong>lock in founding-member pricing</strong> that won't exist after public launch.</div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">What makes Kairos different from Opal, Forest, or Freedom?
+        <button class="faq-btn" onclick="toggleFaq(this)">How is this different from Opal, Forest, or Freedom?
           <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
         </button>
-        <div class="faq-ans"><div class="faq-ans-inner">Those tools solve one thing: blocking distraction. Kairos solves the <strong>before, during, and after.</strong> Ritual reads your cognitive state. Sessions track performance in real time. Analytics identify your peak patterns. Blocking is one component of a complete system.</div></div>
+        <div class="faq-ans"><div class="faq-ans-inner">Those apps do one thing: block distractions. Kairos handles the <strong>before, during, and after</strong> — it reads your state, scores your focus live, learns your peak windows, and turns your progress into an identity you actually want to keep building. Blocking is just one piece.</div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">Does Kairos actually block apps?
+        <button class="faq-btn" onclick="toggleFaq(this)">Does it actually block apps, or can I cheat?
           <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
         </button>
-        <div class="faq-ans"><div class="faq-ans-inner">Yes. Session blocking uses iOS Screen Time APIs. <strong>No workarounds, no easy bypass.</strong> You define which apps are blocked. Enforcement is at the system level for the full session duration.</div></div>
+        <div class="faq-ans"><div class="faq-ans-inner">It really blocks. Sessions use Apple's Screen Time APIs to seal off the apps you choose for the full duration — <strong>no easy bypass.</strong> You decide what gets blocked before you start.</div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">Is there a student plan?
+        <button class="faq-btn" onclick="toggleFaq(this)">iPhone or Android?
           <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
         </button>
-        <div class="faq-ans"><div class="faq-ans-inner">Yes — <strong>€5/month</strong>, with full ritual calibration, session tracking, and app blocking. Students face high cognitive load with constant distraction. Kairos was designed for exactly that environment.</div></div>
+        <div class="faq-ans"><div class="faq-ans-inner">Kairos launches on <strong>iPhone first.</strong> Join the waitlist with any email and we'll let you know the moment Android is ready too.</div></div>
       </div>
 
       <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">When does Kairos launch?
+        <button class="faq-btn" onclick="toggleFaq(this)">When does it launch?
           <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
         </button>
-        <div class="faq-ans"><div class="faq-ans-inner">We're in active development. <strong>Early access opens to waitlist members first</strong> — in small batches, not a public flood. Waitlist members lock in pricing that won't be available at public launch.</div></div>
+        <div class="faq-ans"><div class="faq-ans-inner">We're in active development right now. <strong>Early access opens to waitlist members first</strong>, in small batches — not a public flood. The earlier you join, the sooner you get in.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">Who's building this?
+          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+        </button>
+        <!-- EDIT: make this personal. Your audience already follows you — use your name + handle. -->
+        <div class="faq-ans"><div class="faq-ans-inner">Kairos is built by <strong>Louay</strong> — the person whose content brought you here. I'm building the focus tool I wished existed, in the open. Waitlist members get to <strong>shape it with me</strong> before launch. <em>(Add your @handle here.)</em></div></div>
       </div>
 
     </div>
@@ -1172,33 +884,27 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
 <section id="final">
   <div class="final-glow"></div>
   <div class="wrap" style="text-align:center">
-    <div class="eyebrow mono rv" style="justify-content:center"><span class="eyebrow-dot"></span>The decision</div>
-    <h2 class="rv d1">Your future won't<br>be built in <em>distraction.</em></h2>
-    <p class="final-sub rv d2">One waitlist. One decision.</p>
+    <div class="eyebrow mono rv" style="justify-content:center"><span class="eyebrow-dot"></span>One decision</div>
+    <h2 class="rv d1">Your phone isn't going<br>to stop. <em>Decide to.</em></h2>
+    <p class="final-sub rv d2">Join the people taking their attention back. It takes one tap and one email.</p>
     <div class="final-form rv d3">
-      <div id="final-fields-wrap">
-        <div id="final-fields" class="form-fields">
-          <input type="email" class="inp" id="final-email" placeholder="your@email.com" autocomplete="email" aria-label="Email">
-          <select class="sel" id="final-role" aria-label="Your role">
-            <option value="">Your role — optional</option>
-            <option value="student">Student</option>
-            <option value="founder">Founder</option>
-            <option value="creator">Creator</option>
-            <option value="developer">Developer</option>
-            <option value="other">Other</option>
-          </select>
+      <div id="final-wrap">
+        <form class="form" id="final-form" onsubmit="return false">
+          <input type="email" class="inp" id="final-email" placeholder="your@email.com" autocomplete="email" inputmode="email" aria-label="Email">
+          <button class="btn btn-gold" id="final-btn" type="button" onclick="submitForm('final')">Get early access</button>
           <p class="form-err" id="final-err">Please enter a valid email address.</p>
-          <button class="btn btn-gold" id="final-btn" onclick="submit('final')">Join the waitlist</button>
-          <p class="form-note">No spam. Early access only.</p>
-        </div>
+          <p class="form-note"><b>Free to join.</b> No spam. Early access opens to members first.</p>
+        </form>
         <div class="form-suc" id="final-suc">
-          <div class="suc-check">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M4 10.5l4 4 8-8" stroke="#6FA882" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+          <div class="suc-row">
+            <div class="suc-check">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10.5l4 4 8-8" stroke="#6FA882" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <p class="suc-title">You're in. Welcome to Kairos.</p>
+              <p class="suc-body">Early access opens to members first. See you inside.</p>
+            </div>
           </div>
-          <p class="suc-title">Welcome to Kairos.</p>
-          <p class="suc-body">You're on the waitlist. Early access opens to members first.</p>
         </div>
       </div>
     </div>
@@ -1209,9 +915,15 @@ footer{border-top:1px solid var(--rim);padding:28px 20px}
 <footer>
   <div class="foot">
     <span class="foot-logo">Kairos<span>.</span></span>
-    <span class="foot-copy">© 2026 Kairos — Focus is becoming a luxury.</span>
+    <span class="foot-by">Built in the open by <a href="#" id="founder-link">@yourhandle</a></span>
+    <span class="foot-copy">© 2026 Kairos — take your attention back.</span>
   </div>
 </footer>
+
+<!-- STICKY MOBILE CTA -->
+<div class="sticky-cta" id="sticky-cta">
+  <button onclick="jumpForm('hero')">Get early access — join the waitlist</button>
+</div>
 
 <script>
 (function(){
@@ -1225,37 +937,37 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.08 });
 document.querySelectorAll('.rv').forEach(el => observer.observe(el));
 
-/* ── NAV ──────────────────────────────────────────────── */
+/* ── NAV + STICKY CTA ─────────────────────────────────── */
 const nav = document.querySelector('nav');
+const sticky = document.getElementById('sticky-cta');
 window.addEventListener('scroll', () => {
-  nav.style.background = window.scrollY > 40
-    ? 'rgba(8,8,13,.97)'
-    : 'rgba(8,8,13,.88)';
+  nav.style.background = window.scrollY > 40 ? 'rgba(8,8,13,.97)' : 'rgba(8,8,13,.88)';
+  const finalTop = document.getElementById('final').getBoundingClientRect().top;
+  const pastHero = window.scrollY > window.innerHeight * 0.9;
+  const beforeFinal = finalTop > window.innerHeight * 0.7;
+  if (pastHero && beforeFinal && !window.__joined) sticky.classList.add('show');
+  else sticky.classList.remove('show');
 }, { passive: true });
 
 /* ── RING ANIMATION ───────────────────────────────────── */
 function animRing(id, delay) {
-  setTimeout(() => {
-    const el = document.getElementById(id);
-    if (el) el.classList.add('go');
-  }, delay);
+  setTimeout(() => { const el = document.getElementById(id); if (el) el.classList.add('go'); }, delay);
 }
 animRing('hero-ring', 800);
 
-/* observe screens section for ring + bars */
 const screensEl = document.getElementById('screens');
 const screensObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          animRing('ses-ring', 300);
-          [['bf1','88%'],['bf2','79%'],['bf3','82%'],['bf4','91%']].forEach(([id,w],i) => {
-            setTimeout(() => { const b = document.getElementById(id); if(b) b.style.width = w; }, 280 + i*130);
-          });
-          screensObs.disconnect();
-        }
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animRing('ses-ring', 300);
+      [['bf1','88%'],['bf2','79%'],['bf3','82%'],['bf4','91%']].forEach(([id,w],i) => {
+        setTimeout(() => { const b = document.getElementById(id); if(b) b.style.width = w; }, 280 + i*130);
       });
-    }, { threshold: 0.15 });
-    if (screensEl) screensObs.observe(screensEl);
+      screensObs.disconnect();
+    }
+  });
+}, { threshold: 0.15 });
+if (screensEl) screensObs.observe(screensEl);
 
 /* ── TIMER TICK ───────────────────────────────────────── */
 let secs = 47*60+23;
@@ -1273,14 +985,12 @@ setInterval(() => {
 const scroll = document.getElementById('screens-scroll');
 const dots   = document.querySelectorAll('.dot');
 const items  = document.querySelectorAll('.screen-item');
-
 window.scrollToScreen = function(i) {
   if (!scroll || !items[i]) return;
   const item = items[i];
-  const scrollLeft = item.offsetLeft - scroll.offsetLeft - (scroll.clientWidth - item.clientWidth) / 2;
-  scroll.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+  const left = item.offsetLeft - scroll.offsetLeft - (scroll.clientWidth - item.clientWidth) / 2;
+  scroll.scrollTo({ left, behavior: 'smooth' });
 };
-
 if (scroll) {
   scroll.addEventListener('scroll', () => {
     const center = scroll.scrollLeft + scroll.clientWidth / 2;
@@ -1291,7 +1001,7 @@ if (scroll) {
     });
     dots.forEach((d, i) => {
       d.style.background = i === closest ? 'var(--au)' : 'var(--t3)';
-      d.style.width      = i === closest ? '20px' : '6px';
+      d.style.width = i === closest ? '20px' : '6px';
     });
   }, { passive: true });
 }
@@ -1305,110 +1015,85 @@ window.toggleFaq = function(btn) {
     i.classList.remove('open');
     i.querySelector('.faq-ans').style.maxHeight = '0';
   });
-  if (!open) {
-    item.classList.add('open');
-    ans.style.maxHeight = ans.scrollHeight + 'px';
-  }
+  if (!open) { item.classList.add('open'); ans.style.maxHeight = ans.scrollHeight + 'px'; }
 };
 
-/* ── FORM HELPERS ─────────────────────────────────────── */
+/* ── FORM ─────────────────────────────────────────────── */
 function isValid(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()); }
 
-function showSuccess(prefix) {
+function showSuccess() {
+  window.__joined = true;
   ['hero','final'].forEach(p => {
-    const fields = document.getElementById(p + '-fields');
-    const suc    = document.getElementById(p + '-suc');
-    if (fields) fields.style.display = 'none';
-    if (suc)    suc.classList.add('on');
+    const suc  = document.getElementById(p + '-suc');
+    const form = document.getElementById(p + '-form');
+    if (form) form.style.display = 'none';
+    if (suc)  suc.classList.add('on');
   });
+  const sticky = document.getElementById('sticky-cta');
+  if (sticky) sticky.classList.remove('show');
 }
 
 function setLoading(prefix, on) {
   const btn   = document.getElementById(prefix + '-btn');
   const email = document.getElementById(prefix + '-email');
-  const role  = document.getElementById(prefix + '-role');
   if (!btn) return;
   if (on) {
-    btn.disabled  = true;
+    btn.disabled = true;
     btn.innerHTML = '<span class="spin"></span>Joining…';
     if (email) email.disabled = true;
-    if (role)  role.disabled  = true;
   } else {
-    btn.disabled     = false;
-    btn.textContent  = 'Join the waitlist';
+    btn.disabled = false;
+    btn.textContent = 'Get early access';
     if (email) email.disabled = false;
-    if (role)  role.disabled  = false;
   }
 }
 
 function markErr(prefix, msg) {
-  const errEl   = document.getElementById(prefix + '-err');
+  const errEl = document.getElementById(prefix + '-err');
   const emailEl = document.getElementById(prefix + '-email');
-  if (errEl)   { errEl.textContent = msg; errEl.classList.add('on'); }
-  if (emailEl) {
-    emailEl.classList.add('err');
-    setTimeout(() => emailEl.classList.remove('err'), 2400);
-  }
+  if (errEl) { errEl.textContent = msg; errEl.classList.add('on'); }
+  if (emailEl) { emailEl.classList.add('err'); setTimeout(() => emailEl.classList.remove('err'), 2400); }
 }
 
-/* ── SUBMIT ───────────────────────────────────────────── */
-window.submit = async function(prefix) {
+window.submitForm = async function(prefix) {
   const emailEl = document.getElementById(prefix + '-email');
-  const roleEl  = document.getElementById(prefix + '-role');
   const errEl   = document.getElementById(prefix + '-err');
   if (!emailEl) return;
-
   const email = emailEl.value.trim();
-  const role  = roleEl ? roleEl.value : '';
-
-  if (errEl)   errEl.classList.remove('on');
+  if (errEl) errEl.classList.remove('on');
   emailEl.classList.remove('err');
 
-  if (!isValid(email)) {
-    markErr(prefix, 'Please enter a valid email address.');
-    emailEl.focus();
-    return;
-  }
+  if (!isValid(email)) { markErr(prefix, 'Please enter a valid email address.'); emailEl.focus(); return; }
 
-  /* deduplicate locally */
   const saved = JSON.parse(localStorage.getItem('k_wl') || '[]');
-  if (saved.includes(email)) { showSuccess(prefix); return; }
+  if (saved.includes(email)) { showSuccess(); return; }
 
   setLoading(prefix, true);
-
   try {
     await fetch(ENDPOINT, {
-  method: "POST",
-  mode: "no-cors",
-  body: JSON.stringify({
-    email: email,
-    role: role,
-    source: "landing",
-    ts: Date.now()
-  })
-});
+      method: "POST",
+      mode: "no-cors",
+      body: JSON.stringify({ email, role: "", source: "landing", ts: Date.now() })
+    });
     saved.push(email);
     localStorage.setItem('k_wl', JSON.stringify(saved));
-    showSuccess(prefix);
+    showSuccess();
   } catch(_) {
     setLoading(prefix, false);
     markErr(prefix, 'Something went wrong — please try again.');
   }
 };
 
-/* ── FOCUS HELPERS ────────────────────────────────────── */
+/* ── FOCUS HELPER ─────────────────────────────────────── */
 window.jumpForm = function(prefix) {
   const target = document.getElementById(prefix === 'final' ? 'final' : 'hero');
   if (target) target.scrollIntoView({ behavior: 'smooth' });
-  setTimeout(() => {
-    const inp = document.getElementById(prefix + '-email');
-    if (inp) inp.focus();
-  }, 520);
+  setTimeout(() => { const inp = document.getElementById(prefix + '-email'); if (inp) inp.focus(); }, 520);
 };
 
 /* ── RESTORE ──────────────────────────────────────────── */
 const prior = JSON.parse(localStorage.getItem('k_wl') || '[]');
-if (prior.length) showSuccess('hero');
+if (prior.length) showSuccess();
 
 })();
 </script>
