@@ -471,6 +471,145 @@ footer{border-top:1px solid var(--rim);padding:28px 20px;padding-bottom:calc(28p
 .foot-by{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.04em}
 .foot-by a{color:var(--au);text-decoration:none}
 
+/* ─────────────────────────────────────────────────────
+   REFERRAL MODAL  (post-signup share experience)
+───────────────────────────────────────────────────── */
+.ref-overlay{
+  position:fixed;inset:0;z-index:1000;
+  display:flex;align-items:flex-end;justify-content:center;
+  padding:0;
+  background:rgba(4,4,8,.62);
+  backdrop-filter:blur(14px) saturate(120%);-webkit-backdrop-filter:blur(14px) saturate(120%);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .35s cubic-bezier(.22,1,.36,1),visibility .35s;
+}
+.ref-overlay.on{opacity:1;visibility:visible;pointer-events:auto}
+@media(min-width:560px){.ref-overlay{align-items:center;padding:24px}}
+
+.ref-card{
+  position:relative;width:100%;max-width:440px;
+  background:linear-gradient(180deg,var(--sur) 0%,var(--bg2) 100%);
+  border:1px solid var(--rim);
+  border-radius:24px 24px 0 0;
+  padding:26px 22px calc(26px + env(safe-area-inset-bottom));
+  box-shadow:0 -24px 80px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05);
+  transform:translateY(28px) scale(.985);opacity:0;
+  transition:transform .42s cubic-bezier(.22,1,.36,1),opacity .42s cubic-bezier(.22,1,.36,1);
+  max-height:92dvh;overflow-y:auto;scrollbar-width:none;
+}
+.ref-card::-webkit-scrollbar{display:none}
+.ref-overlay.on .ref-card{transform:none;opacity:1}
+@media(min-width:560px){.ref-card{border-radius:24px;padding:30px 28px}}
+
+.ref-glow{
+  position:absolute;top:-40%;left:50%;transform:translateX(-50%);
+  width:420px;height:300px;pointer-events:none;
+  background:radial-gradient(ellipse,rgba(192,162,106,.14) 0%,transparent 65%);
+}
+
+.ref-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(111,168,130,.1);border:1px solid rgba(111,168,130,.24);
+  color:var(--gn);border-radius:var(--rp);padding:6px 13px;
+  font-family:var(--fm);font-size:var(--step--1);font-weight:500;letter-spacing:.06em;
+  position:relative;
+}
+.ref-badge svg{flex-shrink:0}
+
+.ref-confirm{font-size:var(--step-1);color:var(--t2);margin:14px 0 4px;position:relative}
+.ref-confirm b{color:var(--t1);font-weight:600}
+.ref-title{font-size:var(--step-3);font-weight:700;letter-spacing:-.022em;line-height:1.12;position:relative}
+.ref-sub{font-size:var(--step-1);color:var(--t2);line-height:1.5;margin-top:8px;position:relative}
+.ref-sub b{color:var(--au);font-weight:600}
+
+.ref-stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:20px;position:relative}
+.ref-stat{
+  background:rgba(255,255,255,.03);border:1px solid var(--rim);
+  border-radius:var(--r2);padding:13px 14px;
+}
+.ref-stat.gold{background:var(--au10);border-color:var(--au18)}
+.ref-stat-l{font-family:var(--fm);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+.ref-stat-v{font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.05}
+.ref-stat.gold .ref-stat-v{color:var(--au)}
+
+.ref-prog{margin-top:18px;position:relative}
+.ref-prog-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.ref-prog-count{font-family:var(--fm);font-size:var(--step-0);font-weight:500;color:var(--t1);letter-spacing:.04em}
+.ref-prog-count b{color:var(--au)}
+.ref-prog-hint{font-family:var(--fm);font-size:8.5px;color:var(--t3);letter-spacing:.03em}
+.ref-prog-track{height:8px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden;display:flex;gap:4px;padding:0}
+.ref-prog-seg{flex:1;border-radius:99px;background:rgba(255,255,255,.05);transition:background .4s}
+.ref-prog-seg.fill{background:linear-gradient(90deg,var(--au),#d9bd86)}
+
+.ref-link-l{font-family:var(--fm);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin:22px 0 8px;position:relative}
+.ref-link{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.04);border:1px solid var(--rim);
+  border-radius:var(--r2);padding:11px 12px 11px 14px;position:relative;
+}
+.ref-link-url{flex:1;font-family:var(--fm);font-size:var(--step-0);color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.01em}
+.ref-link-copy{
+  flex-shrink:0;display:inline-flex;align-items:center;gap:6px;
+  background:var(--au);color:#0A0A0A;border:none;cursor:pointer;
+  border-radius:var(--r1);padding:8px 13px;font-size:var(--step-0);font-weight:600;
+  transition:opacity .18s,transform .15s;-webkit-tap-highlight-color:transparent;
+}
+.ref-link-copy:hover{opacity:.92;transform:translateY(-1px)}
+.ref-link-copy svg{flex-shrink:0}
+
+.ref-share-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px;position:relative}
+.ref-share{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  background:rgba(255,255,255,.03);border:1px solid var(--rim);
+  border-radius:var(--r2);padding:14px 6px;cursor:pointer;
+  transition:border-color .2s,background .18s,transform .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.ref-share:hover{border-color:var(--rimh);background:rgba(255,255,255,.05);transform:translateY(-1px)}
+.ref-share:active{transform:translateY(0)}
+.ref-share-ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ref-share-ic svg{width:18px;height:18px;display:block}
+.ref-share span{font-size:var(--step--1);font-weight:600;color:var(--t2);letter-spacing:.01em}
+.ref-share:hover span{color:var(--t1)}
+/* brand icon tints */
+.ic-wa{background:rgba(37,211,102,.12);color:#25D366}
+.ic-gm{background:rgba(234,67,53,.12);color:#EA4335}
+.ic-sn{background:rgba(255,252,0,.14);color:#FFFC00}
+.ic-ig{background:linear-gradient(135deg,rgba(240,148,51,.16),rgba(214,41,118,.16),rgba(150,47,191,.16));color:#E1306C}
+.ic-cp{background:var(--au10);color:var(--au)}
+.ic-sh{background:var(--sl10);color:var(--sl)}
+
+.ref-later{
+  width:100%;background:none;border:none;cursor:pointer;
+  margin-top:18px;padding:8px;color:var(--t3);font-size:var(--step-1);font-weight:500;
+  transition:color .18s;-webkit-tap-highlight-color:transparent;position:relative;
+}
+.ref-later:hover{color:var(--t2)}
+
+.ref-close{
+  position:absolute;top:18px;right:18px;z-index:5;
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.05);border:1px solid var(--rim);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  color:var(--t2);transition:background .18s,color .18s;-webkit-tap-highlight-color:transparent;
+}
+.ref-close:hover{background:rgba(255,255,255,.09);color:var(--t1)}
+
+/* toast */
+.ref-toast{
+  position:fixed;left:50%;bottom:32px;
+  transform:translateX(-50%) translateY(20px);
+  z-index:1100;display:inline-flex;align-items:center;gap:9px;
+  background:var(--rsd);border:1px solid var(--rimh);
+  border-radius:var(--rp);padding:11px 18px;
+  font-size:var(--step-0);font-weight:500;color:var(--t1);
+  box-shadow:0 16px 40px rgba(0,0,0,.5);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .3s,transform .3s,visibility .3s;max-width:90vw;
+}
+.ref-toast.on{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.ref-toast svg{flex-shrink:0;color:var(--gn)}
+
 </style>
 </head>
 <body>
@@ -925,6 +1064,111 @@ footer{border-top:1px solid var(--rim);padding:28px 20px;padding-bottom:calc(28p
   <button onclick="jumpForm('hero')">Get early access — join the waitlist</button>
 </div>
 
+<!-- ═══════════════════ REFERRAL / SHARE MODAL ═══════════════════ -->
+<div class="ref-overlay" id="ref-overlay" role="dialog" aria-modal="true" aria-labelledby="ref-title">
+  <div class="ref-card">
+    <div class="ref-glow"></div>
+
+    <button class="ref-close" id="ref-close" aria-label="Close">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="11.5" y2="11.5"/><line x1="11.5" y1="1.5" x2="1.5" y2="11.5"/></svg>
+    </button>
+
+    <span class="ref-badge">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 7.2l2.7 2.7L11 4" stroke="#6FA882" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Waitlist confirmed
+    </span>
+
+    <p class="ref-confirm"><b>You're on the waitlist.</b></p>
+
+    <h3 class="ref-title" id="ref-title">Want to move up?</h3>
+    <p class="ref-sub">Invite 3 friends and <b>jump 50 spots</b> in the waitlist.</p>
+
+    <div class="ref-stats">
+      <div class="ref-stat">
+        <p class="ref-stat-l">Your current position</p>
+        <p class="ref-stat-v" id="ref-position">#8,426</p>
+      </div>
+      <div class="ref-stat gold">
+        <p class="ref-stat-l">Reward</p>
+        <p class="ref-stat-v">3 → +50</p>
+      </div>
+    </div>
+
+    <div class="ref-prog">
+      <div class="ref-prog-top">
+        <span class="ref-prog-count"><b id="ref-count">0</b> / 3 referrals</span>
+        <span class="ref-prog-hint">Only 3 invites to skip 50 spots.</span>
+      </div>
+      <div class="ref-prog-track" id="ref-track">
+        <span class="ref-prog-seg"></span>
+        <span class="ref-prog-seg"></span>
+        <span class="ref-prog-seg"></span>
+      </div>
+    </div>
+
+    <p class="ref-link-l">Your waitlist link</p>
+    <div class="ref-link">
+      <span class="ref-link-url" id="ref-link-url">kairoswaitlist.vercel.app</span>
+      <button class="ref-link-copy" onclick="refCopyLink()">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4.2" y="4.2" width="7.5" height="7.5" rx="1.6"/><path d="M9.4 4.2V3a1.4 1.4 0 0 0-1.4-1.4H3A1.4 1.4 0 0 0 1.6 3v5a1.4 1.4 0 0 0 1.4 1.4h1.2"/></svg>
+        Copy link
+      </button>
+    </div>
+
+    <div class="ref-share-grid">
+      <button class="ref-share" onclick="refShareWhatsApp()">
+        <span class="ref-share-ic ic-wa">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.82c2.16 0 4.19.84 5.72 2.37a8.04 8.04 0 0 1 2.37 5.72c0 4.46-3.63 8.09-8.1 8.09a8.1 8.1 0 0 1-4.12-1.13l-.3-.18-3.06.8.82-2.99-.19-.31a8.03 8.03 0 0 1-1.24-4.28c0-4.46 3.63-8.09 8.1-8.09Zm-3.39 4.4c-.16 0-.42.06-.64.3-.22.24-.85.83-.85 2.02 0 1.19.87 2.34.99 2.5.12.16 1.7 2.6 4.12 3.64.58.25 1.02.4 1.37.51.58.18 1.1.16 1.52.1.46-.07 1.43-.58 1.63-1.15.2-.56.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41-.14-.01-.3-.01-.46-.01Z"/></svg>
+        </span>
+        <span>WhatsApp</span>
+      </button>
+
+      <button class="ref-share" onclick="refShareGmail()">
+        <span class="ref-share-ic ic-gm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M3 6.5l9 6 9-6"/></svg>
+        </span>
+        <span>Gmail</span>
+      </button>
+
+      <button class="ref-share" onclick="refShareSnapchat()">
+        <span class="ref-share-ic ic-sn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c2.6 0 4.4 1.9 4.5 4.6 0 .5 0 1.1-.03 1.7.2.1.46.13.74.04.26-.08.5-.1.72.03.3.18.33.55.07.85-.2.23-.6.4-1 .55-.13.05-.3.1-.36.27-.07.2.1.45.27.66.45.6 1.18 1.18 2.1 1.46.3.1.4.3.36.5-.06.36-.74.6-1.27.72-.13.03-.2.12-.23.3-.03.13-.06.3-.13.45-.07.16-.2.2-.4.18-.3-.03-.66-.13-1.16-.07-.46.06-.86.34-1.3.66-.6.43-1.27.92-2.4.92s-1.8-.49-2.4-.92c-.44-.32-.84-.6-1.3-.66-.5-.06-.86.04-1.16.07-.2.02-.33-.02-.4-.18-.07-.15-.1-.32-.13-.45-.03-.18-.1-.27-.23-.3-.53-.12-1.2-.36-1.27-.72-.04-.2.06-.4.36-.5.92-.28 1.65-.86 2.1-1.46.17-.21.34-.46.27-.66-.06-.17-.23-.22-.36-.27-.4-.15-.8-.32-1-.55-.26-.3-.23-.67.07-.85.22-.13.46-.11.72-.03.28.09.54.06.74-.04-.03-.6-.03-1.2-.03-1.7C7.6 4.1 9.4 2.2 12 2.2Z"/></svg>
+        </span>
+        <span>Snapchat</span>
+      </button>
+
+      <button class="ref-share" onclick="refShareInstagram()">
+        <span class="ref-share-ic ic-ig">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <span>Instagram</span>
+      </button>
+
+      <button class="ref-share" onclick="refCopyLink()">
+        <span class="ref-share-ic ic-cp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V5.5A2.5 2.5 0 0 0 13.5 3h-8A2.5 2.5 0 0 0 3 5.5v8A2.5 2.5 0 0 0 5.5 16H8"/></svg>
+        </span>
+        <span>Copy link</span>
+      </button>
+
+      <button class="ref-share" onclick="refNativeShare()">
+        <span class="ref-share-ic ic-sh">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5.5" r="2.8"/><circle cx="6" cy="12" r="2.8"/><circle cx="18" cy="18.5" r="2.8"/><path d="M8.4 10.7l7.2-3.9M8.4 13.3l7.2 3.9"/></svg>
+        </span>
+        <span>Share</span>
+      </button>
+    </div>
+
+    <button class="ref-later" id="ref-later">Maybe later</button>
+  </div>
+</div>
+
+<!-- toast -->
+<div class="ref-toast" id="ref-toast">
+  <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M3 7.2l2.7 2.7L11 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span id="ref-toast-msg">Waitlist link copied.</span>
+</div>
+
 <script>
 (function(){
 'use strict';
@@ -940,6 +1184,7 @@ document.querySelectorAll('.rv').forEach(el => observer.observe(el));
 /* ── NAV + STICKY CTA ─────────────────────────────────── */
 const nav = document.querySelector('nav');
 const sticky = document.getElementById('sticky-cta');
+const heroEl = document.getElementById('hero');
 window.addEventListener('scroll', () => {
   nav.style.background = window.scrollY > 40 ? 'rgba(8,8,13,.97)' : 'rgba(8,8,13,.88)';
   const finalTop = document.getElementById('final').getBoundingClientRect().top;
@@ -1021,9 +1266,10 @@ window.toggleFaq = function(btn) {
 /* ── FORM ─────────────────────────────────────────────── */
 function isValid(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()); }
 
-function showSuccess() {
+function showSuccess(openModal) {
   window.__joined = true;
   ['hero','final'].forEach(p => {
+    const wrap = document.getElementById(p + '-wrap');
     const suc  = document.getElementById(p + '-suc');
     const form = document.getElementById(p + '-form');
     if (form) form.style.display = 'none';
@@ -1031,6 +1277,8 @@ function showSuccess() {
   });
   const sticky = document.getElementById('sticky-cta');
   if (sticky) sticky.classList.remove('show');
+  // Open the share modal only on a fresh signup (not on page-reload restore).
+  if (openModal) openRefModal();
 }
 
 function setLoading(prefix, on) {
@@ -1066,7 +1314,7 @@ window.submitForm = async function(prefix) {
   if (!isValid(email)) { markErr(prefix, 'Please enter a valid email address.'); emailEl.focus(); return; }
 
   const saved = JSON.parse(localStorage.getItem('k_wl') || '[]');
-  if (saved.includes(email)) { showSuccess(); return; }
+  if (saved.includes(email)) { showSuccess(true); return; }
 
   setLoading(prefix, true);
   try {
@@ -1077,7 +1325,7 @@ window.submitForm = async function(prefix) {
     });
     saved.push(email);
     localStorage.setItem('k_wl', JSON.stringify(saved));
-    showSuccess();
+    showSuccess(true);
   } catch(_) {
     setLoading(prefix, false);
     markErr(prefix, 'Something went wrong — please try again.');
@@ -1089,6 +1337,128 @@ window.jumpForm = function(prefix) {
   const target = document.getElementById(prefix === 'final' ? 'final' : 'hero');
   if (target) target.scrollIntoView({ behavior: 'smooth' });
   setTimeout(() => { const inp = document.getElementById(prefix + '-email'); if (inp) inp.focus(); }, 520);
+};
+
+/* ── REFERRAL MODAL ───────────────────────────────────── */
+/* Front-only simulation. To wire a real backend later, replace these
+   constants/loaders — see loadReferralState() below. */
+const REF_LINK    = 'https://kairoswaitlist.vercel.app/';      // always shared, no ?ref code
+const REF_MESSAGE = "I just joined the Kairos waitlist — an app built to help you protect your attention and take back control from your phone. Join here: " + REF_LINK;
+const REF_SUBJECT = "Join me on Kairos";
+const REF_CONFIG  = { position: '#8,426', referrals: 0, goal: 3 }; // simulated
+
+const refOverlay = document.getElementById('ref-overlay');
+
+/* BACKEND HOOK ── replace this stub once Firebase/Supabase is connected.
+   Read the user's real queue position + confirmed referral count and update
+   REF_CONFIG, then call renderReferralState(). Example:
+     const doc = await db.collection('waitlist').doc(email).get();
+     REF_CONFIG.position  = '#' + doc.data().position.toLocaleString();
+     REF_CONFIG.referrals = doc.data().referrals || 0;
+     renderReferralState();
+*/
+function loadReferralState() { renderReferralState(); }
+
+function renderReferralState() {
+  const posEl = document.getElementById('ref-position');
+  const cntEl = document.getElementById('ref-count');
+  const track = document.getElementById('ref-track');
+  if (posEl) posEl.textContent = REF_CONFIG.position;
+  if (cntEl) cntEl.textContent = Math.min(REF_CONFIG.referrals, REF_CONFIG.goal);
+  if (track) {
+    track.querySelectorAll('.ref-prog-seg').forEach((seg, i) => {
+      seg.classList.toggle('fill', i < REF_CONFIG.referrals);
+    });
+  }
+}
+
+function openRefModal() {
+  if (!refOverlay) return;
+  loadReferralState();
+  // defer so the success state paints first, then the modal animates in
+  setTimeout(() => {
+    refOverlay.classList.add('on');
+    document.body.style.overflow = 'hidden';
+  }, 420);
+}
+
+window.closeRefModal = function() {
+  if (!refOverlay) return;
+  refOverlay.classList.remove('on');
+  document.body.style.overflow = '';
+};
+
+document.getElementById('ref-close') && document.getElementById('ref-close').addEventListener('click', closeRefModal);
+document.getElementById('ref-later') && document.getElementById('ref-later').addEventListener('click', closeRefModal);
+refOverlay && refOverlay.addEventListener('click', e => { if (e.target === refOverlay) closeRefModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeRefModal(); });
+
+/* toast */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('ref-toast');
+  const m = document.getElementById('ref-toast-msg');
+  if (!t || !m) return;
+  m.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('on'), 2600);
+}
+
+/* clipboard with graceful fallback */
+async function copyLink() {
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(REF_LINK);
+      return true;
+    }
+  } catch(_) {}
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = REF_LINK;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch(_) { return false; }
+}
+
+window.refCopyLink = async function() {
+  await copyLink();
+  showToast('Waitlist link copied.');
+};
+
+window.refShareWhatsApp = function() {
+  window.open('https://wa.me/?text=' + encodeURIComponent(REF_MESSAGE), '_blank', 'noopener');
+};
+
+window.refShareGmail = function() {
+  const url = 'https://mail.google.com/mail/?view=cm&fs=1'
+    + '&su=' + encodeURIComponent(REF_SUBJECT)
+    + '&body=' + encodeURIComponent(REF_MESSAGE);
+  window.open(url, '_blank', 'noopener');
+};
+
+window.refShareSnapchat = async function() {
+  await copyLink();
+  showToast('Link copied — paste it in Snapchat.');
+};
+
+window.refShareInstagram = async function() {
+  await copyLink();
+  showToast('Link copied — paste it in Instagram.');
+};
+
+window.refNativeShare = async function() {
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: 'Kairos', text: REF_MESSAGE, url: REF_LINK });
+      return;
+    } catch(_) { /* user cancelled — fall through to copy */ }
+  }
+  await copyLink();
+  showToast('Waitlist link copied.');
 };
 
 /* ── RESTORE ──────────────────────────────────────────── */
