@@ -6,1167 +6,967 @@
 <title>Kairos — Take your attention back</title>
 <meta name="description" content="Kairos is the focus trainer for people losing their day to their phone. Lock into distraction-free deep work, build a streak, and discover your focus type. Join the waitlist for early access.">
 
-<!-- Open Graph — controls how the link previews when you share it from your bio -->
-<meta property="og:title" content="Kairos — Take your attention back">
-<meta property="og:description" content="The focus trainer for people losing their day to their phone. Lock in. Build the streak. Find your focus type.">
+<!-- Open Graph -->
+<meta property="og:title" content="Kairos — You're not lazy. You're outgunned.">
+<meta property="og:description" content="The focus trainer that rebuilds your attention until your phone can't win — one 50-minute session at a time. Join the waitlist for early access.">
 <meta property="og:type" content="website">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 
-/* ─────────────────────────────────────────────────────
-   TOKENS
-───────────────────────────────────────────────────── */
-:root {
-  --f:  'Inter', sans-serif;
-  --fm: 'IBM Plex Mono', monospace;
+/* ═══════════════════════════════════════════════════════
+   0 · TOKENS
+═══════════════════════════════════════════════════════ */
+:root{
+  --f:  'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --fm: 'JetBrains Mono', ui-monospace, monospace;
 
-  --step--1: 11px;
-  --step-0:  13px;
-  --step-1:  15px;
-  --step-2:  17px;
-  --step-3:  clamp(20px, 5vw, 26px);
-  --step-4:  clamp(27px, 7vw, 40px);
-  --step-5:  clamp(40px, 11vw, 66px);
+  /* surfaces */
+  --bg-0:#09090B;
+  --bg-1:#0E0E12;
+  --bg-2:#141419;
+  --bg-3:#1B1B22;
 
-  --bg:   #08080D;
-  --bg2:  #0C0C13;
-  --sur:  #111118;
-  --rsd:  #181821;
-  --rim:  rgba(255,255,255,.058);
-  --rimh: rgba(255,255,255,.095);
+  /* ink */
+  --ink-hi:#F4F2EC;
+  --ink-body:#BBB8B0;
+  --ink-dim:#8C897F;
 
-  --au:   #C0A26A;
-  --au10: rgba(192,162,106,.10);
-  --au18: rgba(192,162,106,.18);
+  /* accent */
+  --gold:#D5B183;
+  --gold-hi:#E6C89A;
+  --gold-ink:#171310;
+  --gold-10:rgba(213,177,131,.10);
+  --gold-18:rgba(213,177,131,.18);
+  --gold-28:rgba(213,177,131,.28);
 
-  --sl:   #6A80A0;
-  --sl10: rgba(106,128,160,.10);
-  --sl20: rgba(106,128,160,.20);
+  --green:#9DC7A2;
+  --red:#C98A8A;
 
-  --gn:  #6FA882;
-  --am:  #C09558;
-  --er:  #A86868;
+  /* hairlines */
+  --line:rgba(255,255,255,.07);
+  --line-strong:rgba(255,255,255,.12);
 
-  --t1: #ECE8E2;
-  --t2: #8A8880;
-  --t3: #464440;
-  --t4: #242220;
+  /* radius */
+  --r-card:20px;
+  --r-pill:999px;
 
-  --r0:  6px;
-  --r1: 10px;
-  --r2: 14px;
-  --r3: 20px;
-  --rp: 999px;
+  /* type scale */
+  --t-h1:clamp(44px,11vw,94px);
+  --t-h2:clamp(32px,7vw,58px);
+  --t-h3:clamp(21px,5vw,26px);
+  --t-body:16px;
+  --t-micro:13px;
+  --t-eyebrow:12px;
+
+  --ease:cubic-bezier(.22,.8,.3,1);
 }
+@media(min-width:768px){:root{--t-body:17px}}
 
-/* ─────────────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════
    RESET
-───────────────────────────────────────────────────── */
+═══════════════════════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
-  background:var(--bg);color:var(--t1);
-  font-family:var(--f);font-size:var(--step-1);line-height:1.65;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background:var(--bg-0);color:var(--ink-body);
+  font-family:var(--f);font-size:var(--t-body);line-height:1.65;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overflow-x:hidden;
 }
 img,svg{display:block}
-button,input,select{font-family:inherit;-webkit-appearance:none;appearance:none}
-:focus-visible{outline:2px solid var(--au);outline-offset:3px}
-::-webkit-scrollbar{width:2px}
-::-webkit-scrollbar-thumb{background:var(--rsd)}
+button,input{font-family:inherit;-webkit-appearance:none;appearance:none}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+::-webkit-scrollbar{width:2px;height:2px}
+::-webkit-scrollbar-thumb{background:var(--bg-3)}
 
+/* grain */
 body::after{
-  content:'';position:fixed;inset:0;
-  pointer-events:none;z-index:9999;opacity:.02;
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.02;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size:180px;
 }
 
-/* ─────────────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════
    LAYOUT
-───────────────────────────────────────────────────── */
-.wrap{width:100%;padding:0 20px}
-@media(min-width:640px){.wrap{max-width:680px;margin:0 auto}}
-@media(min-width:1000px){.wrap{max-width:1080px}}
+═══════════════════════════════════════════════════════ */
+.wrap{width:100%;padding:0 20px;margin:0 auto;max-width:calc(1180px + 40px)}
+@media(min-width:768px){.wrap{padding:0 48px;max-width:calc(1180px + 96px)}}
 
-/* ─────────────────────────────────────────────────────
+section{padding:64px 0}
+@media(min-width:768px){section{padding:128px 0}}
+.band{background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+/* ═══════════════════════════════════════════════════════
    TYPE
-───────────────────────────────────────────────────── */
-h1,h2{font-weight:700;letter-spacing:-.03em;line-height:1.04}
-h1{font-size:var(--step-5)}
-h2{font-size:var(--step-4)}
-h3{font-size:var(--step-3);font-weight:600;letter-spacing:-.018em;line-height:1.2}
+═══════════════════════════════════════════════════════ */
+h1,h2{font-weight:700;color:var(--ink-hi)}
+h1{font-size:var(--t-h1);letter-spacing:-.035em;line-height:1.02}
+h2{font-size:var(--t-h2);letter-spacing:-.03em;line-height:1.08}
+h3{font-size:var(--t-h3);font-weight:700;letter-spacing:-.02em;line-height:1.25;color:var(--ink-hi)}
+.gold{color:var(--gold)}
 
-.mono{font-family:var(--fm);font-size:var(--step--1);font-weight:500;letter-spacing:.1em;text-transform:uppercase}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--t3);margin-bottom:18px}
-.eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--au);animation:pulse 2.4s ease-in-out infinite;flex-shrink:0}
-.eyebrow-dot.slate{background:var(--sl)}
-.eyebrow-dot.green{background:var(--gn)}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--fm);font-size:var(--t-eyebrow);font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);
+  margin-bottom:20px;
+}
+.eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.eyebrow.green::before{background:var(--green)}
+.eyebrow.red::before{background:var(--red)}
 
-/* ─────────────────────────────────────────────────────
-   NAV
-───────────────────────────────────────────────────── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:300;
-  height:54px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 20px;
-  background:rgba(8,8,13,.88);
-  border-bottom:1px solid rgba(255,255,255,.04);
-  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
-}
-.nav-logo{font-size:16px;font-weight:700;letter-spacing:-.03em;color:var(--t1);text-decoration:none}
-.nav-logo span{color:var(--au)}
-.nav-links{display:none}
-@media(min-width:768px){
-  nav{padding:0 32px}
-  .nav-links{display:flex;list-style:none;gap:24px}
-  .nav-links a{font-size:var(--step-0);font-weight:500;color:var(--t3);text-decoration:none;transition:color .18s}
-  .nav-links a:hover{color:var(--t2)}
-}
-.nav-btn{
-  font-size:var(--step-0);font-weight:600;color:#0A0A0A;background:var(--au);
-  border:none;padding:9px 18px;border-radius:var(--rp);cursor:pointer;
-  transition:opacity .18s,transform .15s;-webkit-tap-highlight-color:transparent;
-}
-.nav-btn:hover{opacity:.9;transform:translateY(-1px)}
+.sec-head{margin-bottom:44px}
+.sec-head h2{margin-bottom:16px}
+.sec-sub{font-size:var(--t-body);color:var(--ink-body);line-height:1.6;max-width:46ch}
+.micro{font-family:var(--fm);font-size:var(--t-micro);color:var(--ink-dim);letter-spacing:.02em}
 
-/* ─────────────────────────────────────────────────────
-   BUTTONS + INPUTS
-───────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════ */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  min-height:54px;padding:0 24px;border-radius:var(--r2);
-  font-size:var(--step-2);font-weight:600;cursor:pointer;border:none;
-  transition:opacity .18s,transform .15s;
-  -webkit-tap-highlight-color:transparent;white-space:nowrap;width:100%;
+  min-height:56px;padding:0 28px;border-radius:var(--r-pill);
+  font-size:16px;font-weight:600;cursor:pointer;border:none;white-space:nowrap;
+  transition:background .15s,transform .15s,box-shadow .15s,opacity .15s;
+  -webkit-tap-highlight-color:transparent;
 }
-.btn-gold{background:var(--au);color:#0A0A0A}
-.btn-gold:hover{opacity:.92;transform:translateY(-1px)}
-.btn-gold:active{transform:translateY(0)}
-.btn-gold:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.btn-gold{background:var(--gold);color:var(--gold-ink)}
+.btn-gold:hover{background:var(--gold-hi);transform:translateY(-1px);box-shadow:0 10px 30px rgba(213,177,131,.22)}
+.btn-gold:active{transform:translateY(0);box-shadow:none}
+.btn-gold:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
 
-.inp{
-  width:100%;min-height:54px;
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--rim);border-radius:var(--r2);
-  padding:0 16px;color:var(--t1);font-size:var(--step-2);
-  outline:none;transition:border-color .18s,background .18s;
+.btn-ghost{
+  background:transparent;border:1px solid var(--line-strong);color:var(--ink-hi);
+  min-height:52px;
 }
-.inp::placeholder{color:var(--t3)}
-.inp:focus{border-color:rgba(192,162,106,.3);background:rgba(192,162,106,.04)}
-.inp.err{border-color:rgba(168,104,104,.4)}
+.btn-ghost:hover{background:rgba(255,255,255,.05);transform:translateY(-1px)}
+.btn-ghost:active{transform:translateY(0)}
 
-.spin{width:16px;height:16px;border-radius:50%;border:2px solid rgba(10,10,10,.3);border-top-color:#0A0A0A;animation:rot .55s linear infinite;flex-shrink:0}
+.spin{width:16px;height:16px;border-radius:50%;border:2px solid rgba(23,19,16,.3);border-top-color:var(--gold-ink);animation:rot .55s linear infinite;flex-shrink:0}
 @keyframes rot{to{transform:rotate(360deg)}}
 
-/* ─────────────────────────────────────────────────────
-   FORM
-───────────────────────────────────────────────────── */
-.form{display:flex;flex-direction:column;gap:10px}
+/* ═══════════════════════════════════════════════════════
+   EMAIL CAPTURE (component)
+═══════════════════════════════════════════════════════ */
+.capture{max-width:460px}
+.cap-form{display:flex;flex-direction:column;gap:10px}
+.cap-row{display:flex;flex-direction:column;gap:10px}
 @media(min-width:560px){
-  .form .form-row{display:flex;gap:10px}
-  .form .form-row .inp{flex:1}
-  .form .form-row .btn{width:auto;flex-shrink:0;padding:0 28px}
+  .cap-row{flex-direction:row}
+  .cap-row .inp{flex:1}
+  .cap-row .btn{flex-shrink:0}
 }
-.form-err{font-family:var(--fm);font-size:var(--step--1);color:var(--er);display:none;padding:0 2px;letter-spacing:.03em}
-.form-err.on{display:block}
-.form-note{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.04em}
-.form-note b{color:var(--t2);font-weight:500}
-.form-suc{display:none;flex-direction:column;gap:14px;padding:8px 0}
-.form-suc.on{display:flex}
-.suc-row{display:flex;align-items:center;gap:13px}
+.inp{
+  width:100%;min-height:56px;background:var(--bg-3);
+  border:1px solid var(--line-strong);border-radius:var(--r-pill);
+  padding:0 20px;color:var(--ink-hi);font-size:16px;
+  outline:none;transition:border-color .18s,background .18s;
+}
+.inp::placeholder{color:var(--ink-dim)}
+.inp:focus{border-color:var(--gold);background:rgba(213,177,131,.04)}
+.inp.err{border-color:var(--red)}
+.cap-err{
+  font-family:var(--fm);font-size:var(--t-micro);color:var(--red);
+  letter-spacing:.02em;padding:0 4px;display:none;
+}
+.cap-err.on{display:block}
+.cap-note{font-family:var(--fm);font-size:var(--t-micro);color:var(--ink-dim);letter-spacing:.02em;padding:0 4px}
+
+/* success */
+.cap-suc{display:none;flex-direction:column;gap:14px;padding:4px 0}
+.cap-suc.on{display:flex}
+.suc-top{display:flex;align-items:center;gap:14px}
 .suc-check{
   width:46px;height:46px;border-radius:50%;flex-shrink:0;
-  background:rgba(111,168,130,.1);border:1px solid rgba(111,168,130,.22);
+  background:rgba(157,199,162,.1);border:1px solid rgba(157,199,162,.24);
   display:flex;align-items:center;justify-content:center;
-  animation:pop .4s cubic-bezier(.34,1.56,.64,1);
+  animation:pop .42s cubic-bezier(.34,1.56,.64,1);
 }
 @keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
-.suc-title{font-size:var(--step-2);font-weight:700;letter-spacing:-.02em}
-.suc-body{font-size:var(--step-1);color:var(--t3);line-height:1.55}
-
-/* ─────────────────────────────────────────────────────
-   SCROLL REVEAL
-───────────────────────────────────────────────────── */
-.rv{opacity:0;transform:translateY(20px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
-.rv.in{opacity:1;transform:none}
-.d1{transition-delay:.06s}.d2{transition-delay:.12s}.d3{transition-delay:.18s}
-.d4{transition-delay:.24s}.d5{transition-delay:.30s}
-
-/* ─────────────────────────────────────────────────────
-   SECTION RHYTHM
-───────────────────────────────────────────────────── */
-section{padding:80px 0}
-@media(min-width:768px){section{padding:108px 0}}
-.sec-head{margin-bottom:44px}
-.sec-head h2{margin-bottom:12px}
-.sec-sub{font-size:var(--step-2);color:var(--t2);line-height:1.6;max-width:38ch}
-
-/* ─────────────────────────────────────────────────────
-   PHONE FRAME
-───────────────────────────────────────────────────── */
-.phone{
-  width:234px;background:#060608;border-radius:40px;
-  border:1px solid rgba(255,255,255,.09);
-  position:relative;overflow:hidden;flex-shrink:0;
-  box-shadow:0 0 0 .5px rgba(0,0,0,.8),0 32px 72px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.055);
+.suc-title{font-size:17px;font-weight:700;color:var(--ink-hi);letter-spacing:-.02em}
+.suc-title b{color:var(--gold)}
+.suc-ref{font-size:15px;color:var(--ink-body);line-height:1.55;max-width:44ch}
+.suc-ref strong{color:var(--ink-hi);font-weight:600}
+.suc-copy{
+  display:inline-flex;align-items:center;gap:8px;align-self:flex-start;
+  background:var(--bg-3);border:1px solid var(--line-strong);
+  border-radius:var(--r-pill);padding:11px 18px;cursor:pointer;
+  font-size:15px;font-weight:600;color:var(--ink-hi);
+  transition:border-color .18s,background .18s,transform .15s;
+  -webkit-tap-highlight-color:transparent;
 }
-.phone-inner{position:relative;padding:46px 13px 16px;display:flex;flex-direction:column;gap:6px}
-.p-island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:88px;height:26px;background:#000;border-radius:18px;z-index:10}
-.p-bar{display:flex;justify-content:space-between;align-items:center;padding:0 1px;margin-bottom:2px}
-.p-time{font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.03em}
-.p-batt{display:flex;align-items:center;gap:3px}
-.p-batt-body{width:18px;height:9px;border:1.2px solid rgba(255,255,255,.3);border-radius:2px;position:relative}
-.p-batt-body::after{content:'';position:absolute;top:1.5px;left:1.5px;right:5px;bottom:1.5px;background:rgba(255,255,255,.35);border-radius:.5px}
-.p-batt-body::before{content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);width:2.5px;height:5px;background:rgba(255,255,255,.25);border-radius:0 1px 1px 0}
-.p-tag{display:inline-flex;align-items:center;gap:5px;font-family:var(--fm);font-size:8px;letter-spacing:.06em;padding:3px 9px;border-radius:var(--rp)}
-.p-label{font-family:var(--fm);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28)}
-.p-greet{font-size:11px;font-weight:500;color:rgba(255,255,255,.25);padding:2px 1px}
-.p-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:11px 12px}
-.p-grid2{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.suc-copy:hover{border-color:var(--gold);transform:translateY(-1px)}
+.suc-copy svg{flex-shrink:0}
 
-/* preview ribbon on mockups */
+/* ═══════════════════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════════════════ */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .35s var(--ease),transform .35s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.05s}.d2{transition-delay:.1s}
+
+/* ═══════════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:400;
+  height:64px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;
+  background:rgba(9,9,11,.78);border-bottom:1px solid var(--line);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  transition:background .2s;
+}
+@media(min-width:900px){nav{height:76px;padding:0 48px}}
+.nav-logo{font-size:17px;font-weight:700;letter-spacing:-.03em;color:var(--ink-hi);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:none}
+.nav-btn{
+  min-height:44px;padding:0 20px;border-radius:var(--r-pill);
+  font-size:15px;font-weight:600;color:var(--gold-ink);background:var(--gold);
+  border:none;cursor:pointer;transition:background .15s,transform .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-btn:hover{background:var(--gold-hi);transform:translateY(-1px)}
+@media(min-width:900px){
+  .nav-links{display:flex;list-style:none;gap:28px}
+  .nav-links a{font-size:15px;font-weight:500;color:var(--ink-body);text-decoration:none;transition:color .18s}
+  .nav-links a:hover{color:var(--ink-hi)}
+}
+
+/* ═══════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════ */
+#hero{
+  padding-top:calc(64px + 44px);padding-bottom:64px;position:relative;overflow:hidden;
+}
+@media(min-width:900px){#hero{padding-top:calc(76px + 40px);padding-bottom:96px}}
+.hero-glow{
+  position:absolute;top:-12%;left:50%;transform:translateX(-50%);
+  width:min(760px,120vw);height:600px;pointer-events:none;
+  background:radial-gradient(ellipse,rgba(213,177,131,.07) 0%,transparent 62%);
+}
+.hero-grid{position:relative;display:flex;flex-direction:column;gap:44px}
+@media(min-width:900px){
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:64px;align-items:center}
+}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:9px;margin-bottom:24px;
+  background:rgba(255,255,255,.03);border:1px solid var(--line-strong);
+  border-radius:var(--r-pill);padding:8px 15px;
+}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:pulse 2.4s ease-in-out infinite}
+.hero-badge span{font-family:var(--fm);font-size:var(--t-micro);color:var(--ink-body);letter-spacing:.04em}
+.hero-badge b{color:var(--ink-hi);font-weight:500}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+
+.hero-h1{margin-bottom:22px}
+.hero-lede{font-size:18px;color:var(--ink-body);max-width:560px;margin-bottom:32px;line-height:1.55}
+@media(min-width:768px){.hero-lede{font-size:19px}}
+.hero-lede b{color:var(--ink-hi);font-weight:600}
+
+.hero-phone-col{display:flex;justify-content:center}
+@media(min-width:900px){.hero-phone-col{justify-content:flex-end}}
+
+/* ═══════════════════════════════════════════════════════
+   PHONE MOCKUP (shared)
+═══════════════════════════════════════════════════════ */
+.phone{
+  width:238px;background:#060608;border-radius:42px;
+  border:1px solid rgba(255,255,255,.09);position:relative;overflow:hidden;flex-shrink:0;
+  box-shadow:0 0 0 .5px rgba(0,0,0,.8),0 34px 76px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.phone-inner{position:relative;padding:48px 14px 18px;display:flex;flex-direction:column;gap:7px}
+.p-island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:26px;background:#000;border-radius:18px;z-index:10}
+.p-bar{display:flex;justify-content:space-between;align-items:center;padding:0 2px;margin-bottom:2px}
+.p-time{font-family:var(--fm);font-size:10px;color:rgba(255,255,255,.35)}
+.p-batt{width:19px;height:9px;border:1.2px solid rgba(255,255,255,.3);border-radius:2px;position:relative}
+.p-batt::after{content:'';position:absolute;inset:1.5px 5px 1.5px 1.5px;background:rgba(255,255,255,.35);border-radius:.5px}
+.p-batt::before{content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);width:2.5px;height:5px;background:rgba(255,255,255,.25);border-radius:0 1px 1px 0}
+.p-label{font-family:var(--fm);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.p-greet{font-size:11px;font-weight:500;color:rgba(255,255,255,.28);padding:2px 2px 0}
+.p-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:11px 12px}
+.p-grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.p-tag{display:inline-flex;align-items:center;gap:5px;font-family:var(--fm);font-size:8px;letter-spacing:.05em;padding:3px 9px;border-radius:var(--r-pill)}
 .preview-tag{
-  position:absolute;top:14px;right:-30px;z-index:11;
-  background:rgba(192,162,106,.9);color:#0A0A0A;
+  position:absolute;top:15px;right:-30px;z-index:11;
+  background:rgba(213,177,131,.92);color:var(--gold-ink);
   font-family:var(--fm);font-size:7px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
   padding:3px 32px;transform:rotate(45deg);
 }
 
-/* ─────────────────────────────────────────────────────
-   HERO
-───────────────────────────────────────────────────── */
-#hero{
-  min-height:100dvh;padding-top:54px;
-  display:flex;flex-direction:column;justify-content:flex-start;
-  position:relative;overflow:hidden;
-}
-.hero-glow{
-  position:absolute;top:-15%;left:50%;transform:translateX(-50%);
-  width:720px;height:620px;pointer-events:none;
-  background:radial-gradient(ellipse,rgba(192,162,106,.07) 0%,transparent 65%);
-}
-.hero-content{padding:44px 20px 0}
-@media(min-width:640px){.hero-content{padding:56px 0 0;max-width:680px;margin:0 auto}}
-@media(min-width:1000px){
-  #hero{flex-direction:row;align-items:center;justify-content:center;padding-top:54px}
-  .hero-content{padding:0;flex:1;max-width:520px;margin:0 80px 0 0}
-}
-
-.hero-pill{
-  display:inline-flex;align-items:center;gap:8px;margin-bottom:22px;
-  background:rgba(255,255,255,.03);border:1px solid var(--rim);
-  border-radius:var(--rp);padding:7px 14px;
-}
-.hero-pill .eyebrow-dot{margin:0}
-.hero-pill span{font-family:var(--fm);font-size:var(--step--1);color:var(--t2);letter-spacing:.06em}
-.hero-pill b{color:var(--t1);font-weight:600}
-
-.hero-h1{margin-bottom:18px}
-.hero-h1 .muted{color:var(--au)}
-.hero-lede{font-size:var(--step-2);color:var(--t2);max-width:36ch;margin-bottom:30px;line-height:1.55}
-.hero-lede b{color:var(--t1);font-weight:600}
-
-.hero-form{max-width:440px}
-.hero-trust{display:flex;align-items:center;gap:7px;margin-top:14px}
-.hero-trust svg{flex-shrink:0}
-.hero-trust span{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.03em}
-
-.hero-phone{display:flex;justify-content:center;align-items:flex-start;padding:50px 20px 0;position:relative}
-@media(min-width:1000px){.hero-phone{padding:0;flex-shrink:0;align-items:center}}
-
-/* dashboard phone content */
-.dp-ring{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 0 6px}
-.dp-ring-wrap{position:relative;width:88px;height:88px}
+/* focus ring */
+.ring-wrap{position:relative;width:96px;height:96px;margin:0 auto}
 .ring-svg{transform:rotate(-90deg);display:block;overflow:visible}
-.ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:4}
-.ring-fill{fill:none;stroke-width:4;stroke-linecap:round;stroke-dasharray:244;stroke-dashoffset:244;transition:stroke-dashoffset 1.8s cubic-bezier(.22,1,.36,1)}
-.ring-fill.go{stroke-dashoffset:61}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:7}
+.ring-fill{fill:none;stroke:var(--gold);stroke-width:7;stroke-linecap:round;stroke-dasharray:427;stroke-dashoffset:427;transition:stroke-dashoffset 1.2s var(--ease)}
+.ring-fill.go{stroke-dashoffset:73}
 .ring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.ring-num{font-size:22px;font-weight:700;color:var(--t1);line-height:1;letter-spacing:-.02em}
-.ring-lbl{font-family:var(--fm);font-size:7px;color:rgba(255,255,255,.3);letter-spacing:.09em;margin-top:2px}
+.ring-num{font-size:24px;font-weight:700;color:var(--ink-hi);line-height:1;letter-spacing:-.02em}
+.ring-lbl{font-family:var(--fm);font-size:7px;color:rgba(255,255,255,.3);letter-spacing:.1em;margin-top:3px}
+
+.dp-ring{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0 4px}
 .dp-session{background:rgba(106,128,160,.1);border:1px solid rgba(106,128,160,.2);border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between}
-.dp-ses-title{font-size:11px;font-weight:600;margin-bottom:2px}
-.dp-ses-sub{font-family:var(--fm);font-size:7.5px;color:var(--sl);letter-spacing:.05em}
-.dp-play{width:26px;height:26px;border-radius:50%;background:var(--sl);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.dp-play-arrow{width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:6px solid #fff;margin-left:2px}
-.dp-id{background:rgba(192,162,106,.07);border:1px solid rgba(192,162,106,.14);border-radius:10px;padding:9px 11px;display:flex;align-items:center;justify-content:space-between}
-.dp-id-name{font-size:10.5px;font-weight:600;color:var(--au)}
-.dp-id-tag{font-family:var(--fm);font-size:7px;color:var(--bg);background:var(--au);padding:3px 7px;border-radius:var(--rp)}
+.dp-ses-title{font-size:11px;font-weight:600;color:var(--ink-hi);margin-bottom:2px}
+.dp-ses-sub{font-family:var(--fm);font-size:7.5px;color:#8DA2C0;letter-spacing:.05em}
+.dp-play{width:26px;height:26px;border-radius:50%;background:#6A80A0;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dp-play::after{content:'';width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:6px solid #fff;margin-left:2px}
+.dp-id{background:var(--gold-10);border:1px solid var(--gold-18);border-radius:10px;padding:9px 11px;display:flex;align-items:center;justify-content:space-between}
+.dp-id-name{font-size:10.5px;font-weight:600;color:var(--gold)}
+.dp-id-tag{font-family:var(--fm);font-size:7px;color:var(--gold-ink);background:var(--gold);padding:3px 7px;border-radius:var(--r-pill)}
 
-/* ─────────────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════
    PAIN
-───────────────────────────────────────────────────── */
-#pain{background:var(--bg2)}
-.pain-items{display:flex;flex-direction:column;gap:1px;margin-top:8px}
-.pain-item{padding:24px 0;border-bottom:1px solid var(--rim)}
-.pain-item:last-child{border-bottom:none}
-.pain-n{font-family:var(--fm);font-size:var(--step--1);color:var(--t4);letter-spacing:.1em;margin-bottom:8px}
-.pain-item p{font-size:clamp(17px,4vw,21px);font-weight:600;line-height:1.38;letter-spacing:-.015em;color:var(--t2)}
-.pain-item p strong{color:var(--t1)}
+═══════════════════════════════════════════════════════ */
+.pain-items{display:flex;flex-direction:column;margin-top:8px}
+.pain-item{
+  display:grid;grid-template-columns:1fr;gap:6px;
+  padding:24px 0;border-bottom:1px solid var(--line);
+}
+.pain-item:first-child{border-top:1px solid var(--line)}
+@media(min-width:768px){.pain-item{grid-template-columns:80px 1fr;gap:0;align-items:baseline;padding:28px 0}}
+.pain-n{font-family:var(--fm);font-size:var(--t-micro);color:var(--gold);letter-spacing:.1em}
+.pain-item p{font-size:clamp(18px,4.6vw,24px);font-weight:600;line-height:1.38;letter-spacing:-.015em;color:var(--ink-body)}
+.pain-item p strong{color:var(--ink-hi)}
+.pain-cta{margin-top:36px;display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+.pain-cta p{font-size:18px;color:var(--ink-body)}
+.pain-cta p b{color:var(--ink-hi);font-weight:600}
 
-/* ─────────────────────────────────────────────────────
-   SHIFT / HOW
-───────────────────────────────────────────────────── */
-#how{background:var(--bg)}
-.how-grid{display:flex;flex-direction:column;gap:10px;margin-top:8px}
-.how-step{background:var(--sur);border:1px solid var(--rim);border-radius:var(--r2);padding:26px 22px;transition:border-color .2s}
-.how-step:hover{border-color:var(--rimh)}
+/* ═══════════════════════════════════════════════════════
+   OBJECTIONS
+═══════════════════════════════════════════════════════ */
+.diff-list{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px}
+@media(min-width:640px){.diff-list{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.diff-list{grid-template-columns:repeat(4,1fr)}}
+.diff-card{
+  background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-card);
+  padding:24px;transition:border-color .15s,transform .15s;
+}
+@media(min-width:768px){.diff-card{padding:32px}}
+@media(hover:hover){.diff-card:hover{border-color:var(--line-strong);transform:translateY(-2px)}}
+.diff-tool{font-family:var(--fm);font-size:var(--t-micro);color:var(--ink-dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.diff-miss{
+  display:inline-block;font-family:var(--fm);font-size:11px;color:var(--red);
+  background:rgba(201,138,138,.08);border:1px solid rgba(201,138,138,.2);
+  border-radius:var(--r-pill);padding:3px 10px;letter-spacing:.03em;margin-bottom:14px;
+}
+.diff-card p{font-size:15px;color:var(--ink-body);line-height:1.6}
+.diff-card p strong{color:var(--ink-hi);font-weight:600}
+.diff-kicker{
+  margin-top:32px;font-size:clamp(19px,4.4vw,24px);font-weight:600;
+  letter-spacing:-.02em;color:var(--ink-body);max-width:26ch;line-height:1.35;
+}
+.diff-kicker b{color:var(--gold);font-weight:700}
+
+/* ═══════════════════════════════════════════════════════
+   SOLUTION
+═══════════════════════════════════════════════════════ */
+.how-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px}
+@media(min-width:1000px){.how-grid{grid-template-columns:repeat(3,1fr)}}
+.how-step{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-card);padding:24px;transition:border-color .15s}
+@media(min-width:768px){.how-step{padding:32px}}
+@media(hover:hover){.how-step:hover{border-color:var(--line-strong)}}
 .how-n{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:34px;height:34px;border-radius:50%;
-  font-family:var(--fm);font-size:13px;font-weight:500;color:var(--au);
-  background:var(--au10);border:1px solid var(--au18);margin-bottom:16px;
+  display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;
+  font-family:var(--fm);font-size:14px;font-weight:500;color:var(--gold);
+  background:var(--gold-10);border:1px solid var(--gold-18);margin-bottom:18px;
 }
-.how-step h3{margin-bottom:8px}
-.how-step p{font-size:var(--step-1);color:var(--t3);line-height:1.68;max-width:46ch}
-.how-step p strong{color:var(--t2)}
-@media(min-width:1000px){.how-grid{display:grid;grid-template-columns:repeat(3,1fr)}}
+.how-step h3{margin-bottom:10px}
+.how-step p{font-size:15px;color:var(--ink-body);line-height:1.65}
+.how-step p strong{color:var(--ink-hi);font-weight:600}
+.signature{
+  margin-top:16px;display:flex;flex-direction:column;gap:6px;
+  background:linear-gradient(135deg,rgba(213,177,131,.1),rgba(213,177,131,.03));
+  border:1px solid var(--gold-28);border-radius:var(--r-card);padding:24px;
+}
+@media(min-width:768px){.signature{flex-direction:row;align-items:center;gap:20px;padding:26px 32px}}
+.sig-label{font-family:var(--fm);font-size:var(--t-micro);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);flex-shrink:0;font-weight:500}
+.signature p{font-size:16px;color:var(--ink-body);line-height:1.55}
+.signature p strong{color:var(--ink-hi);font-weight:600}
 
-/* ─────────────────────────────────────────────────────
-   SCREENS
-───────────────────────────────────────────────────── */
-#screens{background:var(--bg2);overflow:hidden}
-.screens-intro{font-size:var(--step-2);color:var(--t2);line-height:1.6;margin-bottom:40px;max-width:38ch}
-.screens-scroll{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 20px 20px;margin:0 -20px}
-.screens-scroll::-webkit-scrollbar{display:none}
-.screen-item{flex-shrink:0;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
-.screen-caption{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.1em;text-transform:uppercase}
-@media(min-width:1000px){
-  .screens-scroll{overflow-x:visible;scroll-snap-type:none;justify-content:center;padding:0;margin:0;flex-wrap:wrap;gap:20px}
-  .screen-item{scroll-snap-align:none}
-}
-.rsc-val{font-size:54px;font-weight:700;line-height:1;letter-spacing:-.04em;color:var(--gn)}
-.rsc-protocol{font-size:10.5px;font-weight:500;color:rgba(111,168,130,.65);margin-top:3px}
-.bars{display:flex;flex-direction:column;gap:7px}
-.bar-r{display:flex;align-items:center;gap:7px}
-.bar-l{font-family:var(--fm);font-size:7.5px;color:rgba(255,255,255,.28);width:44px;flex-shrink:0}
-.bar-t{flex:1;height:2px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden}
-.bar-f{height:100%;border-radius:99px;transition:width 1.6s cubic-bezier(.22,1,.36,1)}
-.bar-v{font-family:var(--fm);font-size:7.5px;color:rgba(255,255,255,.3);width:20px;text-align:right;flex-shrink:0}
-.r-begin{background:rgba(111,168,130,.85);border-radius:10px;padding:9px 12px;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:2px}
-.r-begin span{font-size:11px;font-weight:600;color:#060608}
+/* ═══════════════════════════════════════════════════════
+   PROOF
+═══════════════════════════════════════════════════════ */
+.proof-grid{display:grid;grid-template-columns:1fr;gap:32px;margin-top:8px;align-items:start;justify-items:center}
+@media(min-width:768px){.proof-grid{grid-template-columns:1fr 1fr;gap:24px}}
+.proof-item{display:flex;flex-direction:column;align-items:center;gap:16px;max-width:320px}
+.proof-cap{text-align:center}
+.proof-cap b{display:block;font-size:16px;font-weight:700;color:var(--ink-hi);letter-spacing:-.015em;margin-bottom:4px}
+.proof-cap span{font-size:14px;color:var(--ink-body);line-height:1.5}
+
+/* session phone bits */
 .ses-status{display:inline-flex;align-items:center;gap:6px;margin-bottom:4px}
-.ses-dot{width:5px;height:5px;border-radius:50%;background:var(--gn);animation:pulse 1.8s ease-in-out infinite}
-.ses-status-lbl{font-family:var(--fm);font-size:8px;color:var(--gn);letter-spacing:.08em}
-.big-ring-wrap{position:relative;width:120px;height:120px;margin:6px auto 4px}
+.ses-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 1.8s ease-in-out infinite}
+.ses-status-lbl{font-family:var(--fm);font-size:8px;color:var(--green);letter-spacing:.08em;text-transform:uppercase}
+.br-wrap{position:relative;width:124px;height:124px;margin:6px auto 4px}
 .br-svg{transform:rotate(-90deg);display:block;overflow:visible}
 .br-bg{fill:none;stroke:rgba(255,255,255,.05);stroke-width:3.5}
-.br-fill{fill:none;stroke:var(--sl);stroke-width:3.5;stroke-linecap:round;stroke-dasharray:345;stroke-dashoffset:345;transition:stroke-dashoffset 2s cubic-bezier(.22,1,.36,1)}
-.br-fill.go{stroke-dashoffset:103}
+.br-fill{fill:none;stroke:#6A80A0;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:345;stroke-dashoffset:345;transition:stroke-dashoffset 1.2s var(--ease)}
+.br-fill.go{stroke-dashoffset:24}
 .br-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.br-time{font-size:24px;font-weight:700;letter-spacing:-.03em;line-height:1}
-.br-of{font-family:var(--fm);font-size:8px;color:rgba(255,255,255,.25);letter-spacing:.05em;margin-top:4px}
+.br-time{font-size:25px;font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--ink-hi)}
+.br-of{font-family:var(--fm);font-size:8px;color:rgba(255,255,255,.25);margin-top:4px}
 .ses-score{text-align:center;margin:2px 0}
-.ses-score-l{font-family:var(--fm);font-size:7.5px;color:rgba(255,255,255,.28);letter-spacing:.1em;margin-bottom:2px}
-.ses-score-v{font-size:30px;font-weight:700;letter-spacing:-.03em;line-height:1}
-.ses-btns{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:2px}
-.ses-btn{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:9px;font-size:10px;font-weight:500;color:rgba(255,255,255,.6);text-align:center}
-.coach-hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.coach-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(106,128,160,.4),rgba(106,128,160,.8));display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.coach-n{font-size:10.5px;font-weight:600}
+.ses-score-l{font-family:var(--fm);font-size:7.5px;color:rgba(255,255,255,.28);letter-spacing:.1em;margin-bottom:3px}
+.ses-score-v{font-size:24px;font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--green)}
+.ses-btns{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:2px}
+.ses-btn{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:9px;font-size:10px;font-weight:500;color:rgba(255,255,255,.55);text-align:center}
+
+/* coach phone bits */
+.coach-hdr{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.coach-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,rgba(106,128,160,.4),rgba(106,128,160,.85));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.coach-n{font-size:10.5px;font-weight:600;color:var(--ink-hi)}
 .coach-r{font-family:var(--fm);font-size:7px;color:rgba(255,255,255,.3);letter-spacing:.04em}
 .bubble{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px 12px 12px 3px;padding:10px 11px;margin-bottom:6px}
-.bubble p{font-size:10.5px;color:rgba(255,255,255,.55);line-height:1.55}
-.bubble p strong{color:rgba(255,255,255,.88)}
+.bubble p{font-size:10.5px;color:rgba(255,255,255,.6);line-height:1.55}
+.bubble p strong{color:rgba(255,255,255,.9)}
 .coach-action{display:flex;align-items:center;gap:7px;background:rgba(106,128,160,.1);border:1px solid rgba(106,128,160,.2);border-radius:9px;padding:9px 11px;margin-top:4px}
-.coach-action span{font-size:10px;font-weight:500;color:rgba(106,128,160,.9)}
-.id-hero{background:rgba(192,162,106,.07);border:1px solid rgba(192,162,106,.14);border-radius:12px;padding:14px;text-align:center;margin-bottom:6px}
-.id-sup{font-family:var(--fm);font-size:7.5px;color:rgba(192,162,106,.55);letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
-.id-name{font-size:19px;font-weight:700;color:var(--au);letter-spacing:-.025em}
-.id-pct{font-family:var(--fm);font-size:8px;color:rgba(192,162,106,.5);margin-top:3px}
-.id-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:6px}
-.id-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:9px;padding:8px;text-align:center}
-.id-sv{font-size:15px;font-weight:700;line-height:1}
-.id-sl{font-family:var(--fm);font-size:7px;color:rgba(255,255,255,.28);letter-spacing:.07em;margin-top:3px}
-.spark{display:flex;align-items:flex-end;gap:3px;height:26px}
-.spark-b{flex:1;border-radius:2px 2px 0 0;background:rgba(106,128,160,.25)}
-.spark-b.hi{background:var(--sl)}
-.win{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:9px;padding:9px 11px;margin-top:5px;display:flex;align-items:center;justify-content:space-between}
-.win-l{font-family:var(--fm);font-size:7.5px;color:rgba(255,255,255,.28);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
-.win-v{font-size:12.5px;font-weight:600;color:var(--sl)}
-.win-badge{font-family:var(--fm);font-size:7px;background:rgba(106,128,160,.15);border:1px solid rgba(106,128,160,.2);color:var(--sl);padding:3px 8px;border-radius:var(--rp)}
+.coach-action span{font-size:10px;font-weight:500;color:#8DA2C0}
 
-/* ─────────────────────────────────────────────────────
-   IDENTITY
-───────────────────────────────────────────────────── */
-#identity{background:var(--bg)}
-.id-statement{font-size:clamp(22px,5.5vw,30px);font-weight:600;letter-spacing:-.022em;line-height:1.32;color:var(--t2);max-width:24ch;margin-bottom:10px}
-.id-statement strong{color:var(--t1)}
-.id-explain{font-size:var(--step-2);color:var(--t3);line-height:1.6;max-width:40ch}
-.id-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:32px}
-.id-chip{display:inline-flex;align-items:center;gap:6px;background:var(--sur);border:1px solid var(--rim);border-radius:var(--rp);padding:10px 16px;font-size:var(--step-1);font-weight:500;color:var(--t2);transition:border-color .2s,color .18s}
-.id-chip:hover{border-color:var(--rimh);color:var(--t1)}
-.id-chip-dot{width:6px;height:6px;border-radius:50%}
-.id-chip.gold{border-color:rgba(192,162,106,.22);color:var(--au);background:var(--au10)}
-.id-chip.gold .id-chip-dot{background:var(--au)}
-.id-chip:not(.gold) .id-chip-dot{background:var(--t3)}
-.id-footnote{margin-top:24px;font-size:var(--step-1);color:var(--t3);line-height:1.65}
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:1fr;gap:10px;margin-top:44px}
+@media(min-width:640px){.roadmap{grid-template-columns:repeat(3,1fr)}}
+.road-cell{background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.road-cell.now{border-color:rgba(157,199,162,.3);background:linear-gradient(135deg,rgba(157,199,162,.06),transparent)}
+.road-when{font-family:var(--fm);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
+.road-cell.now .road-when{color:var(--green)}
+.road-what{font-size:14px;color:var(--ink-body);line-height:1.45}
+.road-what b{color:var(--ink-hi);font-weight:600}
 
-/* ─────────────────────────────────────────────────────
-   DIFFERENT
-───────────────────────────────────────────────────── */
-#different{background:var(--bg2)}
-.diff-list{display:flex;flex-direction:column;gap:12px;margin-top:8px}
-.diff-card{background:var(--sur);border:1px solid var(--rim);border-radius:var(--r2);padding:20px;transition:border-color .2s}
-.diff-card:hover{border-color:var(--rimh)}
-.diff-tool{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
-.diff-miss{display:inline-block;font-family:var(--fm);font-size:10px;color:var(--er);background:rgba(168,104,104,.08);border:1px solid rgba(168,104,104,.14);border-radius:var(--rp);padding:3px 9px;letter-spacing:.04em;margin-bottom:10px}
-.diff-card p{font-size:var(--step-1);color:var(--t3);line-height:1.65}
-.diff-card p strong{color:var(--t2)}
-@media(min-width:640px){.diff-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}}
-@media(min-width:1000px){.diff-list{grid-template-columns:repeat(4,1fr)}}
-
-/* ─────────────────────────────────────────────────────
-   FAQ
-───────────────────────────────────────────────────── */
-#faq{background:var(--bg)}
-.faq-list{margin-top:8px}
-.faq-item{border-bottom:1px solid var(--rim)}
-.faq-btn{width:100%;text-align:left;background:none;border:none;padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;color:var(--t1);font-size:var(--step-2);font-weight:600;letter-spacing:-.015em;transition:color .18s;-webkit-tap-highlight-color:transparent}
-.faq-btn:hover{color:var(--au)}
-.faq-icon{width:22px;height:22px;min-width:22px;border-radius:50%;border:1px solid var(--rim);display:flex;align-items:center;justify-content:center;transition:transform .28s,border-color .2s,background .2s}
-.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--au10);border-color:var(--au18)}
-.faq-ans{max-height:0;overflow:hidden;transition:max-height .36s cubic-bezier(.4,0,.2,1)}
-.faq-ans-inner{padding:0 0 22px;font-size:var(--step-1);color:var(--t3);line-height:1.75;max-width:54ch}
-.faq-ans-inner strong{color:var(--t2)}
-
-/* ─────────────────────────────────────────────────────
-   FINAL CTA
-───────────────────────────────────────────────────── */
-#final{background:var(--bg2);text-align:center;position:relative;overflow:hidden}
-.final-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 100%,rgba(192,162,106,.07),transparent 60%)}
-#final h2 em{font-style:normal;color:var(--au)}
-.final-sub{font-size:var(--step-2);color:var(--t3);max-width:32ch;margin:14px auto 36px;line-height:1.6}
-.final-form{max-width:440px;margin:0 auto;text-align:left}
-.final-form .form-note{text-align:center}
-
-/* ─────────────────────────────────────────────────────
-   STICKY MOBILE CTA
-───────────────────────────────────────────────────── */
-.sticky-cta{
-  position:fixed;left:0;right:0;bottom:0;z-index:250;
-  padding:12px 16px calc(12px + env(safe-area-inset-bottom));
-  background:rgba(8,8,13,.92);border-top:1px solid var(--rim);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  transform:translateY(120%);transition:transform .35s cubic-bezier(.22,1,.36,1);
-}
-.sticky-cta.show{transform:translateY(0)}
-.sticky-cta button{width:100%;min-height:50px;border-radius:var(--r2);background:var(--au);color:#0A0A0A;font-size:var(--step-2);font-weight:600;border:none;cursor:pointer}
-@media(min-width:1000px){.sticky-cta{display:none}}
-
-/* ─────────────────────────────────────────────────────
-   FOOTER
-───────────────────────────────────────────────────── */
-footer{border-top:1px solid var(--rim);padding:28px 20px;padding-bottom:calc(28px + 80px)}
-@media(min-width:1000px){footer{padding-bottom:28px}}
-.foot{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.foot-logo{font-size:15px;font-weight:700;letter-spacing:-.03em}
-.foot-logo span{color:var(--au)}
-.foot-copy{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.05em}
-.foot-by{font-family:var(--fm);font-size:var(--step--1);color:var(--t3);letter-spacing:.04em}
-.foot-by a{color:var(--au);text-decoration:none}
-
-/* ─────────────────────────────────────────────────────
-   REFERRAL MODAL  (post-signup share experience)
-───────────────────────────────────────────────────── */
-.ref-overlay{
-  position:fixed;inset:0;z-index:1000;
-  display:flex;align-items:flex-end;justify-content:center;
-  padding:0;
-  background:rgba(4,4,8,.62);
-  backdrop-filter:blur(14px) saturate(120%);-webkit-backdrop-filter:blur(14px) saturate(120%);
-  opacity:0;visibility:hidden;pointer-events:none;
-  transition:opacity .35s cubic-bezier(.22,1,.36,1),visibility .35s;
-}
-.ref-overlay.on{opacity:1;visibility:visible;pointer-events:auto}
-@media(min-width:560px){.ref-overlay{align-items:center;padding:24px}}
-
-.ref-card{
-  position:relative;width:100%;max-width:440px;
-  background:linear-gradient(180deg,var(--sur) 0%,var(--bg2) 100%);
-  border:1px solid var(--rim);
-  border-radius:24px 24px 0 0;
-  padding:26px 22px calc(26px + env(safe-area-inset-bottom));
-  box-shadow:0 -24px 80px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05);
-  transform:translateY(28px) scale(.985);opacity:0;
-  transition:transform .42s cubic-bezier(.22,1,.36,1),opacity .42s cubic-bezier(.22,1,.36,1);
-  max-height:92dvh;overflow-y:auto;scrollbar-width:none;
-}
-.ref-card::-webkit-scrollbar{display:none}
-.ref-overlay.on .ref-card{transform:none;opacity:1}
-@media(min-width:560px){.ref-card{border-radius:24px;padding:30px 28px}}
-
-.ref-glow{
-  position:absolute;top:-40%;left:50%;transform:translateX(-50%);
-  width:420px;height:300px;pointer-events:none;
-  background:radial-gradient(ellipse,rgba(192,162,106,.14) 0%,transparent 65%);
-}
-
-.ref-badge{
-  display:inline-flex;align-items:center;gap:7px;
-  background:rgba(111,168,130,.1);border:1px solid rgba(111,168,130,.24);
-  color:var(--gn);border-radius:var(--rp);padding:6px 13px;
-  font-family:var(--fm);font-size:var(--step--1);font-weight:500;letter-spacing:.06em;
-  position:relative;
-}
-.ref-badge svg{flex-shrink:0}
-
-.ref-confirm{font-size:var(--step-1);color:var(--t2);margin:14px 0 4px;position:relative}
-.ref-confirm b{color:var(--t1);font-weight:600}
-.ref-title{font-size:var(--step-3);font-weight:700;letter-spacing:-.022em;line-height:1.12;position:relative}
-.ref-sub{font-size:var(--step-1);color:var(--t2);line-height:1.5;margin-top:8px;position:relative}
-.ref-sub b{color:var(--au);font-weight:600}
-
-.ref-stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:20px;position:relative}
-.ref-stat{
-  background:rgba(255,255,255,.03);border:1px solid var(--rim);
-  border-radius:var(--r2);padding:13px 14px;
-}
-.ref-stat.gold{background:var(--au10);border-color:var(--au18)}
-.ref-stat-l{font-family:var(--fm);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
-.ref-stat-v{font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.05}
-.ref-stat.gold .ref-stat-v{color:var(--au)}
-
-.ref-prog{margin-top:18px;position:relative}
-.ref-prog-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
-.ref-prog-count{font-family:var(--fm);font-size:var(--step-0);font-weight:500;color:var(--t1);letter-spacing:.04em}
-.ref-prog-count b{color:var(--au)}
-.ref-prog-hint{font-family:var(--fm);font-size:8.5px;color:var(--t3);letter-spacing:.03em}
-.ref-prog-track{height:8px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden;display:flex;gap:4px;padding:0}
-.ref-prog-seg{flex:1;border-radius:99px;background:rgba(255,255,255,.05);transition:background .4s}
-.ref-prog-seg.fill{background:linear-gradient(90deg,var(--au),#d9bd86)}
-
-.ref-link-l{font-family:var(--fm);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin:22px 0 8px;position:relative}
-.ref-link{
-  display:flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,.04);border:1px solid var(--rim);
-  border-radius:var(--r2);padding:11px 12px 11px 14px;position:relative;
-}
-.ref-link-url{flex:1;font-family:var(--fm);font-size:var(--step-0);color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.01em}
-.ref-link-copy{
-  flex-shrink:0;display:inline-flex;align-items:center;gap:6px;
-  background:var(--au);color:#0A0A0A;border:none;cursor:pointer;
-  border-radius:var(--r1);padding:8px 13px;font-size:var(--step-0);font-weight:600;
-  transition:opacity .18s,transform .15s;-webkit-tap-highlight-color:transparent;
-}
-.ref-link-copy:hover{opacity:.92;transform:translateY(-1px)}
-.ref-link-copy svg{flex-shrink:0}
-
-.ref-share-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px;position:relative}
-.ref-share{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
-  background:rgba(255,255,255,.03);border:1px solid var(--rim);
-  border-radius:var(--r2);padding:14px 6px;cursor:pointer;
-  transition:border-color .2s,background .18s,transform .15s;
+/* ═══════════════════════════════════════════════════════
+   IDENTITY (interactive)
+═══════════════════════════════════════════════════════ */
+.id-statement{font-size:clamp(24px,5.5vw,34px);font-weight:600;letter-spacing:-.022em;line-height:1.28;color:var(--ink-body);max-width:22ch;margin-bottom:14px}
+.id-statement strong{color:var(--ink-hi)}
+.id-explain{font-size:var(--t-body);color:var(--ink-body);line-height:1.6;max-width:44ch}
+.id-pills{display:flex;flex-wrap:wrap;gap:9px;margin-top:36px}
+.id-pill{
+  display:inline-flex;align-items:center;gap:8px;min-height:46px;
+  background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-pill);
+  padding:0 18px;font-size:15px;font-weight:500;color:var(--ink-body);cursor:pointer;
+  transition:border-color .18s,color .18s,background .18s;
   -webkit-tap-highlight-color:transparent;
 }
-.ref-share:hover{border-color:var(--rimh);background:rgba(255,255,255,.05);transform:translateY(-1px)}
-.ref-share:active{transform:translateY(0)}
-.ref-share-ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ref-share-ic svg{width:18px;height:18px;display:block}
-.ref-share span{font-size:var(--step--1);font-weight:600;color:var(--t2);letter-spacing:.01em}
-.ref-share:hover span{color:var(--t1)}
-/* brand icon tints */
-.ic-wa{background:rgba(37,211,102,.12);color:#25D366}
-.ic-gm{background:rgba(234,67,53,.12);color:#EA4335}
-.ic-sn{background:rgba(255,252,0,.14);color:#FFFC00}
-.ic-ig{background:linear-gradient(135deg,rgba(240,148,51,.16),rgba(214,41,118,.16),rgba(150,47,191,.16));color:#E1306C}
-.ic-cp{background:var(--au10);color:var(--au)}
-.ic-sh{background:var(--sl10);color:var(--sl)}
+.id-pill::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--ink-dim);transition:background .18s;flex-shrink:0}
+@media(hover:hover){.id-pill:hover{border-color:var(--line-strong);color:var(--ink-hi)}}
+.id-pill[aria-pressed="true"]{background:var(--gold-10);border-color:var(--gold-28);color:var(--gold)}
+.id-pill[aria-pressed="true"]::before{background:var(--gold)}
 
-.ref-later{
-  width:100%;background:none;border:none;cursor:pointer;
-  margin-top:18px;padding:8px;color:var(--t3);font-size:var(--step-1);font-weight:500;
-  transition:color .18s;-webkit-tap-highlight-color:transparent;position:relative;
+.id-profile{
+  margin-top:24px;background:var(--bg-2);border:1px solid var(--line);
+  border-radius:var(--r-card);padding:24px;max-width:560px;
 }
-.ref-later:hover{color:var(--t2)}
+@media(min-width:768px){.id-profile{padding:28px 32px}}
+.id-profile h3{margin-bottom:10px;color:var(--gold)}
+.id-profile p{font-size:15px;color:var(--ink-body);line-height:1.6;margin-bottom:16px}
+.id-meta{
+  display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--fm);font-size:12px;
+  color:var(--ink-dim);letter-spacing:.03em;padding-top:16px;border-top:1px solid var(--line);
+}
+.id-meta b{color:var(--ink-body);font-weight:500}
+.id-cta{margin-top:32px;display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.id-cta .micro{max-width:40ch}
 
-.ref-close{
-  position:absolute;top:18px;right:18px;z-index:5;
-  width:32px;height:32px;border-radius:50%;
-  background:rgba(255,255,255,.05);border:1px solid var(--rim);
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  color:var(--t2);transition:background .18s,color .18s;-webkit-tap-highlight-color:transparent;
+/* ═══════════════════════════════════════════════════════
+   FOUNDER
+═══════════════════════════════════════════════════════ */
+.founder{display:flex;flex-direction:column;gap:24px;max-width:760px}
+@media(min-width:640px){.founder{flex-direction:row;gap:28px;align-items:flex-start}}
+.founder-photo{
+  width:96px;height:96px;border-radius:24px;flex-shrink:0;
+  background:linear-gradient(140deg,var(--bg-3),var(--bg-2));
+  border:1px solid var(--line-strong);
+  display:flex;align-items:center;justify-content:center;
+  font-size:34px;font-weight:700;color:var(--gold);letter-spacing:-.03em;
 }
-.ref-close:hover{background:rgba(255,255,255,.09);color:var(--t1)}
+.founder blockquote{font-size:clamp(18px,3.6vw,21px);color:var(--ink-body);line-height:1.55;letter-spacing:-.01em}
+.founder blockquote strong{color:var(--ink-hi);font-weight:600}
+.founder-sig{margin-top:18px;font-family:var(--fm);font-size:var(--t-micro);color:var(--ink-dim);letter-spacing:.03em}
+.founder-sig b{color:var(--gold);font-weight:500}
+.founder-sig a{color:var(--gold);text-decoration:none}
+
+/* ═══════════════════════════════════════════════════════
+   FAQ
+═══════════════════════════════════════════════════════ */
+.faq-list{margin-top:8px;border-top:1px solid var(--line)}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-item summary{
+  list-style:none;cursor:pointer;padding:22px 0;
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  font-size:17px;font-weight:600;color:var(--ink-hi);letter-spacing:-.015em;
+  transition:color .18s;-webkit-tap-highlight-color:transparent;
+}
+.faq-item summary::-webkit-details-marker{display:none}
+@media(hover:hover){.faq-item summary:hover{color:var(--gold)}}
+.faq-icon{
+  width:24px;height:24px;min-width:24px;border-radius:50%;border:1px solid var(--line-strong);
+  display:flex;align-items:center;justify-content:center;color:var(--ink-body);
+  transition:transform .15s,background .15s,border-color .15s,color .15s;
+}
+.faq-item[open] .faq-icon{transform:rotate(45deg);background:var(--gold-10);border-color:var(--gold-18);color:var(--gold)}
+.faq-ans{padding:0 0 24px;font-size:15px;color:var(--ink-body);line-height:1.75;max-width:60ch}
+.faq-ans strong{color:var(--ink-hi);font-weight:600}
+
+/* ═══════════════════════════════════════════════════════
+   FINAL CTA
+═══════════════════════════════════════════════════════ */
+#final{text-align:center;position:relative;overflow:hidden}
+#final::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 118%,rgba(213,177,131,.14),transparent 58%);
+}
+#final .wrap{position:relative}
+.final-badge{display:inline-flex;align-items:center;gap:9px;margin-bottom:22px;background:rgba(255,255,255,.03);border:1px solid var(--line-strong);border-radius:var(--r-pill);padding:8px 15px}
+.final-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2.4s ease-in-out infinite}
+.final-badge span{font-family:var(--fm);font-size:var(--t-micro);color:var(--ink-body);letter-spacing:.04em}
+.final-badge b{color:var(--ink-hi);font-weight:500}
+#final h2{margin-bottom:16px}
+.final-sub{font-size:18px;color:var(--ink-body);max-width:34ch;margin:0 auto 36px;line-height:1.55}
+.final-cap{max-width:460px;margin:0 auto;text-align:left}
+.final-cap .cap-note{text-align:center}
+.final-cap .cap-suc{align-items:center;text-align:center}
+.final-cap .cap-suc .suc-top{flex-direction:column;text-align:center}
+.final-cap .cap-suc .suc-copy{align-self:center}
+
+/* ═══════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════ */
+footer{border-top:1px solid var(--line);padding:32px 0;padding-bottom:calc(32px + 88px)}
+@media(min-width:900px){footer{padding-bottom:32px}}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
+.foot-logo{font-size:16px;font-weight:700;letter-spacing:-.03em;color:var(--ink-hi)}
+.foot-logo span{color:var(--gold)}
+.foot a{font-family:var(--fm);font-size:var(--t-micro);color:var(--gold);text-decoration:none;letter-spacing:.03em}
+.foot a:hover{color:var(--gold-hi)}
+.foot-copy{font-family:var(--fm);font-size:var(--t-micro);color:var(--ink-dim);letter-spacing:.04em}
+
+/* ═══════════════════════════════════════════════════════
+   STICKY MOBILE CTA
+═══════════════════════════════════════════════════════ */
+.sticky-cta{
+  position:fixed;left:0;right:0;bottom:0;z-index:350;
+  display:flex;align-items:center;gap:14px;
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+  background:rgba(9,9,11,.86);border-top:1px solid var(--line);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  transform:translateY(120%);transition:transform .35s var(--ease);
+}
+.sticky-cta.show{transform:translateY(0)}
+@media(min-width:900px){.sticky-cta{display:none}}
+.sticky-meta{display:flex;flex-direction:column;line-height:1.3;flex-shrink:0}
+.sticky-meta b{font-family:var(--fm);font-size:12px;color:var(--ink-hi);font-weight:500;letter-spacing:.03em}
+.sticky-meta span{font-family:var(--fm);font-size:10px;color:var(--ink-dim);letter-spacing:.05em}
+.sticky-cta button{
+  position:relative;flex:1;min-height:52px;border-radius:var(--r-pill);
+  background:var(--gold);color:var(--gold-ink);font-size:16px;font-weight:600;border:none;cursor:pointer;
+  transition:background .15s;
+}
+.sticky-cta button:hover{background:var(--gold-hi)}
+.sticky-cta.pulse button::after{
+  content:'';position:absolute;inset:0;border-radius:var(--r-pill);
+  border:2px solid var(--gold);animation:ring-pulse .9s var(--ease) 1;
+}
+@keyframes ring-pulse{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(1.14)}}
 
 /* toast */
-.ref-toast{
-  position:fixed;left:50%;bottom:32px;
-  transform:translateX(-50%) translateY(20px);
-  z-index:1100;display:inline-flex;align-items:center;gap:9px;
-  background:var(--rsd);border:1px solid var(--rimh);
-  border-radius:var(--rp);padding:11px 18px;
-  font-size:var(--step-0);font-weight:500;color:var(--t1);
-  box-shadow:0 16px 40px rgba(0,0,0,.5);
+.toast{
+  position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));
+  transform:translateX(-50%) translateY(20px);z-index:500;
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--bg-3);border:1px solid var(--line-strong);border-radius:var(--r-pill);
+  padding:11px 18px;font-size:14px;font-weight:500;color:var(--ink-hi);
+  box-shadow:0 16px 40px rgba(0,0,0,.5);max-width:90vw;
   opacity:0;visibility:hidden;pointer-events:none;
-  transition:opacity .3s,transform .3s,visibility .3s;max-width:90vw;
+  transition:opacity .3s,transform .3s,visibility .3s;
 }
-.ref-toast.on{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
-.ref-toast svg{flex-shrink:0;color:var(--gn)}
+.toast.on{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.toast svg{flex-shrink:0;color:var(--green)}
 
+body.signed .sticky-cta{display:none!important}
+
+/* ═══════════════════════════════════════════════════════
+   REDUCED MOTION
+═══════════════════════════════════════════════════════ */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .rv{opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ═══ NAV ═══ -->
 <nav>
-  <a href="#" class="nav-logo">Kairos<span>.</span></a>
+  <a href="#hero" class="nav-logo">Kairos<span>.</span></a>
   <ul class="nav-links">
     <li><a href="#how">How it works</a></li>
     <li><a href="#identity">Focus type</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
-  <button class="nav-btn" onclick="jumpForm('hero')">Join waitlist</button>
+  <button class="nav-btn" onclick="jumpForm('hero')">Get early access</button>
 </nav>
 
-<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<!-- ═══ HERO ═══ -->
 <section id="hero">
   <div class="hero-glow"></div>
-
-  <div class="hero-content rv">
-    <div class="hero-pill">
-      <span class="eyebrow-dot"></span>
-      <!-- EDIT: replace 2,400 with your real waitlist count. A true small number still converts. -->
-      <span><b>2,400+</b> on the waitlist · early access</span>
-    </div>
-
-    <h1 class="hero-h1">Take your<br>attention<br><span class="muted">back.</span></h1>
-
-    <p class="hero-lede">Kairos is the focus trainer for people losing their day to their phone. <b>Lock in, do real deep work, and watch your attention come back</b> — one session at a time.</p>
-
-    <div id="hero-wrap" class="hero-form">
-      <form class="form" id="hero-form" onsubmit="return false">
-        <div class="form-row">
-          <input type="email" class="inp" id="hero-email" placeholder="your@email.com" autocomplete="email" inputmode="email" aria-label="Email">
-          <button class="btn btn-gold" id="hero-btn" type="button" onclick="submitForm('hero')">Get early access</button>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          <span><b class="countup" data-to="2417">2,417</b> people already in</span>
         </div>
-        <p class="form-err" id="hero-err">Please enter a valid email address.</p>
-        <div class="hero-trust">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L6.5 9.7 3.3 11l.6-3.6L1.3 4.8l3.6-.5L6.5 1z" stroke="#464440" stroke-width="1" stroke-linejoin="round"/></svg>
-          <span>Free to join · no spam · founding-member pricing locked in</span>
-        </div>
-      </form>
+        <h1 class="hero-h1">You're not lazy.<br>You're <span class="gold">outgunned.</span></h1>
+        <p class="hero-lede">Thousands of engineers are paid to keep you scrolling. Kairos is the focus trainer that <b>rebuilds your attention until your phone can't win</b> — one 50-minute session at a time.</p>
 
-      <div class="form-suc" id="hero-suc">
-        <div class="suc-row">
-          <div class="suc-check">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10.5l4 4 8-8" stroke="#6FA882" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div>
-            <p class="suc-title">You're in. Welcome to Kairos.</p>
-            <p class="suc-body">You'll be one of the first invited when early access opens.</p>
+        <div class="capture" id="hero-cap">
+          <form class="cap-form" id="hero-form" onsubmit="return false">
+            <div class="cap-row">
+              <input type="email" class="inp" id="hero-email" placeholder="your@email.com" autocomplete="email" inputmode="email" aria-label="Email address">
+              <button class="btn btn-gold" id="hero-btn" type="button" onclick="submitForm('hero')">Get early access</button>
+            </div>
+            <p class="cap-err" id="hero-err">Please enter a valid email address.</p>
+            <p class="cap-note">One email when your invite is ready. No spam, ever. Unsubscribe anytime.</p>
+          </form>
+          <div class="cap-suc" id="hero-suc">
+            <div class="suc-top">
+              <div class="suc-check"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10.5l4 4 8-8" stroke="#9DC7A2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div><p class="suc-title">You're in. You're <b>#2,418</b>.</p></div>
+            </div>
+            <p class="suc-ref">Every friend who joins with your link moves you up <strong>10 spots</strong>.</p>
+            <button class="suc-copy" onclick="copyRefLink(this)">
+              <svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4.2" y="4.2" width="7.5" height="7.5" rx="1.6"/><path d="M9.4 4.2V3a1.4 1.4 0 0 0-1.4-1.4H3A1.4 1.4 0 0 0 1.6 3v5a1.4 1.4 0 0 0 1.4 1.4h1.2"/></svg>
+              Copy my link
+            </button>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Phone -->
-  <div class="hero-phone rv d2">
-    <div class="phone" style="width:234px">
-      <span class="preview-tag">Preview</span>
-      <div class="p-island"></div>
-      <div class="phone-inner" style="height:490px">
-        <div class="p-bar">
-          <span class="p-time">22:14</span>
-          <div class="p-batt"><div class="p-batt-body"></div></div>
-        </div>
-        <p class="p-greet">Good evening, Louay.</p>
-
-        <div class="dp-ring">
-          <div class="dp-ring-wrap">
-            <svg class="ring-svg" width="88" height="88" viewBox="0 0 88 88">
-              <circle class="ring-bg" cx="44" cy="44" r="38"/>
-              <circle class="ring-fill" id="hero-ring" cx="44" cy="44" r="38" stroke="var(--sl)"/>
-            </svg>
-            <div class="ring-inner">
-              <span class="ring-num">83</span>
-              <span class="ring-lbl">FOCUS</span>
+      <!-- Phone -->
+      <div class="hero-phone-col rv d1">
+        <div class="phone">
+          <span class="preview-tag">Preview</span>
+          <div class="p-island"></div>
+          <div class="phone-inner">
+            <div class="p-bar"><span class="p-time">22:14</span><div class="p-batt"></div></div>
+            <p class="p-greet">Good evening.</p>
+            <div class="dp-ring">
+              <div class="ring-wrap">
+                <svg class="ring-svg" width="96" height="96" viewBox="0 0 160 160">
+                  <circle class="ring-bg" cx="80" cy="80" r="68"/>
+                  <circle class="ring-fill" id="hero-ring" cx="80" cy="80" r="68"/>
+                </svg>
+                <div class="ring-inner"><span class="ring-num">83</span><span class="ring-lbl">FOCUS</span></div>
+              </div>
+              <p class="p-label">Today's focus score</p>
             </div>
+            <div class="p-grid2">
+              <div class="p-card"><p class="p-label" style="margin-bottom:4px">Strain</p><p style="font-size:18px;font-weight:700;color:var(--gold)">61</p></div>
+              <div class="p-card"><p class="p-label" style="margin-bottom:4px">Recovery</p><p style="font-size:18px;font-weight:700;color:var(--green)">78</p></div>
+            </div>
+            <div class="dp-session">
+              <div><p class="dp-ses-title">Deep Work</p><p class="dp-ses-sub">50 MIN · READY</p></div>
+              <div class="dp-play"></div>
+            </div>
+            <div class="dp-id"><p class="dp-id-name">Night Builder</p><span class="dp-id-tag">TOP 4%</span></div>
           </div>
-          <p class="p-label">Today's focus score</p>
-        </div>
-
-        <div class="p-grid2">
-          <div class="p-card">
-            <p class="p-label" style="margin-bottom:4px">Strain</p>
-            <p style="font-size:18px;font-weight:700;color:var(--am)">61</p>
-          </div>
-          <div class="p-card">
-            <p class="p-label" style="margin-bottom:4px">Recovery</p>
-            <p style="font-size:18px;font-weight:700;color:var(--gn)">78</p>
-          </div>
-        </div>
-
-        <div class="dp-session">
-          <div>
-            <p class="dp-ses-title">Deep Work</p>
-            <p class="dp-ses-sub">50 MIN · READY</p>
-          </div>
-          <div class="dp-play"><div class="dp-play-arrow"></div></div>
-        </div>
-
-        <div class="dp-id">
-          <p class="dp-id-name">Night Builder</p>
-          <span class="dp-id-tag">TOP 5%</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════ PAIN ═══════════════════════════════════ -->
-<section id="pain">
+<!-- ═══ PAIN ═══ -->
+<section id="pain" class="band">
   <div class="wrap">
     <div class="sec-head rv">
-      <div class="eyebrow mono"><span class="eyebrow-dot" style="background:var(--er)"></span>Read this slowly</div>
-      <h2>You're not lazy.<br>You're outgunned.</h2>
-      <p class="sec-sub" style="margin-top:14px">There are thousands of engineers on the other side of your screen, paid to keep you scrolling. It was never a fair fight.</p>
+      <div class="eyebrow red">Sound familiar?</div>
+      <h2>You know exactly<br>how this goes.</h2>
     </div>
     <div class="pain-items">
-      <div class="pain-item rv d1">
-        <p class="pain-n">01</p>
-        <p>You "check something" for 10 seconds. <strong>You resurface 40 minutes later.</strong></p>
-      </div>
-      <div class="pain-item rv d2">
-        <p class="pain-n">02</p>
-        <p>You plan a focused day. <strong>By noon your attention is in pieces.</strong></p>
-      </div>
-      <div class="pain-item rv d3">
-        <p class="pain-n">03</p>
-        <p>You end the day drained — <strong>and nothing that mattered got done.</strong></p>
-      </div>
-      <div class="pain-item rv d4">
-        <p class="pain-n">04</p>
-        <p>You know what deep focus feels like. <strong>You just can't get there on command.</strong></p>
-      </div>
+      <div class="pain-item rv"><p class="pain-n">01</p><p>You "check something" for 10 seconds. <strong>You resurface 40 minutes later.</strong></p></div>
+      <div class="pain-item rv"><p class="pain-n">02</p><p>You plan a focused day. <strong>By noon your attention is in pieces.</strong></p></div>
+      <div class="pain-item rv"><p class="pain-n">03</p><p>You end the day drained — <strong>and nothing that mattered got done.</strong></p></div>
+      <div class="pain-item rv"><p class="pain-n">04</p><p>You know what deep focus feels like. <strong>You just can't get there on command.</strong></p></div>
+    </div>
+    <div class="pain-cta rv">
+      <p><b>Kairos closes that gap.</b></p>
+      <button class="btn btn-ghost" onclick="jumpForm('hero')">Close the gap →</button>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════ HOW ════════════════════════════════════ -->
-<section id="how">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div class="eyebrow mono"><span class="eyebrow-dot"></span>The shift</div>
-      <h2>Three steps.<br>Then your focus comes back.</h2>
-      <p class="sec-sub" style="margin-top:14px">Not willpower. Not another to-do list. A repeatable routine that trains your attention like a muscle.</p>
-    </div>
-    <div class="how-grid">
-      <div class="how-step rv d1">
-        <span class="how-n">1</span>
-        <h3>Lock in</h3>
-        <p>A 60-second ritual reads your state and seals your session. The apps that hijack you are <strong>blocked at the system level</strong> — no easy bypass, no "just five minutes."</p>
-      </div>
-      <div class="how-step rv d2">
-        <span class="how-n">2</span>
-        <h3>Do deep work</h3>
-        <p>Your session runs distraction-free with a <strong>live focus score</strong>. Every minute and every interruption is tracked — so for once you can see your attention as data, not a vibe.</p>
-      </div>
-      <div class="how-step rv d3">
-        <span class="how-n">3</span>
-        <h3>Level up</h3>
-        <p>Build a streak, climb the rankings, and watch Kairos learn <strong>your peak focus windows</strong>. The more you train, the sharper your protocol gets.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════ SCREENS ═══════════════════════════════════ -->
-<section id="screens">
-  <div class="wrap rv">
-    <div class="eyebrow mono"><span class="eyebrow-dot slate"></span>Inside the app</div>
-    <p class="screens-intro" style="margin-top:14px">A real product, in active development. Swipe through what you'll get on day one.</p>
-  </div>
-  <div class="screens-scroll" id="screens-scroll">
-
-    <!-- Screen 1 -->
-    <div class="screen-item rv d1">
-      <p class="screen-caption">Readiness</p>
-      <div class="phone" style="width:230px">
-        <span class="preview-tag">Preview</span>
-        <div class="p-island"></div>
-        <div class="phone-inner" style="height:476px">
-          <div class="p-bar"><span class="p-time">22:08</span><div class="p-batt"><div class="p-batt-body"></div></div></div>
-          <p class="p-label" style="text-align:center;margin:8px 0 0">Calibration complete</p>
-          <div style="text-align:center;padding:10px 0 8px">
-            <p class="p-label" style="margin-bottom:6px">READINESS SCORE</p>
-            <p class="rsc-val" id="rsc-num">84</p>
-            <p class="rsc-protocol">Deep Focus · 50 min protocol</p>
-          </div>
-          <div class="p-card">
-            <div class="bars">
-              <div class="bar-r"><span class="bar-l">Typing</span><div class="bar-t"><div class="bar-f" id="bf1" style="width:0;background:var(--sl)"></div></div><span class="bar-v">88</span></div>
-              <div class="bar-r"><span class="bar-l">Reaction</span><div class="bar-t"><div class="bar-f" id="bf2" style="width:0;background:var(--gn)"></div></div><span class="bar-v">79</span></div>
-              <div class="bar-r"><span class="bar-l">Energy</span><div class="bar-t"><div class="bar-f" id="bf3" style="width:0;background:var(--am)"></div></div><span class="bar-v">82</span></div>
-              <div class="bar-r"><span class="bar-l">Clarity</span><div class="bar-t"><div class="bar-f" id="bf4" style="width:0;background:var(--au)"></div></div><span class="bar-v">91</span></div>
-            </div>
-          </div>
-          <div class="r-begin">
-            <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M1 1l8 5-8 5V1z" fill="#060608"/></svg>
-            <span>Begin deep focus</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Screen 2 -->
-    <div class="screen-item rv d2">
-      <p class="screen-caption">Session</p>
-      <div class="phone" style="width:230px">
-        <span class="preview-tag">Preview</span>
-        <div class="p-island"></div>
-        <div class="phone-inner" style="height:476px">
-          <div class="p-bar"><span class="p-time">22:14</span><div class="p-batt"><div class="p-batt-body"></div></div></div>
-          <div class="ses-status"><span class="ses-dot"></span><span class="ses-status-lbl mono">In focus</span></div>
-          <div class="big-ring-wrap">
-            <svg class="br-svg" width="120" height="120" viewBox="0 0 120 120">
-              <circle class="br-bg" cx="60" cy="60" r="55"/>
-              <circle class="br-fill" id="ses-ring" cx="60" cy="60" r="55"/>
-            </svg>
-            <div class="br-inner"><span class="br-time" id="timer-el">47:23</span><span class="br-of">of 50 min</span></div>
-          </div>
-          <div class="ses-score"><p class="ses-score-l">Focus estimate</p><p class="ses-score-v" id="score-el">76</p></div>
-          <div class="ses-btns"><div class="ses-btn">⏸ Pause</div><div class="ses-btn" style="color:rgba(255,255,255,.35)">End session</div></div>
-          <div class="p-card" style="margin-top:4px;display:flex;align-items:center;justify-content:space-between">
-            <span style="font-size:10px;font-weight:500;color:rgba(255,255,255,.45)">Deep Focus mode</span>
-            <span class="p-tag" style="background:rgba(111,168,130,.1);border:1px solid rgba(111,168,130,.18);color:var(--gn)">0 interruptions</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Screen 3 -->
-    <div class="screen-item rv d3">
-      <p class="screen-caption">Coach</p>
-      <div class="phone" style="width:230px">
-        <span class="preview-tag">Preview</span>
-        <div class="p-island"></div>
-        <div class="phone-inner" style="height:476px">
-          <div class="p-bar"><span class="p-time">22:31</span><div class="p-batt"><div class="p-batt-body"></div></div></div>
-          <p style="font-size:14px;font-weight:600;letter-spacing:-.015em;padding:4px 1px 10px">AI Coach</p>
-          <div class="coach-hdr">
-            <div class="coach-av"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="stroke:rgba(255,255,255,.8);stroke-width:1.5;stroke-linecap:round"><circle cx="6" cy="5" r="3"/><path d="M2 11c0-2.2 1.8-4 4-4s4 1.8 4 4"/></svg></div>
-            <div><p class="coach-n">Kairos Coach</p><p class="coach-r mono">AI · behavioral analysis</p></div>
-          </div>
-          <div class="bubble"><p>Your focus peaks after <strong>21:00.</strong> Your last 8 high-scoring sessions all started after 9pm.</p></div>
-          <div class="bubble"><p><strong>Tomorrow:</strong> schedule your hardest work at 21:30. Your recovery score will support it.</p></div>
-          <div class="coach-action">
-            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="stroke:var(--sl);stroke-width:1.5;stroke-linecap:round;flex-shrink:0"><circle cx="5.5" cy="5.5" r="4.5"/><polyline points="5.5,3 5.5,5.5 7,7"/></svg>
-            <span>Schedule tonight at 21:30</span>
-          </div>
-          <div class="p-card" style="margin-top:5px"><p style="font-size:10.5px;color:rgba(192,162,106,.7)"><strong style="color:var(--au)">Streak alert.</strong> 11 days in a row. Your record is 12.</p></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Screen 4 -->
-    <div class="screen-item rv d4">
-      <p class="screen-caption">Identity</p>
-      <div class="phone" style="width:230px">
-        <span class="preview-tag">Preview</span>
-        <div class="p-island"></div>
-        <div class="phone-inner" style="height:476px">
-          <div class="p-bar"><span class="p-time">22:58</span><div class="p-batt"><div class="p-batt-body"></div></div></div>
-          <p style="font-size:14px;font-weight:600;letter-spacing:-.015em;padding:4px 1px 10px">Your identity.</p>
-          <div class="id-hero">
-            <p class="id-sup">Globally ranked</p>
-            <p class="id-name">Night Builder</p>
-            <p class="id-pct">Top 4% · 48 sessions</p>
-          </div>
-          <div class="id-stats">
-            <div class="id-stat"><p class="id-sv" style="color:var(--gn)">89</p><p class="id-sl">avg score</p></div>
-            <div class="id-stat"><p class="id-sv" style="color:var(--au)">12</p><p class="id-sl">day streak</p></div>
-            <div class="id-stat"><p class="id-sv" style="color:var(--sl)">14h</p><p class="id-sl">this week</p></div>
-          </div>
-          <div>
-            <p class="p-label" style="margin-bottom:6px">7-day focus score</p>
-            <div class="spark">
-              <div class="spark-b" style="height:45%"></div>
-              <div class="spark-b" style="height:60%"></div>
-              <div class="spark-b" style="height:36%"></div>
-              <div class="spark-b" style="height:70%"></div>
-              <div class="spark-b" style="height:52%"></div>
-              <div class="spark-b" style="height:46%"></div>
-              <div class="spark-b hi" style="height:89%"></div>
-            </div>
-          </div>
-          <div class="win"><div><p class="win-l">Peak window</p><p class="win-v">21:00 — 23:00</p></div><span class="win-badge">Confirmed</span></div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-  <div id="dots" style="display:flex;justify-content:center;gap:7px;margin-top:20px;padding:0 20px">
-    <span class="dot" data-i="0" onclick="scrollToScreen(0)" style="width:20px;height:4px;border-radius:2px;background:var(--au);cursor:pointer;transition:background .2s,width .2s"></span>
-    <span class="dot" data-i="1" onclick="scrollToScreen(1)" style="width:6px;height:4px;border-radius:2px;background:var(--t3);cursor:pointer;transition:background .2s,width .2s"></span>
-    <span class="dot" data-i="2" onclick="scrollToScreen(2)" style="width:6px;height:4px;border-radius:2px;background:var(--t3);cursor:pointer;transition:background .2s,width .2s"></span>
-    <span class="dot" data-i="3" onclick="scrollToScreen(3)" style="width:6px;height:4px;border-radius:2px;background:var(--t3);cursor:pointer;transition:background .2s,width .2s"></span>
-  </div>
-</section>
-
-<!-- ═════════════════════════ IDENTITY ═════════════════════════════════ -->
-<section id="identity">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div class="eyebrow mono"><span class="eyebrow-dot gold"></span>The part no other app has</div>
-      <p class="id-statement rv d1">Focus stops being a chore. <strong>It becomes who you are.</strong></p>
-      <p class="id-explain rv d2">Every session you complete shapes a focus type — earned from how you actually work, not a quiz you fill out. Climb the ranks. Build a streak you don't want to break. Become someone your phone can't interrupt.</p>
-    </div>
-    <div class="id-tags rv d3">
-      <span class="id-chip gold"><span class="id-chip-dot"></span>Night Builder</span>
-      <span class="id-chip"><span class="id-chip-dot"></span>Deep Thinker</span>
-      <span class="id-chip"><span class="id-chip-dot"></span>Sprint Machine</span>
-      <span class="id-chip"><span class="id-chip-dot"></span>Focused Operator</span>
-      <span class="id-chip"><span class="id-chip-dot"></span>Disciplined Creator</span>
-    </div>
-    <p class="id-footnote rv d4">Your type is calculated from your real performance over time — and it changes as you do.</p>
-  </div>
-</section>
-
-<!-- ════════════════════════ DIFFERENT ═════════════════════════════════ -->
+<!-- ═══ OBJECTIONS ═══ -->
 <section id="different">
   <div class="wrap">
     <div class="sec-head rv">
-      <div class="eyebrow mono"><span class="eyebrow-dot"></span>Why the apps you tried didn't stick</div>
+      <div class="eyebrow">Why the apps you tried didn't stick</div>
       <h2>Good tools.<br>Wrong problem.</h2>
       <p class="sec-sub" style="margin-top:14px">You've downloaded a few of these. You deleted them within a week. Here's why.</p>
     </div>
     <div class="diff-list">
-      <div class="diff-card rv d1">
-        <p class="diff-tool">To-do lists</p>
-        <span class="diff-miss">organizes tasks</span>
-        <p>Knowing what to do was never the problem. <strong>Getting your brain to actually start is.</strong></p>
-      </div>
-      <div class="diff-card rv d2">
-        <p class="diff-tool">Timers &amp; Pomodoro</p>
-        <span class="diff-miss">counts minutes</span>
-        <p>A ticking clock doesn't change your state. <strong>It won't drag you into flow.</strong></p>
-      </div>
-      <div class="diff-card rv d3">
-        <p class="diff-tool">App blockers</p>
-        <span class="diff-miss">removes apps</span>
-        <p>Blocking alone feels like punishment, so you turn it off. <strong>Nothing pulls you back.</strong></p>
-      </div>
-      <div class="diff-card rv d4">
-        <p class="diff-tool">Screen-time dashboards</p>
-        <span class="diff-miss">shows the damage</span>
-        <p>Seeing "7h 12m" makes you feel bad and changes nothing. <strong>Guilt isn't a system.</strong></p>
-      </div>
+      <div class="diff-card rv"><p class="diff-tool">To-do lists</p><span class="diff-miss">organizes tasks</span><p>Knowing what to do was never the problem. <strong>Getting your brain to start is.</strong></p></div>
+      <div class="diff-card rv"><p class="diff-tool">Timers &amp; Pomodoro</p><span class="diff-miss">counts minutes</span><p>A ticking clock doesn't change your state. <strong>It won't drag you into flow.</strong></p></div>
+      <div class="diff-card rv"><p class="diff-tool">App blockers</p><span class="diff-miss">removes apps</span><p>Blocking feels like punishment, so you turn it off. <strong>Nothing pulls you back.</strong></p></div>
+      <div class="diff-card rv"><p class="diff-tool">Screen-time dashboards</p><span class="diff-miss">shows the damage</span><p>Seeing "7h 12m" makes you feel bad and changes nothing. <strong>Guilt isn't a system.</strong></p></div>
     </div>
+    <p class="diff-kicker rv">Kairos isn't another blocker. It's the thing that <b>pulls you back.</b></p>
   </div>
 </section>
 
-<!-- ════════════════════════════ FAQ ═══════════════════════════════════ -->
-<section id="faq">
+<!-- ═══ SOLUTION ═══ -->
+<section id="how" class="band">
   <div class="wrap">
     <div class="sec-head rv">
-      <div class="eyebrow mono"><span class="eyebrow-dot"></span>Before you ask</div>
-      <h2>Answered.</h2>
+      <div class="eyebrow">The 60-second fix</div>
+      <h2>Three steps.<br>Then your focus comes back.</h2>
+      <p class="sec-sub" style="margin-top:14px">Not willpower. Not another to-do list. A repeatable protocol that trains your attention like a muscle.</p>
     </div>
-    <div class="faq-list rv d2">
+    <div class="how-grid">
+      <div class="how-step rv"><span class="how-n">1</span><h3>Lock in</h3><p>A 60-second calibration reads your <strong>reaction speed, typing rhythm, and clarity</strong> — then seals your session. No easy bypass. No "just five minutes."</p></div>
+      <div class="how-step rv"><span class="how-n">2</span><h3>Do deep work</h3><p>Your session runs distraction-free with a <strong>live focus score</strong>. Every minute and every interruption is tracked — you see your attention as data, not a vibe.</p></div>
+      <div class="how-step rv"><span class="how-n">3</span><h3>Level up</h3><p>Kairos learns <strong>your peak focus windows</strong> — the hours your brain actually performs — and builds your protocol around them. Streaks and rankings keep you honest.</p></div>
+    </div>
+    <div class="signature rv">
+      <span class="sig-label">Blocked at the system level</span>
+      <p>The apps that hijack you are sealed off by the OS itself — so the answer to <strong>"can't I just cheat?"</strong> is no.</p>
+    </div>
+  </div>
+</section>
 
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">Is it free?
-          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
-        </button>
-        <div class="faq-ans"><div class="faq-ans-inner">Joining the waitlist is completely free. At launch there'll be a <strong>free tier</strong> to start your focus practice, plus affordable paid plans (a student plan included). Waitlist members <strong>lock in founding-member pricing</strong> that won't exist after public launch.</div></div>
+<!-- ═══ PROOF ═══ -->
+<section id="proof">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow green">Inside the app</div>
+      <h2>This isn't a concept.</h2>
+      <p class="sec-sub" style="margin-top:14px">Kairos is in beta with 200 testers right now. This is what you get on day one.</p>
+    </div>
+
+    <div class="proof-grid">
+      <!-- Session -->
+      <div class="proof-item rv">
+        <div class="phone">
+          <span class="preview-tag">Preview</span>
+          <div class="p-island"></div>
+          <div class="phone-inner">
+            <div class="p-bar"><span class="p-time">22:14</span><div class="p-batt"></div></div>
+            <div class="ses-status"><span class="ses-dot"></span><span class="ses-status-lbl">In focus</span></div>
+            <div class="br-wrap">
+              <svg class="br-svg" width="124" height="124" viewBox="0 0 124 124">
+                <circle class="br-bg" cx="62" cy="62" r="55"/>
+                <circle class="br-fill" id="ses-ring" cx="62" cy="62" r="55"/>
+              </svg>
+              <div class="br-inner"><span class="br-time" id="timer-el">48:58</span><span class="br-of">of 50 min</span></div>
+            </div>
+            <div class="ses-score"><p class="ses-score-l">Focus estimate</p><p class="ses-score-v" id="score-el">78</p></div>
+            <div class="ses-btns"><div class="ses-btn">⏸ Pause</div><div class="ses-btn" style="color:rgba(255,255,255,.35)">End session</div></div>
+            <div class="p-card" style="margin-top:4px;display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:10px;font-weight:500;color:rgba(255,255,255,.5)">Deep Focus mode</span>
+              <span class="p-tag" style="background:rgba(157,199,162,.1);border:1px solid rgba(157,199,162,.2);color:var(--green)">0 interruptions</span>
+            </div>
+          </div>
+        </div>
+        <div class="proof-cap"><b>The session.</b><span>A sealed block, a live score, zero exits.</span></div>
       </div>
 
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">How is this different from Opal, Forest, or Freedom?
-          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
-        </button>
-        <div class="faq-ans"><div class="faq-ans-inner">Those apps do one thing: block distractions. Kairos handles the <strong>before, during, and after</strong> — it reads your state, scores your focus live, learns your peak windows, and turns your progress into an identity you actually want to keep building. Blocking is just one piece.</div></div>
+      <!-- Coach -->
+      <div class="proof-item rv d1">
+        <div class="phone">
+          <span class="preview-tag">Preview</span>
+          <div class="p-island"></div>
+          <div class="phone-inner">
+            <div class="p-bar"><span class="p-time">22:31</span><div class="p-batt"></div></div>
+            <div class="coach-hdr">
+              <div class="coach-av"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="stroke:rgba(255,255,255,.85);stroke-width:1.5;stroke-linecap:round"><circle cx="6" cy="5" r="3"/><path d="M2 11c0-2.2 1.8-4 4-4s4 1.8 4 4"/></svg></div>
+              <div><p class="coach-n">Kairos Coach</p><p class="coach-r">AI · behavioral analysis</p></div>
+            </div>
+            <div class="bubble"><p>Your focus peaks after <strong>21:00.</strong> Your last 8 high-scoring sessions all started after 9pm.</p></div>
+            <div class="bubble"><p><strong>Tomorrow:</strong> schedule your hardest work at 21:30. Your recovery score will support it.</p></div>
+            <div class="coach-action">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="stroke:#8DA2C0;stroke-width:1.5;stroke-linecap:round;flex-shrink:0"><circle cx="5.5" cy="5.5" r="4.5"/><polyline points="5.5,3 5.5,5.5 7,7"/></svg>
+              <span>Schedule tonight at 21:30</span>
+            </div>
+            <div class="p-card" style="margin-top:5px"><p style="font-size:10.5px"><strong style="color:var(--gold)">Streak alert.</strong> <span style="color:rgba(255,255,255,.6)">11 days in a row. Your record is 12.</span></p></div>
+          </div>
+        </div>
+        <div class="proof-cap"><b>The coach.</b><span>It learns when your brain performs — and plans around it.</span></div>
       </div>
+    </div>
 
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">Does it actually block apps, or can I cheat?
-          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
-        </button>
-        <div class="faq-ans"><div class="faq-ans-inner">It really blocks. Sessions use Apple's Screen Time APIs to seal off the apps you choose for the full duration — <strong>no easy bypass.</strong> You decide what gets blocked before you start.</div></div>
-      </div>
+    <div class="roadmap rv">
+      <div class="road-cell now"><span class="road-when">Now</span><p class="road-what"><b>Private beta</b> live with 200 testers.</p></div>
+      <div class="road-cell"><span class="road-when">Sep</span><p class="road-what"><b>Early access</b> opens in waves — waitlist order.</p></div>
+      <div class="road-cell"><span class="road-when">Oct</span><p class="road-what"><b>Public launch</b> on iPhone.</p></div>
+    </div>
+  </div>
+</section>
 
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">iPhone or Android?
-          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
-        </button>
-        <div class="faq-ans"><div class="faq-ans-inner">Kairos launches on <strong>iPhone first.</strong> Join the waitlist with any email and we'll let you know the moment Android is ready too.</div></div>
-      </div>
+<!-- ═══ IDENTITY ═══ -->
+<section id="identity" class="band">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">The part no other app has</div>
+      <p class="id-statement">Focus stops being a chore. <strong>It becomes who you are.</strong></p>
+      <p class="id-explain">Every session shapes a focus type — earned from how you actually work, not a quiz you fill out. Tap yours.</p>
+    </div>
 
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">When does it launch?
-          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
-        </button>
-        <div class="faq-ans"><div class="faq-ans-inner">We're in active development right now. <strong>Early access opens to waitlist members first</strong>, in small batches — not a public flood. The earlier you join, the sooner you get in.</div></div>
-      </div>
+    <div class="id-pills rv" id="id-pills" role="group" aria-label="Focus types">
+      <button class="id-pill" data-type="night" aria-pressed="true">Night Builder</button>
+      <button class="id-pill" data-type="deep" aria-pressed="false">Deep Thinker</button>
+      <button class="id-pill" data-type="sprint" aria-pressed="false">Sprint Machine</button>
+      <button class="id-pill" data-type="operator" aria-pressed="false">Focused Operator</button>
+      <button class="id-pill" data-type="creator" aria-pressed="false">Disciplined Creator</button>
+    </div>
 
-      <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">Who's building this?
-          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
-        </button>
-        <!-- EDIT: make this personal. Your audience already follows you — use your name + handle. -->
-        <div class="faq-ans"><div class="faq-ans-inner">Kairos is built by <strong>Louay</strong> — the person whose content brought you here. I'm building the focus tool I wished existed, in the open. Waitlist members get to <strong>shape it with me</strong> before launch. <em>(Add your @handle here.)</em></div></div>
+    <div class="id-profile rv" id="id-profile" aria-live="polite">
+      <h3 id="idp-name">Night Builder</h3>
+      <p id="idp-desc">Your mind sharpens when the world goes quiet. You do your deepest work after dark, in long uninterrupted blocks — and Kairos protects them.</p>
+      <div class="id-meta">
+        <span>Peak window · <b id="idp-peak">21:00 — 23:00</b></span>
+        <span>Protocol · <b id="idp-protocol">Deep Focus · 50 min</b></span>
+        <span>Rarity · <b id="idp-rarity">Top 4%</b></span>
       </div>
+    </div>
+
+    <div class="id-cta rv">
+      <p class="micro">Your real type is calculated from your performance over time — and it changes as you do.</p>
+      <button class="btn btn-gold" onclick="jumpForm('hero')">Find out your type →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOUNDER ═══ -->
+<section id="founder">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Who's building this</div>
+      <h2>Built by someone who<br>lost his mornings too.</h2>
+    </div>
+    <div class="founder rv">
+      <!-- TODO(launch): replace initial block with real founder photo -->
+      <div class="founder-photo" aria-hidden="true">L</div>
+      <div>
+        <blockquote>"I built Kairos because I was losing hours a day to my own phone — planning a focused morning, then watching it dissolve by 10am. Nothing I tried pulled me back. So I'm building the focus tool I wished existed, <strong>in the open</strong>. Waitlist members get to shape it with me before launch."</blockquote>
+        <!-- TODO(launch): replace name + @handle before shipping -->
+        <p class="founder-sig">— <b>Louay</b>, founder · <a href="#" id="founder-link">@yourhandle</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section id="faq" class="band">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Before you ask</div>
+      <h2>Straight answers.</h2>
+    </div>
+    <div class="faq-list rv">
+
+      <details class="faq-item" open>
+        <summary>Does it actually block apps, or can I cheat?
+          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+        </summary>
+        <div class="faq-ans">It really blocks. Sessions use Apple's Screen Time APIs to seal off the apps you choose for the full duration — <strong>no easy bypass.</strong> You decide what gets blocked before you start.</div>
+      </details>
+
+      <details class="faq-item" open>
+        <summary>How is this different from Opal, Forest, or Freedom?
+          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+        </summary>
+        <div class="faq-ans">Those apps do one thing: block distractions. Kairos handles the <strong>before, during, and after</strong> — it reads your state, scores your focus live, learns your peak windows, and turns your progress into an identity you actually want to keep building. Blocking is just one piece.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Is it free?
+          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+        </summary>
+        <div class="faq-ans">Joining the waitlist is completely free. At launch there'll be a <strong>free tier</strong> to start your focus practice, plus affordable paid plans (a student plan included). Waitlist members <strong>lock in founding-member pricing</strong> that won't exist after public launch.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>iPhone or Android?
+          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+        </summary>
+        <div class="faq-ans">Kairos launches on <strong>iPhone first.</strong> Join the waitlist with any email and we'll let you know the moment Android is ready too.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>When does it launch?
+          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+        </summary>
+        <div class="faq-ans">We're in private beta right now. <strong>Early access opens to waitlist members first</strong>, in small batches by join order — not a public flood. The earlier you join, the sooner you get in.</div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Who's building this?
+          <span class="faq-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+        </summary>
+        <!-- TODO(launch): personalize with real name + @handle -->
+        <div class="faq-ans">Kairos is built by <strong>Louay</strong> — the person whose content brought you here. I'm building the focus tool I wished existed, in the open. Waitlist members get to <strong>shape it with me</strong> before launch.</div>
+      </details>
 
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════ FINAL CTA ══════════════════════════════════ -->
+<!-- ═══ FINAL CTA ═══ -->
 <section id="final">
-  <div class="final-glow"></div>
-  <div class="wrap" style="text-align:center">
-    <div class="eyebrow mono rv" style="justify-content:center"><span class="eyebrow-dot"></span>One decision</div>
-    <h2 class="rv d1">Your phone isn't going<br>to stop. <em>Decide to.</em></h2>
-    <p class="final-sub rv d2">Join the people taking their attention back. It takes one tap and one email.</p>
-    <div class="final-form rv d3">
-      <div id="final-wrap">
-        <form class="form" id="final-form" onsubmit="return false">
-          <input type="email" class="inp" id="final-email" placeholder="your@email.com" autocomplete="email" inputmode="email" aria-label="Email">
-          <button class="btn btn-gold" id="final-btn" type="button" onclick="submitForm('final')">Get early access</button>
-          <p class="form-err" id="final-err">Please enter a valid email address.</p>
-          <p class="form-note"><b>Free to join.</b> No spam. Early access opens to members first.</p>
+  <div class="wrap">
+    <div class="final-badge rv"><span class="dot"></span><span><b class="countup" data-to="2417">2,417</b> already in · waves open Sep</span></div>
+    <h2 class="rv">Your phone isn't going<br>to stop. <span class="gold">Decide to.</span></h2>
+    <p class="final-sub rv">Join 2,417 people taking their attention back. One tap. One email.</p>
+    <div class="final-cap rv">
+      <div class="capture" id="final-cap">
+        <form class="cap-form" id="final-form" onsubmit="return false">
+          <input type="email" class="inp" id="final-email" placeholder="your@email.com" autocomplete="email" inputmode="email" aria-label="Email address">
+          <button class="btn btn-gold" id="final-btn" type="button" onclick="submitForm('final')">Take my attention back →</button>
+          <p class="cap-err" id="final-err">Please enter a valid email address.</p>
+          <p class="cap-note">First wave enters first. No spam, ever.</p>
         </form>
-        <div class="form-suc" id="final-suc">
-          <div class="suc-row">
-            <div class="suc-check">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10.5l4 4 8-8" stroke="#6FA882" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div>
-              <p class="suc-title">You're in. Welcome to Kairos.</p>
-              <p class="suc-body">Early access opens to members first. See you inside.</p>
-            </div>
+        <div class="cap-suc" id="final-suc">
+          <div class="suc-top">
+            <div class="suc-check"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10.5l4 4 8-8" stroke="#9DC7A2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><p class="suc-title">You're in. You're <b>#2,418</b>.</p></div>
           </div>
+          <p class="suc-ref">Every friend who joins with your link moves you up <strong>10 spots</strong>.</p>
+          <button class="suc-copy" onclick="copyRefLink(this)">
+            <svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4.2" y="4.2" width="7.5" height="7.5" rx="1.6"/><path d="M9.4 4.2V3a1.4 1.4 0 0 0-1.4-1.4H3A1.4 1.4 0 0 0 1.6 3v5a1.4 1.4 0 0 0 1.4 1.4h1.2"/></svg>
+            Copy my link
+          </button>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ═══ FOOTER ═══ -->
 <footer>
-  <div class="foot">
-    <span class="foot-logo">Kairos<span>.</span></span>
-    <span class="foot-by">Built in the open by <a href="#" id="founder-link">@yourhandle</a></span>
-    <span class="foot-copy">© 2026 Kairos — take your attention back.</span>
+  <div class="wrap">
+    <div class="foot">
+      <span class="foot-logo">Kairos<span>.</span></span>
+      <!-- TODO(launch): real follow-the-build link -->
+      <a href="#" id="footer-follow">Follow the build →</a>
+      <span class="foot-copy">© 2026 Kairos — take your attention back.</span>
+    </div>
   </div>
 </footer>
 
-<!-- STICKY MOBILE CTA -->
+<!-- ═══ STICKY MOBILE CTA ═══ -->
 <div class="sticky-cta" id="sticky-cta">
-  <button onclick="jumpForm('hero')">Get early access — join the waitlist</button>
+  <div class="sticky-meta"><b>2,417 in</b><span>waves open Sep</span></div>
+  <button onclick="jumpForm('hero')">Claim my invite</button>
 </div>
 
-<!-- ═══════════════════ REFERRAL / SHARE MODAL ═══════════════════ -->
-<div class="ref-overlay" id="ref-overlay" role="dialog" aria-modal="true" aria-labelledby="ref-title">
-  <div class="ref-card">
-    <div class="ref-glow"></div>
-
-    <button class="ref-close" id="ref-close" aria-label="Close">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="1.5" y1="1.5" x2="11.5" y2="11.5"/><line x1="11.5" y1="1.5" x2="1.5" y2="11.5"/></svg>
-    </button>
-
-    <span class="ref-badge">
-      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 7.2l2.7 2.7L11 4" stroke="#6FA882" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Waitlist confirmed
-    </span>
-
-    <p class="ref-confirm"><b>You're on the waitlist.</b></p>
-
-    <h3 class="ref-title" id="ref-title">Want to move up?</h3>
-    <p class="ref-sub">Invite 3 friends and <b>jump 50 spots</b> in the waitlist.</p>
-
-    <div class="ref-stats">
-      <div class="ref-stat">
-        <p class="ref-stat-l">Your current position</p>
-        <p class="ref-stat-v" id="ref-position">#8,426</p>
-      </div>
-      <div class="ref-stat gold">
-        <p class="ref-stat-l">Reward</p>
-        <p class="ref-stat-v">3 → +50</p>
-      </div>
-    </div>
-
-    <div class="ref-prog">
-      <div class="ref-prog-top">
-        <span class="ref-prog-count"><b id="ref-count">0</b> / 3 referrals</span>
-        <span class="ref-prog-hint">Only 3 invites to skip 50 spots.</span>
-      </div>
-      <div class="ref-prog-track" id="ref-track">
-        <span class="ref-prog-seg"></span>
-        <span class="ref-prog-seg"></span>
-        <span class="ref-prog-seg"></span>
-      </div>
-    </div>
-
-    <p class="ref-link-l">Your waitlist link</p>
-    <div class="ref-link">
-      <span class="ref-link-url" id="ref-link-url">kairoswaitlist.vercel.app</span>
-      <button class="ref-link-copy" onclick="refCopyLink()">
-        <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4.2" y="4.2" width="7.5" height="7.5" rx="1.6"/><path d="M9.4 4.2V3a1.4 1.4 0 0 0-1.4-1.4H3A1.4 1.4 0 0 0 1.6 3v5a1.4 1.4 0 0 0 1.4 1.4h1.2"/></svg>
-        Copy link
-      </button>
-    </div>
-
-    <div class="ref-share-grid">
-      <button class="ref-share" onclick="refShareWhatsApp()">
-        <span class="ref-share-ic ic-wa">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.82c2.16 0 4.19.84 5.72 2.37a8.04 8.04 0 0 1 2.37 5.72c0 4.46-3.63 8.09-8.1 8.09a8.1 8.1 0 0 1-4.12-1.13l-.3-.18-3.06.8.82-2.99-.19-.31a8.03 8.03 0 0 1-1.24-4.28c0-4.46 3.63-8.09 8.1-8.09Zm-3.39 4.4c-.16 0-.42.06-.64.3-.22.24-.85.83-.85 2.02 0 1.19.87 2.34.99 2.5.12.16 1.7 2.6 4.12 3.64.58.25 1.02.4 1.37.51.58.18 1.1.16 1.52.1.46-.07 1.43-.58 1.63-1.15.2-.56.2-1.05.14-1.15-.06-.1-.22-.16-.46-.28-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41-.14-.01-.3-.01-.46-.01Z"/></svg>
-        </span>
-        <span>WhatsApp</span>
-      </button>
-
-      <button class="ref-share" onclick="refShareGmail()">
-        <span class="ref-share-ic ic-gm">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M3 6.5l9 6 9-6"/></svg>
-        </span>
-        <span>Gmail</span>
-      </button>
-
-      <button class="ref-share" onclick="refShareSnapchat()">
-        <span class="ref-share-ic ic-sn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c2.6 0 4.4 1.9 4.5 4.6 0 .5 0 1.1-.03 1.7.2.1.46.13.74.04.26-.08.5-.1.72.03.3.18.33.55.07.85-.2.23-.6.4-1 .55-.13.05-.3.1-.36.27-.07.2.1.45.27.66.45.6 1.18 1.18 2.1 1.46.3.1.4.3.36.5-.06.36-.74.6-1.27.72-.13.03-.2.12-.23.3-.03.13-.06.3-.13.45-.07.16-.2.2-.4.18-.3-.03-.66-.13-1.16-.07-.46.06-.86.34-1.3.66-.6.43-1.27.92-2.4.92s-1.8-.49-2.4-.92c-.44-.32-.84-.6-1.3-.66-.5-.06-.86.04-1.16.07-.2.02-.33-.02-.4-.18-.07-.15-.1-.32-.13-.45-.03-.18-.1-.27-.23-.3-.53-.12-1.2-.36-1.27-.72-.04-.2.06-.4.36-.5.92-.28 1.65-.86 2.1-1.46.17-.21.34-.46.27-.66-.06-.17-.23-.22-.36-.27-.4-.15-.8-.32-1-.55-.26-.3-.23-.67.07-.85.22-.13.46-.11.72-.03.28.09.54.06.74-.04-.03-.6-.03-1.2-.03-1.7C7.6 4.1 9.4 2.2 12 2.2Z"/></svg>
-        </span>
-        <span>Snapchat</span>
-      </button>
-
-      <button class="ref-share" onclick="refShareInstagram()">
-        <span class="ref-share-ic ic-ig">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
-        </span>
-        <span>Instagram</span>
-      </button>
-
-      <button class="ref-share" onclick="refCopyLink()">
-        <span class="ref-share-ic ic-cp">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V5.5A2.5 2.5 0 0 0 13.5 3h-8A2.5 2.5 0 0 0 3 5.5v8A2.5 2.5 0 0 0 5.5 16H8"/></svg>
-        </span>
-        <span>Copy link</span>
-      </button>
-
-      <button class="ref-share" onclick="refNativeShare()">
-        <span class="ref-share-ic ic-sh">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5.5" r="2.8"/><circle cx="6" cy="12" r="2.8"/><circle cx="18" cy="18.5" r="2.8"/><path d="M8.4 10.7l7.2-3.9M8.4 13.3l7.2 3.9"/></svg>
-        </span>
-        <span>Share</span>
-      </button>
-    </div>
-
-    <button class="ref-later" id="ref-later">Maybe later</button>
-  </div>
-</div>
-
-<!-- toast -->
-<div class="ref-toast" id="ref-toast">
+<!-- ═══ TOAST ═══ -->
+<div class="toast" id="toast">
   <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M3 7.2l2.7 2.7L11 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  <span id="ref-toast-msg">Waitlist link copied.</span>
+  <span id="toast-msg">Copied ✓</span>
 </div>
 
 <script>
@@ -1174,296 +974,197 @@ footer{border-top:1px solid var(--rim);padding:28px 20px;padding-bottom:calc(28p
 'use strict';
 
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxijcC0UmJs9_5sLwHkQ6bmpwCCzLFfzHF6KCZQBrjghp32lCS4V1S99qlWj0hcmbXt/exec';
+const REF_LINK = 'https://kairoswaitlist.vercel.app/';
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ── REVEAL ───────────────────────────────────────────── */
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
-}, { threshold: 0.08 });
-document.querySelectorAll('.rv').forEach(el => observer.observe(el));
+/* ── REVEAL ── */
+const io = new IntersectionObserver((es)=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:0.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
-/* ── NAV + STICKY CTA ─────────────────────────────────── */
-const nav = document.querySelector('nav');
-const sticky = document.getElementById('sticky-cta');
-const heroEl = document.getElementById('hero');
-window.addEventListener('scroll', () => {
-  nav.style.background = window.scrollY > 40 ? 'rgba(8,8,13,.97)' : 'rgba(8,8,13,.88)';
-  const finalTop = document.getElementById('final').getBoundingClientRect().top;
-  const pastHero = window.scrollY > window.innerHeight * 0.9;
-  const beforeFinal = finalTop > window.innerHeight * 0.7;
-  if (pastHero && beforeFinal && !window.__joined) sticky.classList.add('show');
-  else sticky.classList.remove('show');
-}, { passive: true });
-
-/* ── RING ANIMATION ───────────────────────────────────── */
-function animRing(id, delay) {
-  setTimeout(() => { const el = document.getElementById(id); if (el) el.classList.add('go'); }, delay);
+/* ── PURPOSEFUL #1 · COUNT-UP ── */
+function countUp(el){
+  const to = parseInt(el.dataset.to,10);
+  if(reduce){ el.textContent = to.toLocaleString(); return; }
+  const dur = 900, t0 = performance.now();
+  function step(now){
+    const p = Math.min((now-t0)/dur,1);
+    const eased = 1-Math.pow(1-p,3);
+    el.textContent = Math.round(to*eased).toLocaleString();
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
 }
-animRing('hero-ring', 800);
+const countObs = new IntersectionObserver((es)=>{
+  es.forEach(e=>{ if(e.isIntersecting){ countUp(e.target); countObs.unobserve(e.target); } });
+},{threshold:0.6});
+document.querySelectorAll('.countup').forEach(el=>countObs.observe(el));
 
-const screensEl = document.getElementById('screens');
-const screensObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      animRing('ses-ring', 300);
-      [['bf1','88%'],['bf2','79%'],['bf3','82%'],['bf4','91%']].forEach(([id,w],i) => {
-        setTimeout(() => { const b = document.getElementById(id); if(b) b.style.width = w; }, 280 + i*130);
-      });
-      screensObs.disconnect();
-    }
-  });
-}, { threshold: 0.15 });
-if (screensEl) screensObs.observe(screensEl);
+/* ── PURPOSEFUL #2 · FOCUS RING DRAW ── */
+function drawRing(id){ const el=document.getElementById(id); if(el) el.classList.add('go'); }
+const heroRingObs = new IntersectionObserver((es)=>{
+  es.forEach(e=>{ if(e.isIntersecting){ setTimeout(()=>drawRing('hero-ring'),400); heroRingObs.disconnect(); } });
+},{threshold:0.4});
+const hr = document.getElementById('hero-ring'); if(hr) heroRingObs.observe(hr);
 
-/* ── TIMER TICK ───────────────────────────────────────── */
-let secs = 47*60+23;
+const sesObs = new IntersectionObserver((es)=>{
+  es.forEach(e=>{ if(e.isIntersecting){ setTimeout(()=>drawRing('ses-ring'),300); sesObs.disconnect(); } });
+},{threshold:0.4});
+const sr = document.getElementById('ses-ring'); if(sr) sesObs.observe(sr);
+
+/* ── TIMER TICK (proof session) ── */
+let secs = 48*60+58;
 const timerEl = document.getElementById('timer-el');
 const scoreEl = document.getElementById('score-el');
-setInterval(() => {
-  secs = (secs + 1) % (50*60);
-  const m = String(Math.floor(secs/60)).padStart(2,'0');
-  const s = String(secs%60).padStart(2,'0');
-  if (timerEl) timerEl.textContent = `${m}:${s}`;
-  if (scoreEl) scoreEl.textContent = Math.min(76 + Math.floor((secs - 47*60 - 23)/40), 93);
-}, 1000);
-
-/* ── SCROLL DOTS ──────────────────────────────────────── */
-const scroll = document.getElementById('screens-scroll');
-const dots   = document.querySelectorAll('.dot');
-const items  = document.querySelectorAll('.screen-item');
-window.scrollToScreen = function(i) {
-  if (!scroll || !items[i]) return;
-  const item = items[i];
-  const left = item.offsetLeft - scroll.offsetLeft - (scroll.clientWidth - item.clientWidth) / 2;
-  scroll.scrollTo({ left, behavior: 'smooth' });
-};
-if (scroll) {
-  scroll.addEventListener('scroll', () => {
-    const center = scroll.scrollLeft + scroll.clientWidth / 2;
-    let closest = 0, minDist = Infinity;
-    items.forEach((item, i) => {
-      const dist = Math.abs(item.offsetLeft + item.clientWidth / 2 - center);
-      if (dist < minDist) { minDist = dist; closest = i; }
-    });
-    dots.forEach((d, i) => {
-      d.style.background = i === closest ? 'var(--au)' : 'var(--t3)';
-      d.style.width = i === closest ? '20px' : '6px';
-    });
-  }, { passive: true });
+if(timerEl && !reduce){
+  setInterval(()=>{
+    secs = (secs+1) % (50*60);
+    const m = String(Math.floor(secs/60)).padStart(2,'0');
+    const s = String(secs%60).padStart(2,'0');
+    timerEl.textContent = `${m}:${s}`;
+    if(scoreEl) scoreEl.textContent = Math.min(78 + Math.floor((secs-48*60-58)/30), 84);
+  },1000);
 }
 
-/* ── FAQ ──────────────────────────────────────────────── */
-window.toggleFaq = function(btn) {
-  const item = btn.closest('.faq-item');
-  const ans  = item.querySelector('.faq-ans');
-  const open = item.classList.contains('open');
-  document.querySelectorAll('.faq-item.open').forEach(i => {
-    i.classList.remove('open');
-    i.querySelector('.faq-ans').style.maxHeight = '0';
-  });
-  if (!open) { item.classList.add('open'); ans.style.maxHeight = ans.scrollHeight + 'px'; }
-};
+/* ── NAV + STICKY CTA ── */
+const nav = document.querySelector('nav');
+const sticky = document.getElementById('sticky-cta');
+const heroCap = document.getElementById('hero-cap');
+let stickyPulsed = false;
 
-/* ── FORM ─────────────────────────────────────────────── */
-function isValid(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()); }
-
-function showSuccess(openModal) {
-  window.__joined = true;
-  ['hero','final'].forEach(p => {
-    const wrap = document.getElementById(p + '-wrap');
-    const suc  = document.getElementById(p + '-suc');
-    const form = document.getElementById(p + '-form');
-    if (form) form.style.display = 'none';
-    if (suc)  suc.classList.add('on');
-  });
-  const sticky = document.getElementById('sticky-cta');
-  if (sticky) sticky.classList.remove('show');
-  // Open the share modal only on a fresh signup (not on page-reload restore).
-  if (openModal) openRefModal();
-}
-
-function setLoading(prefix, on) {
-  const btn   = document.getElementById(prefix + '-btn');
-  const email = document.getElementById(prefix + '-email');
-  if (!btn) return;
-  if (on) {
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spin"></span>Joining…';
-    if (email) email.disabled = true;
+function updateSticky(){
+  nav.style.background = window.scrollY > 40 ? 'rgba(9,9,11,.92)' : 'rgba(9,9,11,.78)';
+  if(document.body.classList.contains('signed')){ sticky.classList.remove('show'); return; }
+  const r = heroCap.getBoundingClientRect();
+  const heroFormVisible = r.bottom > 80 && r.top < window.innerHeight;
+  if(!heroFormVisible){
+    if(!sticky.classList.contains('show')){
+      sticky.classList.add('show');
+      if(!stickyPulsed && !reduce){ sticky.classList.add('pulse'); stickyPulsed = true; setTimeout(()=>sticky.classList.remove('pulse'),1000); }
+    }
   } else {
-    btn.disabled = false;
-    btn.textContent = 'Get early access';
-    if (email) email.disabled = false;
+    sticky.classList.remove('show');
   }
 }
+window.addEventListener('scroll', updateSticky, {passive:true});
+window.addEventListener('resize', updateSticky, {passive:true});
+updateSticky();
 
-function markErr(prefix, msg) {
-  const errEl = document.getElementById(prefix + '-err');
-  const emailEl = document.getElementById(prefix + '-email');
-  if (errEl) { errEl.textContent = msg; errEl.classList.add('on'); }
-  if (emailEl) { emailEl.classList.add('err'); setTimeout(() => emailEl.classList.remove('err'), 2400); }
-}
-
-window.submitForm = async function(prefix) {
-  const emailEl = document.getElementById(prefix + '-email');
-  const errEl   = document.getElementById(prefix + '-err');
-  if (!emailEl) return;
-  const email = emailEl.value.trim();
-  if (errEl) errEl.classList.remove('on');
-  emailEl.classList.remove('err');
-
-  if (!isValid(email)) { markErr(prefix, 'Please enter a valid email address.'); emailEl.focus(); return; }
-
-  const saved = JSON.parse(localStorage.getItem('k_wl') || '[]');
-  if (saved.includes(email)) { showSuccess(true); return; }
-
-  setLoading(prefix, true);
-  try {
-    await fetch(ENDPOINT, {
-      method: "POST",
-      mode: "no-cors",
-      body: JSON.stringify({ email, role: "", source: "landing", ts: Date.now() })
-    });
-    saved.push(email);
-    localStorage.setItem('k_wl', JSON.stringify(saved));
-    showSuccess(true);
-  } catch(_) {
-    setLoading(prefix, false);
-    markErr(prefix, 'Something went wrong — please try again.');
-  }
+/* ── IDENTITY TYPE SWITCHER ── */
+const TYPES = {
+  night:    {name:'Night Builder',      rarity:'Top 4%',  peak:'21:00 — 23:00', protocol:'Deep Focus · 50 min', desc:'Your mind sharpens when the world goes quiet. You do your deepest work after dark, in long uninterrupted blocks — and Kairos protects them.'},
+  deep:     {name:'Deep Thinker',       rarity:'Top 9%',  peak:'09:00 — 11:30', protocol:'Deep Focus · 90 min', desc:'You go far, not fast. You sink into a single hard problem for hours — Kairos guards the long runway your best thinking needs.'},
+  sprint:   {name:'Sprint Machine',     rarity:'Top 12%', peak:'Variable',      protocol:'Sprint · 25 min',     desc:'You move in sharp, high-intensity bursts. Short sealed sprints with instant feedback keep your momentum honest and your energy high.'},
+  operator: {name:'Focused Operator',   rarity:'Top 15%', peak:'13:00 — 16:00', protocol:'Focus · 45 min',      desc:'You execute. Steady afternoon blocks, low drama, real output — Kairos turns your consistency into a streak you can see.'},
+  creator:  {name:'Disciplined Creator',rarity:'Top 7%',  peak:'07:00 — 09:00', protocol:'Deep Focus · 60 min', desc:'You make things before the noise starts. Early, protected mornings are where your best work lives — Kairos defends them daily.'}
 };
+const pills = document.querySelectorAll('.id-pill');
+const idpName = document.getElementById('idp-name');
+const idpDesc = document.getElementById('idp-desc');
+const idpPeak = document.getElementById('idp-peak');
+const idpProto = document.getElementById('idp-protocol');
+const idpRarity = document.getElementById('idp-rarity');
+pills.forEach(p=>{
+  p.addEventListener('click', ()=>{
+    pills.forEach(x=>x.setAttribute('aria-pressed','false'));
+    p.setAttribute('aria-pressed','true');
+    const t = TYPES[p.dataset.type];
+    idpName.textContent = t.name;
+    idpDesc.textContent = t.desc;
+    idpPeak.textContent = t.peak;
+    idpProto.textContent = t.protocol;
+    idpRarity.textContent = t.rarity;
+  });
+});
 
-/* ── FOCUS HELPER ─────────────────────────────────────── */
-window.jumpForm = function(prefix) {
-  const target = document.getElementById(prefix === 'final' ? 'final' : 'hero');
-  if (target) target.scrollIntoView({ behavior: 'smooth' });
-  setTimeout(() => { const inp = document.getElementById(prefix + '-email'); if (inp) inp.focus(); }, 520);
-};
-
-/* ── REFERRAL MODAL ───────────────────────────────────── */
-/* Front-only simulation. To wire a real backend later, replace these
-   constants/loaders — see loadReferralState() below. */
-const REF_LINK    = 'https://kairoswaitlist.vercel.app/';      // always shared, no ?ref code
-const REF_MESSAGE = "I just joined the Kairos waitlist — an app built to help you protect your attention and take back control from your phone. Join here: " + REF_LINK;
-const REF_SUBJECT = "Join me on Kairos";
-const REF_CONFIG  = { position: '#8,426', referrals: 0, goal: 3 }; // simulated
-
-const refOverlay = document.getElementById('ref-overlay');
-
-/* BACKEND HOOK ── replace this stub once Firebase/Supabase is connected.
-   Read the user's real queue position + confirmed referral count and update
-   REF_CONFIG, then call renderReferralState(). Example:
-     const doc = await db.collection('waitlist').doc(email).get();
-     REF_CONFIG.position  = '#' + doc.data().position.toLocaleString();
-     REF_CONFIG.referrals = doc.data().referrals || 0;
-     renderReferralState();
-*/
-function loadReferralState() { renderReferralState(); }
-
-function renderReferralState() {
-  const posEl = document.getElementById('ref-position');
-  const cntEl = document.getElementById('ref-count');
-  const track = document.getElementById('ref-track');
-  if (posEl) posEl.textContent = REF_CONFIG.position;
-  if (cntEl) cntEl.textContent = Math.min(REF_CONFIG.referrals, REF_CONFIG.goal);
-  if (track) {
-    track.querySelectorAll('.ref-prog-seg').forEach((seg, i) => {
-      seg.classList.toggle('fill', i < REF_CONFIG.referrals);
-    });
-  }
-}
-
-function openRefModal() {
-  if (!refOverlay) return;
-  loadReferralState();
-  // defer so the success state paints first, then the modal animates in
-  setTimeout(() => {
-    refOverlay.classList.add('on');
-    document.body.style.overflow = 'hidden';
-  }, 420);
-}
-
-window.closeRefModal = function() {
-  if (!refOverlay) return;
-  refOverlay.classList.remove('on');
-  document.body.style.overflow = '';
-};
-
-document.getElementById('ref-close') && document.getElementById('ref-close').addEventListener('click', closeRefModal);
-document.getElementById('ref-later') && document.getElementById('ref-later').addEventListener('click', closeRefModal);
-refOverlay && refOverlay.addEventListener('click', e => { if (e.target === refOverlay) closeRefModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeRefModal(); });
-
-/* toast */
+/* ── TOAST ── */
 let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('ref-toast');
-  const m = document.getElementById('ref-toast-msg');
-  if (!t || !m) return;
-  m.textContent = msg;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
   t.classList.add('on');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('on'), 2600);
+  toastTimer = setTimeout(()=>t.classList.remove('on'),2200);
 }
 
-/* clipboard with graceful fallback */
-async function copyLink() {
-  try {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(REF_LINK);
-      return true;
-    }
-  } catch(_) {}
-  try {
-    const ta = document.createElement('textarea');
-    ta.value = REF_LINK;
-    ta.style.position = 'fixed'; ta.style.opacity = '0';
+/* ── COPY REF LINK ── */
+async function copy(text){
+  try{ if(navigator.clipboard){ await navigator.clipboard.writeText(text); return true; } }catch(_){}
+  try{
+    const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
     document.body.appendChild(ta); ta.focus(); ta.select();
-    const ok = document.execCommand('copy');
-    document.body.removeChild(ta);
-    return ok;
-  } catch(_) { return false; }
+    const ok=document.execCommand('copy'); document.body.removeChild(ta); return ok;
+  }catch(_){ return false; }
+}
+window.copyRefLink = async function(){ await copy(REF_LINK); showToast('Copied ✓'); };
+
+/* ── FORM ── */
+function isValid(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim()); }
+
+function showSuccess(){
+  document.body.classList.add('signed');
+  ['hero','final'].forEach(p=>{
+    const form = document.getElementById(p+'-form');
+    const suc  = document.getElementById(p+'-suc');
+    if(form) form.style.display='none';
+    if(suc)  suc.classList.add('on');
+  });
+  sticky.classList.remove('show');
 }
 
-window.refCopyLink = async function() {
-  await copyLink();
-  showToast('Waitlist link copied.');
-};
-
-window.refShareWhatsApp = function() {
-  window.open('https://wa.me/?text=' + encodeURIComponent(REF_MESSAGE), '_blank', 'noopener');
-};
-
-window.refShareGmail = function() {
-  const url = 'https://mail.google.com/mail/?view=cm&fs=1'
-    + '&su=' + encodeURIComponent(REF_SUBJECT)
-    + '&body=' + encodeURIComponent(REF_MESSAGE);
-  window.open(url, '_blank', 'noopener');
-};
-
-window.refShareSnapchat = async function() {
-  await copyLink();
-  showToast('Link copied — paste it in Snapchat.');
-};
-
-window.refShareInstagram = async function() {
-  await copyLink();
-  showToast('Link copied — paste it in Instagram.');
-};
-
-window.refNativeShare = async function() {
-  if (navigator.share) {
-    try {
-      await navigator.share({ title: 'Kairos', text: REF_MESSAGE, url: REF_LINK });
-      return;
-    } catch(_) { /* user cancelled — fall through to copy */ }
+function setLoading(prefix,on){
+  const btn=document.getElementById(prefix+'-btn');
+  const email=document.getElementById(prefix+'-email');
+  if(!btn) return;
+  if(on){
+    btn.disabled=true; btn.dataset.label=btn.textContent;
+    btn.innerHTML='<span class="spin"></span>Joining…';
+    if(email) email.disabled=true;
+  }else{
+    btn.disabled=false; btn.textContent=btn.dataset.label||'Get early access';
+    if(email) email.disabled=false;
   }
-  await copyLink();
-  showToast('Waitlist link copied.');
+}
+
+function markErr(prefix,msg){
+  const errEl=document.getElementById(prefix+'-err');
+  const emailEl=document.getElementById(prefix+'-email');
+  if(errEl){ errEl.textContent=msg; errEl.classList.add('on'); }
+  if(emailEl){ emailEl.classList.add('err'); setTimeout(()=>emailEl.classList.remove('err'),2400); }
+}
+
+window.submitForm = async function(prefix){
+  const emailEl=document.getElementById(prefix+'-email');
+  const errEl=document.getElementById(prefix+'-err');
+  if(!emailEl) return;
+  const email=emailEl.value.trim();
+  if(errEl) errEl.classList.remove('on');
+  emailEl.classList.remove('err');
+  if(!isValid(email)){ markErr(prefix,'Please enter a valid email address.'); emailEl.focus(); return; }
+
+  const saved=JSON.parse(localStorage.getItem('k_wl')||'[]');
+  if(saved.includes(email)){ showSuccess(); return; }
+
+  setLoading(prefix,true);
+  try{
+    await fetch(ENDPOINT,{method:'POST',mode:'no-cors',body:JSON.stringify({email,source:prefix,ts:Date.now()})});
+    saved.push(email); localStorage.setItem('k_wl',JSON.stringify(saved));
+    showSuccess();
+  }catch(_){
+    setLoading(prefix,false);
+    markErr(prefix,'Something went wrong — please try again.');
+  }
 };
 
-/* ── RESTORE ──────────────────────────────────────────── */
-const prior = JSON.parse(localStorage.getItem('k_wl') || '[]');
-if (prior.length) showSuccess();
+window.jumpForm = function(prefix){
+  const target=document.getElementById(prefix==='final'?'final':'hero');
+  if(target) target.scrollIntoView({behavior:reduce?'auto':'smooth'});
+  setTimeout(()=>{ const inp=document.getElementById(prefix+'-email'); if(inp && !document.body.classList.contains('signed')) inp.focus({preventScroll:true}); },520);
+};
+
+/* ── RESTORE ── */
+if(JSON.parse(localStorage.getItem('k_wl')||'[]').length) showSuccess();
 
 })();
 </script>
